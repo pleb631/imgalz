@@ -1,0 +1,11 @@
+mmengine
+opencv-python
+numpy
+cython-bbox
+onnxruntime-gpu
+torch
+torchvision
+
+#tracker
+motpy
+norfair
