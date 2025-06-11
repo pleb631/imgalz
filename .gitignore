@@ -1,0 +1,11 @@
+.env/
+**__pycache__**
+*.onnx
+*.pt
+*.pth
+*.mlmodel
+build/
+dist/
+*.egg-info/
+*.png
+ckpt/

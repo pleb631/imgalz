@@ -1,0 +1,26 @@
+{
+    "yolov5n":{
+        "repo_id": "pleb631/onnxmodel",
+        "filename": "yolo/yolov5n.onnx"
+    },
+    "yolov6n":{
+        "repo_id": "pleb631/onnxmodel",
+        "filename": "yolo/yolov6n.onnx"
+    },
+    "yolov8n":{
+        "repo_id": "pleb631/onnxmodel",
+        "filename": "yolo/yolov8n.onnx"
+    },
+    "yolo11n":{
+        "repo_id": "pleb631/onnxmodel",
+        "filename": "yolo/yolo11n.onnx"
+    },
+    "yolov8n-pose":{
+        "repo_id": "pleb631/onnxmodel",
+        "filename": "yolo/yolov8n-pose.onnx"
+    },
+    "yolov8n-seg":{
+        "repo_id": "pleb631/onnxmodel",
+        "filename": "yolo/yolov8n-seg.onnx"
+    }
+}
