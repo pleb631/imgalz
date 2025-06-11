@@ -6,6 +6,8 @@
 
 ```bash
 pip install .
+# or
+pip install imgalz
 ```
 
 ## Usage
@@ -31,6 +33,8 @@ for box in bboxes:
 cv_show_image("yolov5-det", im)
 
 ```
+
+You can refer to the specific usage by [demo](demo/yolo.py)
 
 ## Optional Models
 
