@@ -3,11 +3,12 @@ requires = ["setuptools>=43.0.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
+include-package-data = true
 packages = { find = { where = ["."], include = ["imgalz*"] } }
 
 [project]
 name = "imgalz"
-version = "0.0.1"
+version = "0.0.2"
 license = { text = "MIT" }
 description = "onnx pipline"
 readme = "README.md"
