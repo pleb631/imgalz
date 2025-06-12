@@ -83,5 +83,5 @@ def use_yolo_seg():
 if __name__ == "__main__":
     use_yolov5_det()
     use_yolov8_det()
-    # use_yolo_seg()
-    # use_yolo_pose()
+    use_yolo_seg()
+    use_yolo_pose()

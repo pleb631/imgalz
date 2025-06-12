@@ -6,7 +6,7 @@ from huggingface_hub import hf_hub_download
 from pathlib import Path
 
 
-def auto_download(local_cache_dir="./ckpt"):
+def auto_download(category,local_cache_dir="./ckpt"):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -23,15 +23,15 @@ def auto_download(local_cache_dir="./ckpt"):
                 raise ValueError("model_path is not provided")
 
             if os.path.exists(model_key):
-                return func(*args, **kwargs)  # 直接调用原函数
+                return func(*args, **kwargs) 
             model_key = Path(model_key).stem
 
             with open(mapping_json_path, "r", encoding="utf-8") as f:
-                mapping = json.load(f)
+                mapping = json.load(f).get(category,{})
 
             if model_key not in mapping:
                 raise ValueError(
-                    f"model key '{model_key}' is not found in the mapping json"
+                    f"model key '{model_key}' is not found in the mapping of {category}"
                 )
 
             hf_info = mapping[model_key]

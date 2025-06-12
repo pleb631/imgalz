@@ -1,78 +1,94 @@
 {
-    "yolov5n":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov5n.onnx"
+    "yolo": {
+        "yolov5n": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov5n.onnx"
+        },
+        "yolov6n": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov6n.onnx"
+        },
+        "yolov8n": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8n.onnx"
+        },
+        "yolo11n": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolo11n.onnx"
+        },
+        "yolov8n-pose": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8n-pose.onnx"
+        },
+        "yolov8n-seg": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8n-seg.onnx"
+        },
+        "yolov5s": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov5/yolov5s.onnx"
+        },
+        "yolov5m": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov5/yolov5m.onnx"
+        },
+        "yolov5x": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov5/yolov5x.onnx"
+        },
+        "yolov8s": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8s.onnx"
+        },
+        "yolov8m": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8m.onnx"
+        },
+        "yolov8l": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8l.onnx"
+        },
+        "yolov8x": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8x.onnx"
+        },
+        "yolov8s-pose": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8s-pose.onnx"
+        },
+        "yolov8m-pose": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8m-pose.onnx"
+        },
+        "yolov8l-pose": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8l-pose.onnx"
+        },
+        "yolov8s-seg": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8s-seg.onnx"
+        },
+        "yolov8m-seg": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8m-seg.onnx"
+        },
+        "yolov8l-seg": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "yolo/yolov8/yolov8l-seg.onnx"
+        }
     },
-    "yolov6n":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov6n.onnx"
-    },
-    "yolov8n":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8n.onnx"
-    },
-    "yolo11n":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolo11n.onnx"
-    },
-    "yolov8n-pose":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8n-pose.onnx"
-    },
-    "yolov8n-seg":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8n-seg.onnx"
-    },
-    "yolov5s":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov5/yolov5s.onnx"
-    },
-    "yolov5m":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov5/yolov5m.onnx"
-    },
-    "yolov5x":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov5/yolov5x.onnx"
-    },
-    "yolov8s":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8s.onnx"
-    },
-    "yolov8m":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8m.onnx"
-    },
-    "yolov8l":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8l.onnx"
-    },
-    "yolov8x":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8x.onnx"
-    },
-    "yolov8s-pose":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8s-pose.onnx"
-    },
-    "yolov8m-pose":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8m-pose.onnx"
-    },
-    "yolov8l-pose":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8l-pose.onnx"
-    },
-    "yolov8s-seg":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8s-seg.onnx"
-    },
-    "yolov8m-seg":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8m-seg.onnx"
-    },
-    "yolov8l-seg":{
-        "repo_id": "pleb631/onnxmodel",
-        "filename": "yolo/yolov8/yolov8l-seg.onnx"
+    "pose": {
+        "vitpose-s": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "pose/vitpose/vitpose_s.onnx"
+        },
+        "vitpose-b": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "pose/vitpose/vitpose-b.onnx"
+        },
+        "vitpose-l": {
+            "repo_id": "pleb631/onnxmodel",
+            "filename": "pose/vitpose/vitpose-l.onnx"
+        }
     }
 }

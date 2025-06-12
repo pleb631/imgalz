@@ -142,10 +142,9 @@ def xywh2xyxy(x):
 
 
 class YOLOv5:
-    @auto_download()
+    @auto_download(category="yolo")
     def __init__(
         self,
-        *,
         model_path,
         mean=[0, 0, 0],
         std=[1, 1, 1],
