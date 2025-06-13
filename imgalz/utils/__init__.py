@@ -1,2 +1,3 @@
 from .utils import *
-from .colors import Colors
+from .file_utils import *
+from .image_filter import ImageFilter
