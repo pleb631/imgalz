@@ -42,11 +42,6 @@ def read_json(
     Returns:
         list[Any]: A list of JSON-parsed Python objects. For 'all' mode, the list will contain the root JSON object(s).
                    For 'line' mode, the list will contain one object per line.
-
-    Raises:
-        ValueError: If an unsupported mode is provided.
-        json.JSONDecodeError: If the file content is not valid JSON.
-        FileNotFoundError: If the file does not exist.
     """
     json_path = Path(json_path)
     json_data = []
@@ -109,10 +104,6 @@ def read_yaml(yaml_path: Union[str, Path]) -> Any:
 
     Returns:
         Any: The parsed Python object from the YAML file, usually a dict or list.
-
-    Raises:
-        FileNotFoundError: If the file does not exist.
-        yaml.YAMLError: If the YAML content is invalid.
     """
     yaml_path = Path(yaml_path)
 
@@ -170,10 +161,6 @@ def read_csv(
     Returns:
         List[List[str]]: A list of rows, where each row is a list of strings.
 
-    Raises:
-        FileNotFoundError: If the file does not exist.
-        UnicodeDecodeError: If the file contains invalid utf-8 characters.
-        csv.Error: If the file is not a valid CSV format.
     """
     csv_path = Path(csv_path)
     rows: List[List[str]] = []

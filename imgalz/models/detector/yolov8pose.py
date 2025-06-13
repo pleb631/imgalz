@@ -1,6 +1,8 @@
 from .yolov8 import YOLOv8,scale_boxes
 from .yolov5 import letterbox
 
+
+__all__=["YOLOv8Pose"]
 def clip_coords(coords, shape):
     coords[..., 0] = coords[..., 0].clip(0, shape[1])  # x
     coords[..., 1] = coords[..., 1].clip(0, shape[0])  # y

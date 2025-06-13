@@ -1,9 +1,23 @@
 import numpy as np
 
-from .yolov5 import YOLOv5, xywh2xyxy, scale_boxes, letterbox,scale_img
+from .yolov5 import YOLOv5, xywh2xyxy, scale_boxes, letterbox, scale_img
+
+__all__ = ["YOLOv8"]
 
 
 class YOLOv8(YOLOv5):
+    """
+    YOLOv8 object detection model wrapper extending YOLOv5.
+
+    Inherits basic ONNX loading and preprocessing from YOLOv5,
+    and adds support for specifying the number of classes.
+
+    Attributes:
+        model_path (Union[str, Path]): Path to the ONNX model file.
+        mean (List[float], optional): Mean values for normalization. Defaults to [0, 0, 0].
+        std (List[float], optional): Standard deviation values for normalization. Defaults to [1, 1, 1].
+        nc (int, optional): Number of classes. Defaults to 80.
+    """
     def __init__(
         self,
         model_path,
@@ -14,8 +28,6 @@ class YOLOv8(YOLOv5):
         super(YOLOv8, self).__init__(model_path=model_path, mean=mean, std=std)
 
         self.nc = nc
-
-
 
     def detect(self, bgr_img, conf_thres=0.3, iou_thres=0.45, aug=False):
         image = bgr_img[:, :, ::-1].copy()
@@ -37,9 +49,8 @@ class YOLOv8(YOLOv5):
 
         return boxes
 
-
     def _post_process(self, boxes, conf_thres=0.30, iou_thres=0.45):
-        xc = boxes[:,4 : 4 + self.nc].max(1) > conf_thres
+        xc = boxes[:, 4 : 4 + self.nc].max(1) > conf_thres
         boxes = boxes[xc, :]
 
         box, clss, mask, _ = np.split(
@@ -50,10 +61,10 @@ class YOLOv8(YOLOv5):
         conf = clss.max(1, keepdims=True)
         j = clss.argmax(1, keepdims=True)
         x = np.concatenate((box, conf, j, mask), 1)[conf.reshape(-1) > conf_thres]
-        
+
         if len(boxes) == 0:
             return []
-        
+
         return self._nms(x, iou_thres)
 
     def _forward_augment(self, x):

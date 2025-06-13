@@ -49,3 +49,9 @@ tracker = [
     # "cython_bbox",
     "lap",
 ]
+
+
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+]

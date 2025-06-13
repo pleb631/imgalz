@@ -4,6 +4,8 @@ import numpy as np
 from .yolov8 import YOLOv8, scale_boxes
 from .yolov5 import letterbox
 
+__all__ = ["YOLOv8Seg"]
+
 
 def sigmoid(x):
     sig = 1 / (1 + np.exp(-x))

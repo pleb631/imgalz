@@ -4,6 +4,9 @@ import numpy as np
 import math
 from imgalz.utils.download import auto_download
 
+__all__ = ["YOLOv5"]
+
+
 def scale_img(img, ratio=1.0, same_shape=False, gs=32):  # img(16,3,256,416)
     # Scales img(bs,3,y,x) by ratio constrained to gs-multiple
     if ratio == 1.0:
@@ -142,6 +145,18 @@ def xywh2xyxy(x):
 
 
 class YOLOv5:
+    """
+    YOLOv5 object detection model wrapper using ONNX Runtime.
+
+    This class loads a YOLOv5 model in ONNX format and prepares it for inference,
+    including setting preprocessing parameters like mean and std normalization.
+
+    Attributes:
+        model_path (Union[str, Path]): Path to the ONNX model file.
+        mean (List[float]): Mean values for image normalization.
+        std (List[float]): Standard deviation values for image normalization.
+
+    """
     @auto_download(category="yolo")
     def __init__(
         self,
@@ -183,8 +198,6 @@ class YOLOv5:
 
         ort_inputs = {self.model.get_inputs()[0].name: image}
         ort_outs = self.model.run(None, ort_inputs)
-        
-
 
         return ort_outs
 
@@ -247,29 +260,26 @@ class YOLOv5:
 
         return boxes
 
-    def _nms(self,x,iou_thres):
+    def _nms(self, x, iou_thres):
         max_wh = 7680  # (pixels) maximum box width and height
         max_nms = 300000  # maximum number of boxes into torchvision.ops.nms()
         max_det = 300
         agnostic = False
 
-        x = x[
-            x[:, 4].argsort()[::-1][:max_nms]
-        ]
+        x = x[x[:, 4].argsort()[::-1][:max_nms]]
 
         c = x[:, 5:6] * (0 if agnostic else max_wh)
-        boxes, scores = x[:, :4] + c, x[:, 5]  
+        boxes, scores = x[:, :4] + c, x[:, 5]
         i = nms(boxes, scores, iou_thres)
-        i = i[:max_det] 
+        i = i[:max_det]
 
         x = x[i]
         if len(x.shape) == 1:
             x = x.reshape(1, -1)
-        
+
         return x
 
     def _post_process(self, boxes, conf_thres, iou_thres):
-
 
         xc = boxes[:, 4] > conf_thres
         boxes = boxes[xc, :]
@@ -287,7 +297,5 @@ class YOLOv5:
 
         if len(boxes) == 0:
             return []
-
-
 
         return self._nms(x, iou_thres)

@@ -10,3 +10,4 @@ dist/
 *.egg-info/
 *.png
 ckpt/
+docs/build/
