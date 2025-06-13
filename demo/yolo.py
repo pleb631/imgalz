@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from imgalz.utils import cv_show_image,imread
+from imgalz.utils import cv_imshow,imread
 
 
 # This script supports models exported in the same format as Ultralytics YOLOv5 and YOLOv8,
@@ -23,7 +23,7 @@ def use_yolov5_det():
             im, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), 2
         )
 
-    cv_show_image("yolov5-det", im)
+    cv_imshow("yolov5-det", im)
 
 
 def use_yolov8_det():
@@ -39,7 +39,7 @@ def use_yolov8_det():
             im, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), 2
         )
 
-    cv_show_image("yolov8-det", im)
+    cv_imshow("yolov8-det", im)
 
 
 def use_yolo_pose():
@@ -57,7 +57,7 @@ def use_yolo_pose():
         for kpt in box[6:].reshape(-1, 3):
             cv2.circle(im, (int(kpt[0]), int(kpt[1])), 3, (0, 255, 0), -1)
 
-    cv_show_image("yolo-pose", im)
+    cv_imshow("yolo-pose", im)
 
 
 def use_yolo_seg():
@@ -76,7 +76,7 @@ def use_yolo_seg():
         cv2.imshow(f"{i}", mask.astype(np.float32) * 255)
         print(np.sum(mask))
 
-    cv_show_image("yolo-seg", im)
+    cv_imshow("yolo-seg", im)
     cv2.destroyAllWindows()
 
 

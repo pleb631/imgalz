@@ -1,9 +1,10 @@
-opencv-python
-numpy
+opencv-python>=4.6.0
+numpy>=1.22.2
 onnxruntime
 
 
 #tracker
-motpy
-norfair
-cython-bbox
+# motpy
+# norfair
+# cython-bbox
+# lap

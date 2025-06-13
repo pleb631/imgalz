@@ -16,7 +16,7 @@ pip install imgalz
 import cv2
 import numpy as np
 
-from imgalz.utils import cv_show_image,imread
+from imgalz.utils import cv_imshow,imread
 from imgalz.models.detector import YOLOv5
 
 # file local path or auto download from huggingface
@@ -30,7 +30,7 @@ for box in bboxes:
         im, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), 2
     )
 
-cv_show_image("yolov5-det", im)
+cv_imshow("yolov5-det", im)
 
 ```
 

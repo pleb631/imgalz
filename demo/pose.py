@@ -1,4 +1,4 @@
-from imgalz.utils import cv_show_image,imread
+from imgalz.utils import cv_imshow,imread
 def vitpose():
     from imgalz.models.detector import YOLOv8
     from imgalz.models.pose import HeatmapPose
@@ -14,7 +14,7 @@ def vitpose():
         res,vis = pose.detect_with_label(im,[x,y,w,h],crop_ratio=1.25)
         
 
-        cv_show_image("pose-vis", vis)
+        cv_imshow("pose-vis", vis)
 
 
 if __name__=='__main__':
