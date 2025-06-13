@@ -54,7 +54,8 @@ You can refer to the specific usage by [demo](demo/yolo.py)
 
 ## todo
 
-- add mmpose and vitpose inference code
+- add mmpose inference code
+- add more tool for image processing
 
 ## Weights
 
