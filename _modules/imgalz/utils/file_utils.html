@@ -1,0 +1,440 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>imgalz.utils.file_utils &mdash; imgalz 0.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/documentation_options.js?v=47de8214"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            imgalz
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../imgalz.utils.html">imgalz.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imgalz.models.html">imgalz.models package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">imgalz</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">imgalz.utils.file_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for imgalz.utils.file_utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: UTF-8 -*-</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;read_json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;save_json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;read_yaml&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;save_yaml&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;read_csv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;save_csv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;read_pkl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;save_pkl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;read_txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;save_txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;list_files&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="read_json">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.read_json">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_json</span><span class="p">(</span>
+    <span class="n">json_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads JSON content from a file.</span>
+
+<span class="sd">    Supports reading the entire file as a JSON object or reading line-by-line</span>
+<span class="sd">    for JSONL (JSON Lines) formatted files.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        json_path (Union[str, Path]): The path to the JSON file.</span>
+<span class="sd">        mode (Literal[&#39;all&#39;, &#39;line&#39;], optional):</span>
+<span class="sd">            The mode to read the file.</span>
+<span class="sd">            - &#39;all&#39;: Read the entire file as a single JSON object.</span>
+<span class="sd">            - &#39;line&#39;: Read the file line by line, each line being a JSON object.</span>
+<span class="sd">            Defaults to &#39;all&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[Any]: A list of JSON-parsed Python objects. For &#39;all&#39; mode, the list will contain the root JSON object(s).</span>
+<span class="sd">                   For &#39;line&#39; mode, the list will contain one object per line.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">json_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
+    <span class="n">json_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">with</span> <span class="n">json_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+            <span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;line&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">json_file</span><span class="p">:</span>
+                <span class="n">json_line</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="n">json_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json_line</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported mode &#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&#39;. Use &#39;all&#39; or &#39;line&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">json_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">json_data</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">json_data</span></div>
+
+
+
+<div class="viewcode-block" id="save_json">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.save_json">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_json</span><span class="p">(</span>
+    <span class="n">json_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">info</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span>
+    <span class="n">with_return_char</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves a Python object to a JSON file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        json_path (Union[str, Path]): Path to the JSON file to write.</span>
+<span class="sd">        info (Any): The Python object to serialize as JSON.</span>
+<span class="sd">        indent (int, optional): Number of spaces to use for indentation. Defaults to 4.</span>
+<span class="sd">        mode (Literal[&#39;w&#39;, &#39;a&#39;], optional): File write mode.</span>
+<span class="sd">            - &#39;w&#39;: Overwrite the file.</span>
+<span class="sd">            - &#39;a&#39;: Append to the file.</span>
+<span class="sd">            Defaults to &#39;w&#39;.</span>
+<span class="sd">        with_return_char (bool, optional): Whether to append a newline character at the end. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">json_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
+    <span class="n">json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">with_return_char</span><span class="p">:</span>
+        <span class="n">json_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+    <span class="k">with</span> <span class="n">json_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="read_yaml">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.read_yaml">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_yaml</span><span class="p">(</span><span class="n">yaml_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads and parses a YAML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        yaml_path (Union[str, Path]): Path to the YAML file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: The parsed Python object from the YAML file, usually a dict or list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">yaml_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">yaml_path</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">yaml_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">yaml_file</span><span class="p">:</span>
+        <span class="n">yaml_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yaml</span><span class="o">.</span><span class="n">FullLoader</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">yaml_data</span></div>
+
+
+
+<div class="viewcode-block" id="save_yaml">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.save_yaml">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_yaml</span><span class="p">(</span>
+    <span class="n">yaml_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">header</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves a dictionary to a YAML file.</span>
+
+<span class="sd">    Converts any unsupported value types to strings to ensure YAML serialization.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        yaml_path (Union[str, Path]): The path to save the YAML file.</span>
+<span class="sd">        data (Mapping[str, Any]): The dictionary to be saved.</span>
+<span class="sd">        header (str, optional): An optional header string to be written before the YAML content. Defaults to &#39;&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">yaml_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">yaml_path</span><span class="p">)</span>
+
+    <span class="c1"># Define types safe for YAML dumping</span>
+    <span class="n">valid_types</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+
+    <span class="c1"># Convert non-serializable values to strings</span>
+    <span class="n">safe_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">valid_types</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">with</span> <span class="n">yaml_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">safe_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_unicode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="read_csv">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.read_csv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span>
+    <span class="n">csv_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span>
+    <span class="n">skip_empty_lines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a CSV file and returns its content as a list of rows.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        csv_path (Union[str, Path]): Path to the CSV file.</span>
+<span class="sd">        delimiter (str, optional): Delimiter used in the CSV file. Defaults to &#39;,&#39;.</span>
+<span class="sd">        skip_empty_lines (bool, optional): Whether to skip empty lines. Defaults to True.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[List[str]]: A list of rows, where each row is a list of strings.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">csv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span>
+    <span class="n">rows</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">csv_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_file</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">skip_empty_lines</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rows</span></div>
+
+
+
+<div class="viewcode-block" id="save_csv">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.save_csv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_csv</span><span class="p">(</span>
+    <span class="n">csv_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">info</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span>
+    <span class="n">header</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves a 2D list to a CSV file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        csv_path (Union[str, Path]): Path to the CSV file.</span>
+<span class="sd">        info (List[List[Any]]): Data to write, each sublist is a row.</span>
+<span class="sd">        mode (Literal[&#39;w&#39;, &#39;a&#39;], optional): Write mode.</span>
+<span class="sd">            - &#39;w&#39;: Overwrite the file.</span>
+<span class="sd">            - &#39;a&#39;: Append to the file.</span>
+<span class="sd">            Defaults to &#39;w&#39;.</span>
+<span class="sd">        header (Optional[List[str]], optional): Optional column headers.</span>
+<span class="sd">            Will be written as the first line if provided and mode is &#39;w&#39;.</span>
+<span class="sd">            Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">csv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">csv_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">header</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;w&quot;</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">info</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_txt">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.read_txt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_txt</span><span class="p">(</span><span class="n">txt_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a text file and returns a list of lines without trailing newline characters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        txt_path (Union[str, Path]): Path to the text file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[str]: List of lines with trailing newline characters removed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">txt_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">txt_path</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">txt_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">txt_file</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">txt_file</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="save_txt">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.save_txt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_txt</span><span class="p">(</span><span class="n">txt_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">info</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves a list of strings to a text file, adding a newline character after each line.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        txt_path (Union[str, Path]): Path to the text file.</span>
+<span class="sd">        info (List[str]): List of strings to write, each string will be one line.</span>
+<span class="sd">        mode (str, optional): File open mode, defaults to write mode &#39;w&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">txt_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">txt_path</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">txt_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">txt_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+            <span class="n">txt_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="read_pkl">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.read_pkl">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_pkl</span><span class="p">(</span><span class="n">pkl_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a pickle file and returns the deserialized data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pkl_path (Union[str, Path]): Path to the pickle file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: The deserialized Python object stored in the pickle file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pkl_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pkl_path</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pkl_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pkl_file</span><span class="p">:</span>
+        <span class="n">pkl_data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pkl_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pkl_data</span></div>
+
+
+
+<div class="viewcode-block" id="save_pkl">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.save_pkl">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_pkl</span><span class="p">(</span><span class="n">pkl_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">pkl_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves Python object data to a pickle file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pkl_path (Union[str, Path]): Path to the pickle file to write.</span>
+<span class="sd">        pkl_data (Any): Python object to serialize and save.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pkl_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pkl_path</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pkl_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pkl_file</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pkl_data</span><span class="p">,</span> <span class="n">pkl_file</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="list_files">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.list_files">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_files</span><span class="p">(</span>
+    <span class="n">base_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">valid_exts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">contains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively lists files in a directory, filtering by file extension and substring in filename.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        base_path (Union[str, Path]): Directory path to search for files.</span>
+<span class="sd">        valid_exts (Optional[Union[str, List[str], tuple]], optional):</span>
+<span class="sd">            File extensions to filter by (e.g., &#39;.jpg&#39;, [&#39;.png&#39;, &#39;.jpg&#39;]).</span>
+<span class="sd">            Case insensitive. If None, no filtering by extension.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">        contains (Optional[str], optional): Substring that filenames must contain.</span>
+<span class="sd">            If None, no filtering by substring.</span>
+<span class="sd">            Defaults to None.</span>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        Iterator[str]: Full file paths matching the criteria.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">base_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_path</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">root_dir</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">contains</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">contains</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">valid_exts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">matched</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">valid_exts</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">matched</span> <span class="o">=</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">valid_exts</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">matched</span> <span class="o">=</span> <span class="n">ext</span> <span class="o">==</span> <span class="n">valid_exts</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">matched</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, pleb631.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -47,7 +47,7 @@
 <li class="toctree-l3"><a class="reference internal" href="imgalz.models.detector.html">imgalz.models.detector package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="imgalz.models.pose.html">imgalz.models.pose package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="imgalz.models.pose.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="imgalz.models.pose.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="imgalz.models.pose.html#module-imgalz.models.pose">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="imgalz.models.trackers.html">imgalz.models.trackers package</a></li>
@@ -89,14 +89,160 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="imgalz-models-pose-heatmap-heatmap-pose-module">
-<h2>imgalz.models.pose.heatmap.heatmap_pose module<a class="headerlink" href="#imgalz-models-pose-heatmap-heatmap-pose-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.pose.heatmap.heatmap_pose">
+<span id="imgalz-models-pose-heatmap-heatmap-pose-module"></span><h2>imgalz.models.pose.heatmap.heatmap_pose module<a class="headerlink" href="#module-imgalz.models.pose.heatmap.heatmap_pose" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.models.pose.heatmap.heatmap_pose.HeatmapPose">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.pose.heatmap.heatmap_pose.</span></span><span class="sig-name descname"><span class="pre">HeatmapPose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.485,</span> <span class="pre">0.456,</span> <span class="pre">0.406]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.229,</span> <span class="pre">0.224,</span> <span class="pre">0.225]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/pose/heatmap/heatmap_pose.html#HeatmapPose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.pose.heatmap.heatmap_pose.HeatmapPose" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.pose.heatmap.heatmap_pose.HeatmapPose.detect">
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_crop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/pose/heatmap/heatmap_pose.html#HeatmapPose.detect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.pose.heatmap.heatmap_pose.HeatmapPose.detect" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.pose.heatmap.heatmap_pose.HeatmapPose.detect_with_label">
+<span class="sig-name descname"><span class="pre">detect_with_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_xywh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/pose/heatmap/heatmap_pose.html#HeatmapPose.detect_with_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.pose.heatmap.heatmap_pose.HeatmapPose.detect_with_label" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="imgalz-models-pose-heatmap-utils-module">
-<h2>imgalz.models.pose.heatmap.utils module<a class="headerlink" href="#imgalz-models-pose-heatmap-utils-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.pose.heatmap.utils">
+<span id="imgalz-models-pose-heatmap-utils-module"></span><h2>imgalz.models.pose.heatmap.utils module<a class="headerlink" href="#module-imgalz.models.pose.heatmap.utils" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.models.pose.heatmap.utils.imshow_keypoints">
+<span class="sig-prename descclassname"><span class="pre">imgalz.models.pose.heatmap.utils.</span></span><span class="sig-name descname"><span class="pre">imshow_keypoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kpt_score_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose_kpt_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose_link_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_keypoint_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/pose/heatmap/utils.html#imshow_keypoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.pose.heatmap.utils.imshow_keypoints" title="Link to this definition">¶</a></dt>
+<dd><p>Draw keypoints and links on an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>str</em><em> or </em><em>Tensor</em>) – The image to draw poses on. If an image array
+is given, id will be modified in-place.</p></li>
+<li><p><strong>pose_result</strong> (<em>list</em><em>[</em><em>kpts</em><em>]</em>) – The poses to draw. Each element kpts is
+a set of K keypoints as an Kx3 numpy.ndarray, where each
+keypoint is represented as x, y, score.</p></li>
+<li><p><strong>kpt_score_thr</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum score of keypoints
+to be shown. Default: 0.3.</p></li>
+<li><p><strong>pose_kpt_color</strong> (<em>np.array</em><em>[</em><em>Nx3</em><em>]</em><em>`</em>) – Color of N keypoints. If None,
+the keypoint will not be drawn.</p></li>
+<li><p><strong>pose_link_color</strong> (<em>np.array</em><em>[</em><em>Mx3</em><em>]</em>) – Color of M links. If None, the
+links will not be drawn.</p></li>
+<li><p><strong>thickness</strong> (<em>int</em>) – Thickness of lines.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.models.pose.heatmap.utils.keypoints_from_heatmaps">
+<span class="sig-prename descclassname"><span class="pre">imgalz.models.pose.heatmap.utils.</span></span><span class="sig-name descname"><span class="pre">keypoints_from_heatmaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">heatmaps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/pose/heatmap/utils.html#keypoints_from_heatmaps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.pose.heatmap.utils.keypoints_from_heatmaps" title="Link to this definition">¶</a></dt>
+<dd><p>Get final keypoint predictions from heatmaps and transform them back to
+the image.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>batch size: N</p></li>
+<li><p>num keypoints: K</p></li>
+<li><p>heatmap height: H</p></li>
+<li><p>heatmap width: W</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>heatmaps</strong> (<em>np.ndarray</em><em>[</em><em>N</em><em>, </em><em>K</em><em>, </em><em>H</em><em>, </em><em>W</em><em>]</em>) – model predicted heatmaps.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>A tuple containing keypoint predictions and scores.</p>
+<ul class="simple">
+<li><p>preds (np.ndarray[N, K, 2]): Predicted keypoint location in images.</p></li>
+<li><p>maxvals (np.ndarray[N, K, 1]): Scores (confidence) of the keypoints.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.models.pose.heatmap.utils.transform_preds">
+<span class="sig-prename descclassname"><span class="pre">imgalz.models.pose.heatmap.utils.</span></span><span class="sig-name descname"><span class="pre">transform_preds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/pose/heatmap/utils.html#transform_preds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.pose.heatmap.utils.transform_preds" title="Link to this definition">¶</a></dt>
+<dd><p>Get final keypoint predictions from heatmaps and apply scaling and
+translation to map them back to the image.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>num_keypoints: K</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coords</strong> (<em>np.ndarray</em><em>[</em><em>K</em><em>, </em><em>ndims</em><em>]</em>) – <ul>
+<li><p>If ndims=2, corrds are predicted keypoint location.</p></li>
+<li><p>If ndims=4, corrds are composed of (x, y, scores, tags)</p></li>
+<li><p>If ndims=5, corrds are composed of (x, y, scores, tags,
+flipped_tags)</p></li>
+</ul>
+</p></li>
+<li><p><strong>center</strong> (<em>np.ndarray</em><em>[</em><em>2</em><em>, </em><em>]</em>) – Center of the bounding box (x, y).</p></li>
+<li><p><strong>scale</strong> (<em>np.ndarray</em><em>[</em><em>2</em><em>, </em><em>]</em>) – Scale of the bounding box
+wrt [width, height].</p></li>
+<li><p><strong>output_size</strong> (<em>np.ndarray</em><em>[</em><em>2</em><em>, </em><em>] </em><em>| </em><em>list</em><em>(</em><em>2</em><em>,</em><em>)</em>) – Size of the
+destination heatmaps.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted coordinates in the images.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.models.pose.heatmap.utils.vis_pose_result">
+<span class="sig-prename descclassname"><span class="pre">imgalz.models.pose.heatmap.utils.</span></span><span class="sig-name descname"><span class="pre">vis_pose_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kpt_score_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/pose/heatmap/utils.html#vis_pose_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.pose.heatmap.utils.vis_pose_result" title="Link to this definition">¶</a></dt>
+<dd><p>Visualize the detection results on the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – The loaded detector.</p></li>
+<li><p><strong>img</strong> (<em>str</em><em> | </em><em>np.ndarray</em>) – Image filename or loaded image.</p></li>
+<li><p><strong>result</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – The results to draw over <cite>img</cite>
+(bbox_result, pose_result).</p></li>
+<li><p><strong>radius</strong> (<em>int</em>) – Radius of circles.</p></li>
+<li><p><strong>thickness</strong> (<em>int</em>) – Thickness of lines.</p></li>
+<li><p><strong>kpt_score_thr</strong> (<em>float</em>) – The threshold to visualize the keypoints.</p></li>
+<li><p><strong>skeleton</strong> (<em>list</em><em>[</em><em>tuple</em><em>(</em><em>)</em><em>]</em>) – Default None.</p></li>
+<li><p><strong>show</strong> (<em>bool</em>) – Whether to show the image. Default True.</p></li>
+<li><p><strong>out_file</strong> (<em>str</em><em>|</em><em>None</em>) – The filename of the output visualization image.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.models.pose.heatmap.utils.xywh2xyxy">
+<span class="sig-prename descclassname"><span class="pre">imgalz.models.pose.heatmap.utils.</span></span><span class="sig-name descname"><span class="pre">xywh2xyxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xywh</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/pose/heatmap/utils.html#xywh2xyxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.pose.heatmap.utils.xywh2xyxy" title="Link to this definition">¶</a></dt>
+<dd><p>[x_center, y_center, w, h]转为[xmin, ymin, xmax, ymax]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>xywh</strong> – list, 格式[x_center, y_center, w, h]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list, 格式[xmin, ymin, xmax, ymax]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xyxy</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.pose.heatmap">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-imgalz.models.pose.heatmap" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 

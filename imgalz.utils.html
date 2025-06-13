@@ -43,12 +43,54 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">imgalz.utils package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#imgalz-utils-dataset-info-module">imgalz.utils.dataset_info module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#imgalz-utils-download-module">imgalz.utils.download module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#imgalz-utils-file-utils-module">imgalz.utils.file_utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#imgalz-utils-image-filter-module">imgalz.utils.image_filter module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#imgalz-utils-utils-module">imgalz.utils.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.dataset_info">imgalz.utils.dataset_info module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.download">imgalz.utils.download module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.download.auto_download"><code class="docutils literal notranslate"><span class="pre">auto_download()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.file_utils">imgalz.utils.file_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.list_files"><code class="docutils literal notranslate"><span class="pre">list_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.read_csv"><code class="docutils literal notranslate"><span class="pre">read_csv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.read_pkl"><code class="docutils literal notranslate"><span class="pre">read_pkl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.read_txt"><code class="docutils literal notranslate"><span class="pre">read_txt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.read_yaml"><code class="docutils literal notranslate"><span class="pre">read_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_csv"><code class="docutils literal notranslate"><span class="pre">save_csv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_json"><code class="docutils literal notranslate"><span class="pre">save_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_pkl"><code class="docutils literal notranslate"><span class="pre">save_pkl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_txt"><code class="docutils literal notranslate"><span class="pre">save_txt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_yaml"><code class="docutils literal notranslate"><span class="pre">save_yaml()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.image_filter">imgalz.utils.image_filter module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter"><code class="docutils literal notranslate"><span class="pre">ImageFilter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.build_lsh_index"><code class="docutils literal notranslate"><span class="pre">ImageFilter.build_lsh_index()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.compute_hashes"><code class="docutils literal notranslate"><span class="pre">ImageFilter.compute_hashes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.copy_images"><code class="docutils literal notranslate"><span class="pre">ImageFilter.copy_images()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.filter_similar"><code class="docutils literal notranslate"><span class="pre">ImageFilter.filter_similar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.hamming"><code class="docutils literal notranslate"><span class="pre">ImageFilter.hamming()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.hash_exts"><code class="docutils literal notranslate"><span class="pre">ImageFilter.hash_exts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.is_valid_image"><code class="docutils literal notranslate"><span class="pre">ImageFilter.is_valid_image()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.run"><code class="docutils literal notranslate"><span class="pre">ImageFilter.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.utils">imgalz.utils.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.Colors"><code class="docutils literal notranslate"><span class="pre">Colors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.Colors.palette"><code class="docutils literal notranslate"><span class="pre">Colors.palette</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.Colors.n"><code class="docutils literal notranslate"><span class="pre">Colors.n</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.Colors.pose_palette"><code class="docutils literal notranslate"><span class="pre">Colors.pose_palette</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.Colors.hex2rgb"><code class="docutils literal notranslate"><span class="pre">Colors.hex2rgb()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.cv_imshow"><code class="docutils literal notranslate"><span class="pre">cv_imshow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.imread"><code class="docutils literal notranslate"><span class="pre">imread()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.imwrite"><code class="docutils literal notranslate"><span class="pre">imwrite()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.url_to_image"><code class="docutils literal notranslate"><span class="pre">url_to_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="imgalz.models.html">imgalz.models package</a></li>
@@ -83,23 +125,422 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="imgalz-utils-dataset-info-module">
-<h2>imgalz.utils.dataset_info module<a class="headerlink" href="#imgalz-utils-dataset-info-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.utils.dataset_info">
+<span id="imgalz-utils-dataset-info-module"></span><h2>imgalz.utils.dataset_info module<a class="headerlink" href="#module-imgalz.utils.dataset_info" title="Link to this heading">¶</a></h2>
 </section>
-<section id="imgalz-utils-download-module">
-<h2>imgalz.utils.download module<a class="headerlink" href="#imgalz-utils-download-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.utils.download">
+<span id="imgalz-utils-download-module"></span><h2>imgalz.utils.download module<a class="headerlink" href="#module-imgalz.utils.download" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.download.auto_download">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.download.</span></span><span class="sig-name descname"><span class="pre">auto_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_cache_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./ckpt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/download.html#auto_download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.download.auto_download" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </section>
-<section id="imgalz-utils-file-utils-module">
-<h2>imgalz.utils.file_utils module<a class="headerlink" href="#imgalz-utils-file-utils-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.utils.file_utils">
+<span id="imgalz-utils-file-utils-module"></span><h2>imgalz.utils.file_utils module<a class="headerlink" href="#module-imgalz.utils.file_utils" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.list_files">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">list_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_exts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contains</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#list_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.list_files" title="Link to this definition">¶</a></dt>
+<dd><p>Recursively lists files in a directory, filtering by file extension and substring in filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Directory path to search for files.</p></li>
+<li><p><strong>valid_exts</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>tuple</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – File extensions to filter by (e.g., ‘.jpg’, [‘.png’, ‘.jpg’]).
+Case insensitive. If None, no filtering by extension.
+Defaults to None.</p></li>
+<li><p><strong>contains</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Substring that filenames must contain.
+If None, no filtering by substring.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Iterator[str]</em> – Full file paths matching the criteria.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.read_csv">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">read_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_empty_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#read_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.read_csv" title="Link to this definition">¶</a></dt>
+<dd><p>Reads a CSV file and returns its content as a list of rows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csv_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the CSV file.</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em><em>, </em><em>optional</em>) – Delimiter used in the CSV file. Defaults to ‘,’.</p></li>
+<li><p><strong>skip_empty_lines</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to skip empty lines. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of rows, where each row is a list of strings.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[List[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.read_json">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'line'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.read_json" title="Link to this definition">¶</a></dt>
+<dd><p>Reads JSON content from a file.</p>
+<p>Supports reading the entire file as a JSON object or reading line-by-line
+for JSONL (JSON Lines) formatted files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – The path to the JSON file.</p></li>
+<li><p><strong>mode</strong> (<em>Literal</em><em>[</em><em>'all'</em><em>, </em><em>'line'</em><em>]</em><em>, </em><em>optional</em>) – The mode to read the file.
+- ‘all’: Read the entire file as a single JSON object.
+- ‘line’: Read the file line by line, each line being a JSON object.
+Defaults to ‘all’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of JSON-parsed Python objects. For ‘all’ mode, the list will contain the root JSON object(s).</dt><dd><p>For ‘line’ mode, the list will contain one object per line.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.read_pkl">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">read_pkl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkl_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#read_pkl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.read_pkl" title="Link to this definition">¶</a></dt>
+<dd><p>Reads a pickle file and returns the deserialized data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pkl_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the pickle file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The deserialized Python object stored in the pickle file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.read_txt">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">read_txt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txt_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#read_txt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.read_txt" title="Link to this definition">¶</a></dt>
+<dd><p>Reads a text file and returns a list of lines without trailing newline characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>txt_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the text file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of lines with trailing newline characters removed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.read_yaml">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">read_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#read_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.read_yaml" title="Link to this definition">¶</a></dt>
+<dd><p>Reads and parses a YAML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>yaml_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the YAML file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The parsed Python object from the YAML file, usually a dict or list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.save_csv">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'w'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'a'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.save_csv" title="Link to this definition">¶</a></dt>
+<dd><p>Saves a 2D list to a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csv_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the CSV file.</p></li>
+<li><p><strong>info</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>Any</em><em>]</em><em>]</em>) – Data to write, each sublist is a row.</p></li>
+<li><p><strong>mode</strong> (<em>Literal</em><em>[</em><em>'w'</em><em>, </em><em>'a'</em><em>]</em><em>, </em><em>optional</em>) – Write mode.
+- ‘w’: Overwrite the file.
+- ‘a’: Append to the file.
+Defaults to ‘w’.</p></li>
+<li><p><strong>header</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Optional column headers.
+Will be written as the first line if provided and mode is ‘w’.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.save_json">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">save_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'w'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'a'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_return_char</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#save_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.save_json" title="Link to this definition">¶</a></dt>
+<dd><p>Saves a Python object to a JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the JSON file to write.</p></li>
+<li><p><strong>info</strong> (<em>Any</em>) – The Python object to serialize as JSON.</p></li>
+<li><p><strong>indent</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of spaces to use for indentation. Defaults to 4.</p></li>
+<li><p><strong>mode</strong> (<em>Literal</em><em>[</em><em>'w'</em><em>, </em><em>'a'</em><em>]</em><em>, </em><em>optional</em>) – File write mode.
+- ‘w’: Overwrite the file.
+- ‘a’: Append to the file.
+Defaults to ‘w’.</p></li>
+<li><p><strong>with_return_char</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to append a newline character at the end. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.save_pkl">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">save_pkl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkl_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pkl_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#save_pkl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.save_pkl" title="Link to this definition">¶</a></dt>
+<dd><p>Saves Python object data to a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pkl_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the pickle file to write.</p></li>
+<li><p><strong>pkl_data</strong> (<em>Any</em>) – Python object to serialize and save.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.save_txt">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">save_txt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txt_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'w'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#save_txt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.save_txt" title="Link to this definition">¶</a></dt>
+<dd><p>Saves a list of strings to a text file, adding a newline character after each line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>txt_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the text file.</p></li>
+<li><p><strong>info</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of strings to write, each string will be one line.</p></li>
+<li><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – File open mode, defaults to write mode ‘w’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.save_yaml">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">save_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#save_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.save_yaml" title="Link to this definition">¶</a></dt>
+<dd><p>Saves a dictionary to a YAML file.</p>
+<p>Converts any unsupported value types to strings to ensure YAML serialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>yaml_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – The path to save the YAML file.</p></li>
+<li><p><strong>data</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The dictionary to be saved.</p></li>
+<li><p><strong>header</strong> (<em>str</em><em>, </em><em>optional</em>) – An optional header string to be written before the YAML content. Defaults to ‘’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="imgalz-utils-image-filter-module">
-<h2>imgalz.utils.image_filter module<a class="headerlink" href="#imgalz-utils-image-filter-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.utils.image_filter">
+<span id="imgalz-utils-image-filter-module"></span><h2>imgalz.utils.image_filter module<a class="headerlink" href="#module-imgalz.utils.image_filter" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.utils.image_filter.</span></span><span class="sig-name descname"><span class="pre">ImageFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hash</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ahash'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.build_lsh_index">
+<span class="sig-name descname"><span class="pre">build_lsh_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.build_lsh_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.build_lsh_index" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.compute_hashes">
+<span class="sig-name descname"><span class="pre">compute_hashes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.compute_hashes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.compute_hashes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.copy_images">
+<span class="sig-name descname"><span class="pre">copy_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keep_paths</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.copy_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.copy_images" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.filter_similar">
+<span class="sig-name descname"><span class="pre">filter_similar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.filter_similar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.filter_similar" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.hamming">
+<span class="sig-name descname"><span class="pre">hamming</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.hamming"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.hamming" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.hash_exts">
+<span class="sig-name descname"><span class="pre">hash_exts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('.jpg',</span> <span class="pre">'.jpeg',</span> <span class="pre">'.png',</span> <span class="pre">'.bmp',</span> <span class="pre">'.webp',</span> <span class="pre">'.tiff',</span> <span class="pre">'.gif')</span></em><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.hash_exts" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.is_valid_image">
+<span class="sig-name descname"><span class="pre">is_valid_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.is_valid_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.is_valid_image" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.run" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="imgalz-utils-utils-module">
-<h2>imgalz.utils.utils module<a class="headerlink" href="#imgalz-utils-utils-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.utils.utils">
+<span id="imgalz-utils-utils-module"></span><h2>imgalz.utils.utils module<a class="headerlink" href="#module-imgalz.utils.utils" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.utils.utils.Colors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">Colors</span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#Colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.Colors" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.utils.utils.Colors.palette">
+<span class="sig-name descname"><span class="pre">palette</span></span><a class="headerlink" href="#imgalz.utils.utils.Colors.palette" title="Link to this definition">¶</a></dt>
+<dd><p>List of RGB color values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.utils.utils.Colors.n">
+<span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#imgalz.utils.utils.Colors.n" title="Link to this definition">¶</a></dt>
+<dd><p>The number of colors in the palette.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.utils.utils.Colors.pose_palette">
+<span class="sig-name descname"><span class="pre">pose_palette</span></span><a class="headerlink" href="#imgalz.utils.utils.Colors.pose_palette" title="Link to this definition">¶</a></dt>
+<dd><p>A specific color palette array with dtype np.uint8.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.utils.Colors.hex2rgb">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hex2rgb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/utils.html#Colors.hex2rgb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.Colors.hex2rgb" title="Link to this definition">¶</a></dt>
+<dd><p>Converts hex color codes to RGB values (i.e. default PIL order).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.utils.cv_imshow">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">cv_imshow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'bgr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rgb'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bgr'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#cv_imshow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.cv_imshow" title="Link to this definition">¶</a></dt>
+<dd><p>Display an image in a window. Converts color if needed.
+If display fails (e.g., in headless environment), saves the image as a JPEG file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – Window title or filename prefix if saving.</p></li>
+<li><p><strong>image</strong> (<em>np.ndarray</em>) – Image array.</p></li>
+<li><p><strong>color_type</strong> (<em>Literal</em><em>[</em><em>'bgr'</em><em>, </em><em>'rgb'</em><em>]</em><em>, </em><em>optional</em>) – Input image color space.
+Defaults to ‘bgr’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.utils.imread">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">imread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#imread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.imread" title="Link to this definition">¶</a></dt>
+<dd><p>Reads an image from a file, supporting paths with non-ASCII characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the image file.</p></li>
+<li><p><strong>flags</strong> (<em>int</em><em>, </em><em>optional</em>) – Flags specifying the color type of a loaded image.
+Defaults to cv2.IMREAD_COLOR.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded image array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.utils.imwrite">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">imwrite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#imwrite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.imwrite" title="Link to this definition">¶</a></dt>
+<dd><p>Saves an image to a file, supporting paths with non-ASCII characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to save the image.</p></li>
+<li><p><strong>img</strong> (<em>np.ndarray</em>) – Image data array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the image is successfully saved, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.utils.url_to_image">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">url_to_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readFlag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#url_to_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.url_to_image" title="Link to this definition">¶</a></dt>
+<dd><p>Download an image from a URL and decode it into an OpenCV image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>str</em>) – URL of the image to download.</p></li>
+<li><p><strong>readFlag</strong> (<em>int</em><em>, </em><em>optional</em>) – Flag specifying the color type of a loaded image.
+Defaults to cv2.IMREAD_COLOR.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Decoded image as a numpy array if successful, else None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-imgalz.utils" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 

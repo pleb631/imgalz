@@ -46,11 +46,11 @@
 <li class="toctree-l2 current"><a class="reference internal" href="imgalz.models.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">imgalz.models.detector package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz-models-detector-yolov5-module">imgalz.models.detector.yolov5 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz-models-detector-yolov8-module">imgalz.models.detector.yolov8 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz-models-detector-yolov8pose-module">imgalz.models.detector.yolov8pose module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz-models-detector-yolov8seg-module">imgalz.models.detector.yolov8seg module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.detector.yolov5">imgalz.models.detector.yolov5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.detector.yolov8">imgalz.models.detector.yolov8 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.detector.yolov8pose">imgalz.models.detector.yolov8pose module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.detector.yolov8seg">imgalz.models.detector.yolov8seg module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.detector">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="imgalz.models.pose.html">imgalz.models.pose package</a></li>
@@ -92,20 +92,147 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="imgalz-models-detector-yolov5-module">
-<h2>imgalz.models.detector.yolov5 module<a class="headerlink" href="#imgalz-models-detector-yolov5-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.detector.yolov5">
+<span id="imgalz-models-detector-yolov5-module"></span><h2>imgalz.models.detector.yolov5 module<a class="headerlink" href="#module-imgalz.models.detector.yolov5" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov5.YOLOv5">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.detector.yolov5.</span></span><span class="sig-name descname"><span class="pre">YOLOv5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/detector/yolov5.html#YOLOv5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.detector.yolov5.YOLOv5" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>YOLOv5 object detection model wrapper using ONNX Runtime.</p>
+<p>This class loads a YOLOv5 model in ONNX format and prepares it for inference,
+including setting preprocessing parameters like mean and std normalization.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov5.YOLOv5.model_path">
+<span class="sig-name descname"><span class="pre">model_path</span></span><a class="headerlink" href="#imgalz.models.detector.yolov5.YOLOv5.model_path" title="Link to this definition">¶</a></dt>
+<dd><p>Path to the ONNX model file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[str, Path]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov5.YOLOv5.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><a class="headerlink" href="#imgalz.models.detector.yolov5.YOLOv5.mean" title="Link to this definition">¶</a></dt>
+<dd><p>Mean values for image normalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov5.YOLOv5.std">
+<span class="sig-name descname"><span class="pre">std</span></span><a class="headerlink" href="#imgalz.models.detector.yolov5.YOLOv5.std" title="Link to this definition">¶</a></dt>
+<dd><p>Standard deviation values for image normalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov5.YOLOv5.detect">
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bgr_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iou_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/detector/yolov5.html#YOLOv5.detect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.detector.yolov5.YOLOv5.detect" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="imgalz-models-detector-yolov8-module">
-<h2>imgalz.models.detector.yolov8 module<a class="headerlink" href="#imgalz-models-detector-yolov8-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.detector.yolov8">
+<span id="imgalz-models-detector-yolov8-module"></span><h2>imgalz.models.detector.yolov8 module<a class="headerlink" href="#module-imgalz.models.detector.yolov8" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8.YOLOv8">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.detector.yolov8.</span></span><span class="sig-name descname"><span class="pre">YOLOv8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/detector/yolov8.html#YOLOv8"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.detector.yolov8.YOLOv8" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#imgalz.models.detector.yolov5.YOLOv5" title="imgalz.models.detector.yolov5.YOLOv5"><code class="xref py py-class docutils literal notranslate"><span class="pre">YOLOv5</span></code></a></p>
+<p>YOLOv8 object detection model wrapper extending YOLOv5.</p>
+<p>Inherits basic ONNX loading and preprocessing from YOLOv5,
+and adds support for specifying the number of classes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8.YOLOv8.model_path">
+<span class="sig-name descname"><span class="pre">model_path</span></span><a class="headerlink" href="#imgalz.models.detector.yolov8.YOLOv8.model_path" title="Link to this definition">¶</a></dt>
+<dd><p>Path to the ONNX model file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[str, Path]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8.YOLOv8.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><a class="headerlink" href="#imgalz.models.detector.yolov8.YOLOv8.mean" title="Link to this definition">¶</a></dt>
+<dd><p>Mean values for normalization. Defaults to [0, 0, 0].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[float], optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8.YOLOv8.std">
+<span class="sig-name descname"><span class="pre">std</span></span><a class="headerlink" href="#imgalz.models.detector.yolov8.YOLOv8.std" title="Link to this definition">¶</a></dt>
+<dd><p>Standard deviation values for normalization. Defaults to [1, 1, 1].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[float], optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8.YOLOv8.nc">
+<span class="sig-name descname"><span class="pre">nc</span></span><a class="headerlink" href="#imgalz.models.detector.yolov8.YOLOv8.nc" title="Link to this definition">¶</a></dt>
+<dd><p>Number of classes. Defaults to 80.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8.YOLOv8.detect">
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bgr_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iou_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/detector/yolov8.html#YOLOv8.detect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.detector.yolov8.YOLOv8.detect" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="imgalz-models-detector-yolov8pose-module">
-<h2>imgalz.models.detector.yolov8pose module<a class="headerlink" href="#imgalz-models-detector-yolov8pose-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.detector.yolov8pose">
+<span id="imgalz-models-detector-yolov8pose-module"></span><h2>imgalz.models.detector.yolov8pose module<a class="headerlink" href="#module-imgalz.models.detector.yolov8pose" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8pose.YOLOv8Pose">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.detector.yolov8pose.</span></span><span class="sig-name descname"><span class="pre">YOLOv8Pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/detector/yolov8pose.html#YOLOv8Pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.detector.yolov8pose.YOLOv8Pose" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#imgalz.models.detector.yolov8.YOLOv8" title="imgalz.models.detector.yolov8.YOLOv8"><code class="xref py py-class docutils literal notranslate"><span class="pre">YOLOv8</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8pose.YOLOv8Pose.detect">
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bgr_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iou_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.45</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/detector/yolov8pose.html#YOLOv8Pose.detect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.detector.yolov8pose.YOLOv8Pose.detect" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="imgalz-models-detector-yolov8seg-module">
-<h2>imgalz.models.detector.yolov8seg module<a class="headerlink" href="#imgalz-models-detector-yolov8seg-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.detector.yolov8seg">
+<span id="imgalz-models-detector-yolov8seg-module"></span><h2>imgalz.models.detector.yolov8seg module<a class="headerlink" href="#module-imgalz.models.detector.yolov8seg" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8seg.YOLOv8Seg">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.detector.yolov8seg.</span></span><span class="sig-name descname"><span class="pre">YOLOv8Seg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/detector/yolov8seg.html#YOLOv8Seg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.detector.yolov8seg.YOLOv8Seg" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#imgalz.models.detector.yolov8.YOLOv8" title="imgalz.models.detector.yolov8.YOLOv8"><code class="xref py py-class docutils literal notranslate"><span class="pre">YOLOv8</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.detector.yolov8seg.YOLOv8Seg.detect">
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bgr_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iou_thres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.45</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/detector/yolov8seg.html#YOLOv8Seg.detect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.detector.yolov8seg.YOLOv8Seg.detect" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.detector">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-imgalz.models.detector" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 

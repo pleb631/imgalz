@@ -90,20 +90,300 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="imgalz-models-trackers-byte-track-tracker-basetrack-module">
-<h2>imgalz.models.trackers.byte_track.tracker.basetrack module<a class="headerlink" href="#imgalz-models-trackers-byte-track-tracker-basetrack-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.trackers.byte_track.tracker.basetrack">
+<span id="imgalz-models-trackers-byte-track-tracker-basetrack-module"></span><h2>imgalz.models.trackers.byte_track.tracker.basetrack module<a class="headerlink" href="#module-imgalz.models.trackers.byte_track.tracker.basetrack" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.trackers.byte_track.tracker.basetrack.</span></span><span class="sig-name descname"><span class="pre">BaseTrack</span></span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/basetrack.html#BaseTrack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.activate">
+<span class="sig-name descname"><span class="pre">activate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/basetrack.html#BaseTrack.activate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.activate" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.curr_feature">
+<span class="sig-name descname"><span class="pre">curr_feature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.curr_feature" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.end_frame">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">end_frame</span></span><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.end_frame" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.features">
+<span class="sig-name descname"><span class="pre">features</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.features" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.frame_id">
+<span class="sig-name descname"><span class="pre">frame_id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.frame_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.history">
+<span class="sig-name descname"><span class="pre">history</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.history" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.is_activated">
+<span class="sig-name descname"><span class="pre">is_activated</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.is_activated" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.location">
+<span class="sig-name descname"><span class="pre">location</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(inf,</span> <span class="pre">inf)</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.location" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.mark_lost">
+<span class="sig-name descname"><span class="pre">mark_lost</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/basetrack.html#BaseTrack.mark_lost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.mark_lost" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.mark_removed">
+<span class="sig-name descname"><span class="pre">mark_removed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/basetrack.html#BaseTrack.mark_removed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.mark_removed" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.next_id">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">next_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/basetrack.html#BaseTrack.next_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.next_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/basetrack.html#BaseTrack.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.predict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.score">
+<span class="sig-name descname"><span class="pre">score</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.score" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.start_frame">
+<span class="sig-name descname"><span class="pre">start_frame</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.start_frame" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.state">
+<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.state" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.time_since_update">
+<span class="sig-name descname"><span class="pre">time_since_update</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.time_since_update" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.track_id">
+<span class="sig-name descname"><span class="pre">track_id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.track_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/basetrack.html#BaseTrack.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.BaseTrack.update" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.TrackState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.trackers.byte_track.tracker.basetrack.</span></span><span class="sig-name descname"><span class="pre">TrackState</span></span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/basetrack.html#TrackState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.TrackState" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.TrackState.Lost">
+<span class="sig-name descname"><span class="pre">Lost</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.TrackState.Lost" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.TrackState.New">
+<span class="sig-name descname"><span class="pre">New</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.TrackState.New" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.TrackState.Removed">
+<span class="sig-name descname"><span class="pre">Removed</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.TrackState.Removed" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.basetrack.TrackState.Tracked">
+<span class="sig-name descname"><span class="pre">Tracked</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.basetrack.TrackState.Tracked" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="imgalz-models-trackers-byte-track-tracker-byte-tracker-module">
 <h2>imgalz.models.trackers.byte_track.tracker.byte_tracker module<a class="headerlink" href="#imgalz-models-trackers-byte-track-tracker-byte-tracker-module" title="Link to this heading">¶</a></h2>
 </section>
-<section id="imgalz-models-trackers-byte-track-tracker-kalman-filter-module">
-<h2>imgalz.models.trackers.byte_track.tracker.kalman_filter module<a class="headerlink" href="#imgalz-models-trackers-byte-track-tracker-kalman-filter-module" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.trackers.byte_track.tracker.kalman_filter">
+<span id="imgalz-models-trackers-byte-track-tracker-kalman-filter-module"></span><h2>imgalz.models.trackers.byte_track.tracker.kalman_filter module<a class="headerlink" href="#module-imgalz.models.trackers.byte_track.tracker.kalman_filter" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.trackers.byte_track.tracker.kalman_filter.</span></span><span class="sig-name descname"><span class="pre">KalmanFilter</span></span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/kalman_filter.html#KalmanFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A simple Kalman filter for tracking bounding boxes in image space.</p>
+<p>The 8-dimensional state space</p>
+<blockquote>
+<div><p>x, y, a, h, vx, vy, va, vh</p>
+</div></blockquote>
+<p>contains the bounding box center position (x, y), aspect ratio a, height h,
+and their respective velocities.</p>
+<p>Object motion follows a constant velocity model. The bounding box location
+(x, y, a, h) is taken as direct observation of the state space (linear
+observation model).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.gating_distance">
+<span class="sig-name descname"><span class="pre">gating_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'maha'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/kalman_filter.html#KalmanFilter.gating_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.gating_distance" title="Link to this definition">¶</a></dt>
+<dd><p>Compute gating distance between state distribution and measurements.
+A suitable distance threshold can be obtained from <cite>chi2inv95</cite>. If
+<cite>only_position</cite> is False, the chi-square distribution has 4 degrees of
+freedom, otherwise 2.
+:param mean: Mean vector over the state distribution (8 dimensional).
+:type mean: ndarray
+:param covariance: Covariance of the state distribution (8x8 dimensional).
+:type covariance: ndarray
+:param measurements: An Nx4 dimensional matrix of N measurements, each in</p>
+<blockquote>
+<div><p>format (x, y, a, h) where (x, y) is the bounding box center
+position, a the aspect ratio, and h the height.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>only_position</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – If True, distance computation is done with respect to the bounding
+box center position only.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns an array of length N, where the i-th element contains the
+squared Mahalanobis distance between (mean, covariance) and
+<cite>measurements[i]</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.initiate">
+<span class="sig-name descname"><span class="pre">initiate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/kalman_filter.html#KalmanFilter.initiate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.initiate" title="Link to this definition">¶</a></dt>
+<dd><p>Create track from unassociated measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>measurement</strong> (<em>ndarray</em>) – Bounding box coordinates (x, y, a, h) with center position (x, y),
+aspect ratio a, and height h.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the mean vector (8 dimensional) and covariance matrix (8x8
+dimensional) of the new track. Unobserved velocities are initialized
+to 0 mean.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(ndarray, ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.multi_predict">
+<span class="sig-name descname"><span class="pre">multi_predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/kalman_filter.html#KalmanFilter.multi_predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.multi_predict" title="Link to this definition">¶</a></dt>
+<dd><p>Run Kalman filter prediction step (Vectorized version).
+:param mean: The Nx8 dimensional mean matrix of the object states at the previous</p>
+<blockquote>
+<div><p>time step.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>covariance</strong> (<em>ndarray</em>) – The Nx8x8 dimensional covariance matrics of the object states at the
+previous time step.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the mean vector and covariance matrix of the predicted
+state. Unobserved velocities are initialized to 0 mean.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(ndarray, ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/kalman_filter.html#KalmanFilter.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.predict" title="Link to this definition">¶</a></dt>
+<dd><p>Run Kalman filter prediction step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> (<em>ndarray</em>) – The 8 dimensional mean vector of the object state at the previous
+time step.</p></li>
+<li><p><strong>covariance</strong> (<em>ndarray</em>) – The 8x8 dimensional covariance matrix of the object state at the
+previous time step.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the mean vector and covariance matrix of the predicted
+state. Unobserved velocities are initialized to 0 mean.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(ndarray, ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.project">
+<span class="sig-name descname"><span class="pre">project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/kalman_filter.html#KalmanFilter.project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.project" title="Link to this definition">¶</a></dt>
+<dd><p>Project state distribution to measurement space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> (<em>ndarray</em>) – The state’s mean vector (8 dimensional array).</p></li>
+<li><p><strong>covariance</strong> (<em>ndarray</em>) – The state’s covariance matrix (8x8 dimensional).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the projected mean and covariance matrix of the given state
+estimate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(ndarray, ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/trackers/byte_track/tracker/kalman_filter.html#KalmanFilter.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.trackers.byte_track.tracker.kalman_filter.KalmanFilter.update" title="Link to this definition">¶</a></dt>
+<dd><p>Run Kalman filter correction step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> (<em>ndarray</em>) – The predicted state’s mean vector (8 dimensional).</p></li>
+<li><p><strong>covariance</strong> (<em>ndarray</em>) – The state’s covariance matrix (8x8 dimensional).</p></li>
+<li><p><strong>measurement</strong> (<em>ndarray</em>) – The 4 dimensional measurement vector (x, y, a, h), where (x, y)
+is the center position, a the aspect ratio, and h the height of the
+bounding box.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the measurement-corrected state distribution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(ndarray, ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="imgalz-models-trackers-byte-track-tracker-matching-module">
 <h2>imgalz.models.trackers.byte_track.tracker.matching module<a class="headerlink" href="#imgalz-models-trackers-byte-track-tracker-matching-module" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<section id="module-imgalz.models.trackers.byte_track.tracker">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-imgalz.models.trackers.byte_track.tracker" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
