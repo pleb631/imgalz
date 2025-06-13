@@ -1,7 +1,7 @@
-models
+imgalz
 ======
 
 .. toctree::
    :maxdepth: 4
 
-   models
+   imgalz

@@ -2,7 +2,12 @@
 
 ![img](https://cdn.jsdelivr.net/gh/pleb631/ImgManager@main/img/2024-01-24-14-31-32.png)
 
-## Installation
+## Usage
+
+See below for quickstart installation and usage examples.
+All guidance can refer to full [imgalz docs](https://pleb631.github.io/imgalz)
+
+### Installation
 
 ```bash
 pip install .
@@ -10,7 +15,7 @@ pip install .
 pip install imgalz
 ```
 
-## Usage
+### example
 
 ```python
 import cv2
@@ -19,7 +24,7 @@ import numpy as np
 from imgalz.utils import cv_imshow,imread
 from imgalz.models.detector import YOLOv5
 
-# file local path or auto download from huggingface
+# Use local path if available, otherwise download from Hugging Face
 model = YOLOv5(model_path = "yolov5n.onnx")
 # model = YOLOv5("yolov6n.onnx")
 im = imread("resources/bus.jpg",1)
