@@ -53,7 +53,7 @@ class ImageHasher:
 class ImageFilter:
     hash_exts = (".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tiff", ".gif")
 
-    def __init__(self, image_dir, save_dir, hash, threshold=5, max_workers=8):
+    def __init__(self, image_dir, save_dir, hash="ahash", threshold=5, max_workers=8):
         """
         Initialize the deduplicator.
 

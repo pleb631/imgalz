@@ -52,6 +52,10 @@ You can refer to the specific usage by [demo](demo/yolo.py)
 - NorFair
 - OCSort
 
+### Pose
+
+- ViT-Pose
+
 ## todo
 
 - add mmpose inference code
