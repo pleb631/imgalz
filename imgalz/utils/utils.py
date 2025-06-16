@@ -3,8 +3,11 @@ import numpy as np
 import os
 from pathlib import Path
 import requests
-
+from urllib import parse, request
+from PIL import Image
 from typing import Union, Literal, Optional
+
+__all__ = ["imread", "imwrite", "cv_imshow", "is_url", "url_to_image", "is_valid_image"]
 
 
 def imread(path: Union[str, Path], flags: int = cv2.IMREAD_COLOR) -> np.ndarray:
@@ -20,7 +23,17 @@ def imread(path: Union[str, Path], flags: int = cv2.IMREAD_COLOR) -> np.ndarray:
         np.ndarray: The loaded image array.
     """
     path = str(path)
-    return cv2.imdecode(np.fromfile(path, np.uint8), flags)
+    if is_url(path):
+        return url_to_image(path, readFlag=flags)
+    try:
+        image_array = np.fromfile(path, dtype=np.uint8)
+        image = cv2.imdecode(image_array, flags)
+        if image is None:
+            print(f"Failed to decode image from file: {path}")
+        return image
+    except Exception as e:
+        print(f"Failed to read image from file {path}: {e}")
+        return None
 
 
 def imwrite(
@@ -76,6 +89,33 @@ def cv_imshow(
     except cv2.error:
         # Fallback: save image if display is not possible
         cv2.imwrite(f"{title}.jpg", image)
+
+
+def is_url(url: str, check: bool = False) -> bool:
+    """
+    Validate if the given string is a URL and optionally check if the URL exists online.
+
+    Args:
+        url (str): The string to be validated as a URL.
+        check (bool, optional): If True, performs an additional check to see if the URL exists online.
+
+    Returns:
+        (bool): True for a valid URL. If 'check' is True, also returns True if the URL exists online.
+
+    Examples:
+        >>> valid = is_url("https://www.example.com")
+        >>> valid_and_exists = is_url("https://www.example.com", check=True)
+    """
+    try:
+        url = str(url)
+        result = parse.urlparse(url)
+        assert all([result.scheme, result.netloc])  # check if is url
+        if check:
+            with request.urlopen(url) as response:
+                return response.getcode() == 200  # check if exists online
+        return True
+    except Exception:
+        return False
 
 
 def url_to_image(url: str, readFlag: int = cv2.IMREAD_COLOR) -> Optional[np.ndarray]:
@@ -173,3 +213,24 @@ class Colors:
     def hex2rgb(h):
         """Converts hex color codes to RGB values (i.e. default PIL order)."""
         return tuple(int(h[1 + i : 1 + i + 2], 16) for i in (0, 2, 4))
+
+
+def is_valid_image(path: Union[str, Path]) -> bool:
+    """
+    Checks whether the given file is a valid image by attempting to open and verify it.
+
+    Args:
+        path (Union[str, Path]): Path to the image file.
+
+    Returns:
+        bool: True if the image is valid, False otherwise.
+
+    Raises:
+        None: All exceptions are caught internally and False is returned.
+    """
+    try:
+        with Image.open(path) as img:
+            img.verify()  # Verify that it is, in fact, an image
+        return True
+    except:
+        return False

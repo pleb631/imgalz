@@ -1,26 +1,11 @@
-imgalz.utils package
+imgalz.utils
 ====================
 
 Submodules
 ----------
 
-imgalz.utils.dataset\_info module
----------------------------------
 
-.. automodule:: imgalz.utils.dataset_info
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-imgalz.utils.download module
-----------------------------
-
-.. automodule:: imgalz.utils.download
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-imgalz.utils.file\_utils module
+imgalz.utils.file\_utils
 -------------------------------
 
 .. automodule:: imgalz.utils.file_utils
@@ -28,7 +13,7 @@ imgalz.utils.file\_utils module
    :show-inheritance:
    :undoc-members:
 
-imgalz.utils.image\_filter module
+imgalz.utils.image\_filter
 ---------------------------------
 
 .. automodule:: imgalz.utils.image_filter
@@ -36,7 +21,7 @@ imgalz.utils.image\_filter module
    :show-inheritance:
    :undoc-members:
 
-imgalz.utils.utils module
+imgalz.utils.utils
 -------------------------
 
 .. automodule:: imgalz.utils.utils

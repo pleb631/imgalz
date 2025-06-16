@@ -12,14 +12,6 @@ imgalz.models.pose.heatmap.heatmap\_pose module
    :show-inheritance:
    :undoc-members:
 
-imgalz.models.pose.heatmap.utils module
----------------------------------------
-
-.. automodule:: imgalz.models.pose.heatmap.utils
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 Module contents
 ---------------
 

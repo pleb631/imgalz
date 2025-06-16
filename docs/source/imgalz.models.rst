@@ -1,4 +1,4 @@
-imgalz.models package
+imgalz.models
 =====================
 
 Subpackages

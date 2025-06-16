@@ -54,4 +54,7 @@ tracker = [
 docs = [
     "sphinx",
     "sphinx-rtd-theme",
+    "norfair",
+    "Motpy",
+    
 ]

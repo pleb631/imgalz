@@ -15,6 +15,9 @@ except ImportError:
     _HAS_DATASKETCH = False
 
 
+from imgalz.utils import is_valid_image
+
+
 __all__ = ["ImageFilter"]
 
 
@@ -51,19 +54,44 @@ class ImageHasher:
 
 
 class ImageFilter:
+    """
+    A utility class for detecting and filtering duplicate or similar images
+    based on perceptual or MinHash-based hashing.
+
+    Args:
+        image_dir (Union[str, Path]): Path to the directory containing input images to be filtered.
+        save_dir (Union[str, Path]): Path where filtered (non-duplicate) images will be saved.
+        hash (str): Hashing method to use. Supported options are:
+            - 'ahash': Average Hash
+            - 'phash': Perceptual Hash
+            - 'dhash': Difference Hash
+            - 'whash': Wavelet Hash
+            - 'minhash': MinHash (for scalable set similarity)
+        threshold (int): Similarity threshold to determine duplicates.
+            For non-Minhash methods, this is a Hamming distance threshold. 
+        max_workers (int): Maximum number of threads for parallel image hashing.
+        
+        
+    Example:
+        ```python
+        from imgalz import ImageFilter
+
+        
+        deduper = ImageFilter(
+            image_dir="/path/to/src", 
+            save_dir="/path/to/dst", 
+            hash="ahash", 
+            threshold=5, 
+            max_workers=8
+        )
+        deduper.run()
+        ```
+    """
+    
     hash_exts = (".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tiff", ".gif")
 
     def __init__(self, image_dir, save_dir, hash="ahash", threshold=5, max_workers=8):
-        """
-        Initialize the deduplicator.
 
-        Args:
-            image_dir (str or Path): Path to the input image directory.
-            save_dir (str or Path): Path where deduplicated images will be saved.
-            hash (str): Hashing method to use. Options: 'ahash', 'phash', 'dhash', 'whash', 'minhash'.
-            threshold (int): Hamming distance threshold for similarity (only for non-Minhash methods).
-            max_workers (int): Number of threads to use for hashing images.
-        """
         self.image_dir = Path(image_dir)
         self.save_dir = Path(save_dir)
         self.hasher = ImageHasher(method=hash)
@@ -84,17 +112,11 @@ class ImageFilter:
 
         self.image_paths = image_paths
 
-    def is_valid_image(self, path):
-        try:
-            with Image.open(path) as img:
-                img.verify()
-            return True
-        except:
-            return False
 
-    def compute_hashes(self):
+
+    def _compute_hashes(self):
         print("Computing image hashes...")
-        valid_paths = [p for p in self.image_paths if self.is_valid_image(p)]
+        valid_paths = [p for p in self.image_paths if is_valid_image(p)]
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             hashes = list(
                 tqdm(
@@ -103,21 +125,21 @@ class ImageFilter:
             )
         self.image_hashes = list(zip(valid_paths, hashes))
 
-    def hamming(self, h1, h2):
+    def _hamming(self, h1, h2):
         return bin(h1 ^ h2).count("1")
 
-    def build_lsh_index(self):
+    def _build_lsh_index(self):
         print("Building LSH index...")
         for path, h in tqdm(self.image_hashes):
             self.lsh.insert(path, h)
 
-    def filter_similar(self):
+    def _filter_similar(self):
         print("Filtering similar images...")
         keep = []
         removed = set()
 
         if self.hasher.method == "minhash":
-            self.build_lsh_index()
+            self._build_lsh_index()
             for path, h in tqdm(self.image_hashes):
                 if path in removed:
                     continue
@@ -133,13 +155,13 @@ class ImageFilter:
                     p2, h2 = self.image_hashes[j]
                     if p2 in removed:
                         continue
-                    if self.hamming(h1, h2) <= self.threshold:
+                    if self._hamming(h1, h2) <= self.threshold:
                         removed.add(p2)
                 keep.append(p1)
 
         return keep
 
-    def copy_images(self, keep_paths):
+    def _copy_images(self, keep_paths):
         print("Copying images to save directory...")
         for path in tqdm(keep_paths):
             target_path = self.save_dir / Path(path).relative_to(self.image_dir)
@@ -147,14 +169,9 @@ class ImageFilter:
             shutil.copy2(path, target_path)
 
     def run(self):
-        self.compute_hashes()
-        keep = self.filter_similar()
-        self.copy_images(keep)
+        self._compute_hashes()
+        keep = self._filter_similar()
+        self._copy_images(keep)
 
 
-# Example Usage
-if __name__ == "__main__":
-    deduper = ImageFilter(
-        image_dir=r"src", save_dir=r"dst", hash="minhash", threshold=5, max_workers=8
-    )
-    deduper.run()
+

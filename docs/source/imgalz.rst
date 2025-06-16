@@ -1,4 +1,4 @@
-imgalz package
+imgalz
 ==============
 
 Subpackages
