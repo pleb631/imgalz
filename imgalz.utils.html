@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>imgalz.utils package &mdash; imgalz 0.0.3 documentation</title>
+  <title>imgalz.utils &mdash; imgalz 0.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -17,7 +17,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="imgalz.models package" href="imgalz.models.html" />
+    <link rel="next" title="imgalz.models" href="imgalz.models.html" />
     <link rel="prev" title="imgalz" href="index.html" /> 
 </head>
 
@@ -41,14 +41,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">imgalz.utils package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.dataset_info">imgalz.utils.dataset_info module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.download">imgalz.utils.download module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.download.auto_download"><code class="docutils literal notranslate"><span class="pre">auto_download()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.file_utils">imgalz.utils.file_utils module</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">imgalz.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.file_utils">imgalz.utils.file_utils</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.list_files"><code class="docutils literal notranslate"><span class="pre">list_files()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.read_csv"><code class="docutils literal notranslate"><span class="pre">read_csv()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
@@ -62,38 +56,41 @@
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_yaml"><code class="docutils literal notranslate"><span class="pre">save_yaml()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.image_filter">imgalz.utils.image_filter module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.image_filter">imgalz.utils.image_filter</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter"><code class="docutils literal notranslate"><span class="pre">ImageFilter</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.build_lsh_index"><code class="docutils literal notranslate"><span class="pre">ImageFilter.build_lsh_index()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.compute_hashes"><code class="docutils literal notranslate"><span class="pre">ImageFilter.compute_hashes()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.copy_images"><code class="docutils literal notranslate"><span class="pre">ImageFilter.copy_images()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.filter_similar"><code class="docutils literal notranslate"><span class="pre">ImageFilter.filter_similar()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.hamming"><code class="docutils literal notranslate"><span class="pre">ImageFilter.hamming()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.hash_exts"><code class="docutils literal notranslate"><span class="pre">ImageFilter.hash_exts</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.is_valid_image"><code class="docutils literal notranslate"><span class="pre">ImageFilter.is_valid_image()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.image_filter.ImageFilter.run"><code class="docutils literal notranslate"><span class="pre">ImageFilter.run()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.utils">imgalz.utils.utils module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.Colors"><code class="docutils literal notranslate"><span class="pre">Colors</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.Colors.palette"><code class="docutils literal notranslate"><span class="pre">Colors.palette</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.Colors.n"><code class="docutils literal notranslate"><span class="pre">Colors.n</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.Colors.pose_palette"><code class="docutils literal notranslate"><span class="pre">Colors.pose_palette</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.Colors.hex2rgb"><code class="docutils literal notranslate"><span class="pre">Colors.hex2rgb()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils.utils">imgalz.utils.utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.VideoReader"><code class="docutils literal notranslate"><span class="pre">VideoReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.current_frame"><code class="docutils literal notranslate"><span class="pre">VideoReader.current_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.fourcc"><code class="docutils literal notranslate"><span class="pre">VideoReader.fourcc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.fps"><code class="docutils literal notranslate"><span class="pre">VideoReader.fps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.frame_cnt"><code class="docutils literal notranslate"><span class="pre">VideoReader.frame_cnt</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.get_frame"><code class="docutils literal notranslate"><span class="pre">VideoReader.get_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.height"><code class="docutils literal notranslate"><span class="pre">VideoReader.height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.next"><code class="docutils literal notranslate"><span class="pre">VideoReader.next()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.position"><code class="docutils literal notranslate"><span class="pre">VideoReader.position</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.read"><code class="docutils literal notranslate"><span class="pre">VideoReader.read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.resolution"><code class="docutils literal notranslate"><span class="pre">VideoReader.resolution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.step"><code class="docutils literal notranslate"><span class="pre">VideoReader.step</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz.utils.utils.VideoReader.width"><code class="docutils literal notranslate"><span class="pre">VideoReader.width</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.cv_imshow"><code class="docutils literal notranslate"><span class="pre">cv_imshow()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.imread"><code class="docutils literal notranslate"><span class="pre">imread()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.imwrite"><code class="docutils literal notranslate"><span class="pre">imwrite()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.is_url"><code class="docutils literal notranslate"><span class="pre">is_url()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.is_valid_image"><code class="docutils literal notranslate"><span class="pre">is_valid_image()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.utils.url_to_image"><code class="docutils literal notranslate"><span class="pre">url_to_image()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-imgalz.utils">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="imgalz.models.html">imgalz.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imgalz.models.html">imgalz.models</a></li>
 </ul>
 
         </div>
@@ -110,7 +107,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">imgalz.utils package</li>
+      <li class="breadcrumb-item active">imgalz.utils</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/imgalz.utils.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -120,24 +117,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="imgalz-utils-package">
-<h1>imgalz.utils package<a class="headerlink" href="#imgalz-utils-package" title="Link to this heading">¶</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
-</section>
-<section id="module-imgalz.utils.dataset_info">
-<span id="imgalz-utils-dataset-info-module"></span><h2>imgalz.utils.dataset_info module<a class="headerlink" href="#module-imgalz.utils.dataset_info" title="Link to this heading">¶</a></h2>
-</section>
-<section id="module-imgalz.utils.download">
-<span id="imgalz-utils-download-module"></span><h2>imgalz.utils.download module<a class="headerlink" href="#module-imgalz.utils.download" title="Link to this heading">¶</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="imgalz.utils.download.auto_download">
-<span class="sig-prename descclassname"><span class="pre">imgalz.utils.download.</span></span><span class="sig-name descname"><span class="pre">auto_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_cache_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./ckpt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/download.html#auto_download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.download.auto_download" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</section>
+  <section id="imgalz-utils">
+<h1>imgalz.utils<a class="headerlink" href="#imgalz-utils" title="Link to this heading">¶</a></h1>
 <section id="module-imgalz.utils.file_utils">
-<span id="imgalz-utils-file-utils-module"></span><h2>imgalz.utils.file_utils module<a class="headerlink" href="#module-imgalz.utils.file_utils" title="Link to this heading">¶</a></h2>
+<span id="imgalz-utils-file-utils"></span><h2>imgalz.utils.file_utils<a class="headerlink" href="#module-imgalz.utils.file_utils" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="imgalz.utils.file_utils.list_files">
 <span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">list_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_exts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contains</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#list_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.list_files" title="Link to this definition">¶</a></dt>
@@ -361,44 +344,47 @@ Defaults to ‘w’.</p></li>
 
 </section>
 <section id="module-imgalz.utils.image_filter">
-<span id="imgalz-utils-image-filter-module"></span><h2>imgalz.utils.image_filter module<a class="headerlink" href="#module-imgalz.utils.image_filter" title="Link to this heading">¶</a></h2>
+<span id="imgalz-utils-image-filter"></span><h2>imgalz.utils.image_filter<a class="headerlink" href="#module-imgalz.utils.image_filter" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.utils.image_filter.</span></span><span class="sig-name descname"><span class="pre">ImageFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hash</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ahash'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.build_lsh_index">
-<span class="sig-name descname"><span class="pre">build_lsh_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.build_lsh_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.build_lsh_index" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.compute_hashes">
-<span class="sig-name descname"><span class="pre">compute_hashes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.compute_hashes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.compute_hashes" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.copy_images">
-<span class="sig-name descname"><span class="pre">copy_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keep_paths</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.copy_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.copy_images" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.filter_similar">
-<span class="sig-name descname"><span class="pre">filter_similar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.filter_similar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.filter_similar" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.hamming">
-<span class="sig-name descname"><span class="pre">hamming</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.hamming"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.hamming" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>A utility class for detecting and filtering duplicate or similar images
+based on perceptual or MinHash-based hashing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_dir</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the directory containing input images to be filtered.</p></li>
+<li><p><strong>save_dir</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path where filtered (non-duplicate) images will be saved.</p></li>
+<li><p><strong>hash</strong> (<em>str</em>) – Hashing method to use. Supported options are:
+- ‘ahash’: Average Hash
+- ‘phash’: Perceptual Hash
+- ‘dhash’: Difference Hash
+- ‘whash’: Wavelet Hash
+- ‘minhash’: MinHash (for scalable set similarity)</p></li>
+<li><p><strong>threshold</strong> (<em>int</em>) – Similarity threshold to determine duplicates.
+For non-Minhash methods, this is a Hamming distance threshold.</p></li>
+<li><p><strong>max_workers</strong> (<em>int</em>) – Maximum number of threads for parallel image hashing.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+from imgalz import ImageFilter</p>
+<dl class="simple">
+<dt>deduper = ImageFilter(</dt><dd><p>image_dir=”/path/to/src”,
+save_dir=”/path/to/dst”,
+hash=”ahash”,
+threshold=5,
+max_workers=8</p>
+</dd>
+</dl>
+<p>)
+deduper.run()
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.hash_exts">
 <span class="sig-name descname"><span class="pre">hash_exts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('.jpg',</span> <span class="pre">'.jpeg',</span> <span class="pre">'.png',</span> <span class="pre">'.bmp',</span> <span class="pre">'.webp',</span> <span class="pre">'.tiff',</span> <span class="pre">'.gif')</span></em><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.hash_exts" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.utils.image_filter.ImageFilter.is_valid_image">
-<span class="sig-name descname"><span class="pre">is_valid_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/image_filter.html#ImageFilter.is_valid_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.image_filter.ImageFilter.is_valid_image" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -410,55 +396,76 @@ Defaults to ‘w’.</p></li>
 
 </section>
 <section id="module-imgalz.utils.utils">
-<span id="imgalz-utils-utils-module"></span><h2>imgalz.utils.utils module<a class="headerlink" href="#module-imgalz.utils.utils" title="Link to this heading">¶</a></h2>
+<span id="imgalz-utils-utils"></span><h2>imgalz.utils.utils<a class="headerlink" href="#module-imgalz.utils.utils" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="imgalz.utils.utils.Colors">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">Colors</span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#Colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.Colors" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">VideoReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_capacity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/utils.html#VideoReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.VideoReader" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="imgalz.utils.utils.Colors.palette">
-<span class="sig-name descname"><span class="pre">palette</span></span><a class="headerlink" href="#imgalz.utils.utils.Colors.palette" title="Link to this definition">¶</a></dt>
-<dd><p>List of RGB color values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of tuple</p>
-</dd>
-</dl>
-</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.current_frame">
+<span class="sig-name descname"><span class="pre">current_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#VideoReader.current_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.VideoReader.current_frame" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="imgalz.utils.utils.Colors.n">
-<span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#imgalz.utils.utils.Colors.n" title="Link to this definition">¶</a></dt>
-<dd><p>The number of colors in the palette.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.fourcc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fourcc</span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.fourcc" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="imgalz.utils.utils.Colors.pose_palette">
-<span class="sig-name descname"><span class="pre">pose_palette</span></span><a class="headerlink" href="#imgalz.utils.utils.Colors.pose_palette" title="Link to this definition">¶</a></dt>
-<dd><p>A specific color palette array with dtype np.uint8.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.array</p>
-</dd>
-</dl>
-</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.fps">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fps</span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.fps" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.frame_cnt">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frame_cnt</span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.frame_cnt" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="imgalz.utils.utils.Colors.hex2rgb">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hex2rgb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/utils.html#Colors.hex2rgb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.Colors.hex2rgb" title="Link to this definition">¶</a></dt>
-<dd><p>Converts hex color codes to RGB values (i.e. default PIL order).</p>
-</dd></dl>
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.get_frame">
+<span class="sig-name descname"><span class="pre">get_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#VideoReader.get_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.VideoReader.get_frame" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.height">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.height" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.next">
+<span class="sig-name descname"><span class="pre">next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.next" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.position">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.position" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#VideoReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.VideoReader.read" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.resolution">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolution</span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.resolution" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.step">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">step</span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.step" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="imgalz.utils.utils.VideoReader.width">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#imgalz.utils.utils.VideoReader.width" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="imgalz.utils.utils.cv_imshow">
-<span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">cv_imshow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'bgr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rgb'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bgr'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#cv_imshow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.cv_imshow" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">cv_imshow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'bgr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rgb'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bgr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#cv_imshow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.cv_imshow" title="Link to this definition">¶</a></dt>
 <dd><p>Display an image in a window. Converts color if needed.
 If display fails (e.g., in headless environment), saves the image as a JPEG file.</p>
 <dl class="field-list simple">
@@ -468,10 +475,10 @@ If display fails (e.g., in headless environment), saves the image as a JPEG file
 <li><p><strong>image</strong> (<em>np.ndarray</em>) – Image array.</p></li>
 <li><p><strong>color_type</strong> (<em>Literal</em><em>[</em><em>'bgr'</em><em>, </em><em>'rgb'</em><em>]</em><em>, </em><em>optional</em>) – Input image color space.
 Defaults to ‘bgr’.</p></li>
+<li><p><strong>delay</strong> (<em>int</em><em>, </em><em>optional</em>) – Delay in milliseconds for display.
+If 0, waits indefinitely. If &lt;0, skips waitKey but still shows window.
+Defaults to 0.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -518,6 +525,51 @@ Defaults to cv2.IMREAD_COLOR.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.utils.is_url">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">is_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#is_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.is_url" title="Link to this definition">¶</a></dt>
+<dd><p>Validate if the given string is a URL and optionally check if the URL exists online.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>str</em>) – The string to be validated as a URL.</p></li>
+<li><p><strong>check</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, performs an additional check to see if the URL exists online.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True for a valid URL. If ‘check’ is True, also returns True if the URL exists online.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(bool)</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">valid</span> <span class="o">=</span> <span class="n">is_url</span><span class="p">(</span><span class="s2">&quot;https://www.example.com&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">valid_and_exists</span> <span class="o">=</span> <span class="n">is_url</span><span class="p">(</span><span class="s2">&quot;https://www.example.com&quot;</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.utils.is_valid_image">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">is_valid_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#is_valid_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.is_valid_image" title="Link to this definition">¶</a></dt>
+<dd><p>Checks whether the given file is a valid image by attempting to open and verify it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – Path to the image file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the image is valid, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>None</strong> – All exceptions are caught internally and False is returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="imgalz.utils.utils.url_to_image">
 <span class="sig-prename descclassname"><span class="pre">imgalz.utils.utils.</span></span><span class="sig-name descname"><span class="pre">url_to_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readFlag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/utils.html#url_to_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.utils.url_to_image" title="Link to this definition">¶</a></dt>
 <dd><p>Download an image from a URL and decode it into an OpenCV image.</p>
@@ -539,9 +591,6 @@ Defaults to cv2.IMREAD_COLOR.</p></li>
 </dd></dl>
 
 </section>
-<section id="module-imgalz.utils">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-imgalz.utils" title="Link to this heading">¶</a></h2>
-</section>
 </section>
 
 
@@ -549,7 +598,7 @@ Defaults to cv2.IMREAD_COLOR.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="imgalz" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="imgalz.models.html" class="btn btn-neutral float-right" title="imgalz.models package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="imgalz.models.html" class="btn btn-neutral float-right" title="imgalz.models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
