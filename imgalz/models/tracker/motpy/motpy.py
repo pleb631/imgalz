@@ -15,9 +15,10 @@ class Motpy:
         self.obj_count = 0
         self.uuids = {}
 
-    def __call__(self, data) -> tuple:
-        dets_xyxy = data["bbox_ltrb"]
-        image = data["ori_img"]
+    def track(self, bgr_img,dets_xyxy) -> tuple:
+
+        image = bgr_img
+        
         class_ids = []
         ids = []
         bboxes_xyxy = []
@@ -59,4 +60,4 @@ class Motpy:
             class_ids.append(obj[3])
             scores.append(obj[2])
             ids.append(obj_id)
-        return np.array(bboxes_xyxy), ids, scores, class_ids
+        return np.array(bboxes_xyxy), np.array(ids), np.array(scores), np.array(class_ids)

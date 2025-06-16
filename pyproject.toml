@@ -46,8 +46,8 @@ dependencies = [
 tracker = [
     "norfair",
     "Motpy",
-    # "cython_bbox",
     "lap",
+    "filterpy",
 ]
 
 
@@ -56,5 +56,7 @@ docs = [
     "sphinx-rtd-theme",
     "norfair",
     "Motpy",
+    "lap",
+    "filterpy",
     
 ]

@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from imgalz.utils import cv_imshow,imread
+from imgalz import cv_imshow,imread
 
 
 # This script supports models exported in the same format as Ultralytics YOLOv5 and YOLOv8,

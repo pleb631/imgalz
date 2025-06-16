@@ -1,4 +1,4 @@
-from imgalz.utils import cv_imshow,imread
+from imgalz import cv_imshow,imread
 def vitpose():
     from imgalz.models.detector import YOLOv8
     from imgalz.models.pose import HeatmapPose

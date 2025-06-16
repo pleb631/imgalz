@@ -9,7 +9,7 @@ Subpackages
 
    imgalz.models.detector
    imgalz.models.pose
-   imgalz.models.trackers
+   imgalz.models.tracker
 
 Module contents
 ---------------

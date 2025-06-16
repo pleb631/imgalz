@@ -7,9 +7,9 @@ class OcSort:
 
         self.tracker = OCSort(det_thresh=0.2)
 
-    def forward(self, data) -> tuple:
-        dets_xyxy = data["bbox_ltrb"]
-        image = data["ori_img"]
+    def track(self, bgr_img,dets_xyxy) -> tuple:
+
+        image = bgr_img
 
         if isinstance(dets_xyxy, np.ndarray) and len(dets_xyxy) > 0:
             dets = self.tracker.update(dets_xyxy)

@@ -1,7 +1,7 @@
 import numpy as np
 
 from .tracker.byte_tracker import BYTETracker
-from imgalz.model import MODELS
+
 
 
 def tlwh_to_xyxy(tlwh):
@@ -24,9 +24,9 @@ class ByteTrack:
 
         self.tracker = BYTETracker(frame_rate=30)
 
-    def forward(self, data) -> tuple:
-        dets_xyxy = data["bbox_ltrb"]
-        image = data["ori_img"]
+    def track(self, bgr_img,dets_xyxy) -> tuple:
+
+        image = bgr_img
         image_info = {"width": image.shape[0], "height": image.shape[1]}
         class_ids = []
         ids = []
@@ -67,4 +67,4 @@ class ByteTrack:
                 online_xyxys.append(tlwh_to_xyxy(tlwh))
                 online_ids.append(track_id)
                 online_scores.append(online_target.score)
-        return online_xyxys, online_ids, online_scores
+        return np.array(online_xyxys), np.array(online_ids), np.array(online_scores)

@@ -1,9 +1,6 @@
 imgalz.utils
 ====================
 
-Submodules
-----------
-
 
 imgalz.utils.file\_utils
 -------------------------------
@@ -25,14 +22,6 @@ imgalz.utils.utils
 -------------------------
 
 .. automodule:: imgalz.utils.utils
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-Module contents
----------------
-
-.. automodule:: imgalz.utils
    :members:
    :show-inheritance:
    :undoc-members:

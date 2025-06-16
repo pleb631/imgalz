@@ -5,9 +5,18 @@ from pathlib import Path
 import requests
 from urllib import parse, request
 from PIL import Image
-from typing import Union, Literal, Optional
+from typing import Union, Literal, Optional, List, Iterator, Any
+from collections import OrderedDict
 
-__all__ = ["imread", "imwrite", "cv_imshow", "is_url", "url_to_image", "is_valid_image"]
+__all__ = [
+    "imread",
+    "imwrite",
+    "cv_imshow",
+    "is_url",
+    "url_to_image",
+    "is_valid_image",
+    "VideoReader",
+]
 
 
 def imread(path: Union[str, Path], flags: int = cv2.IMREAD_COLOR) -> np.ndarray:
@@ -64,8 +73,11 @@ def imwrite(
 
 
 def cv_imshow(
-    title: str, image: np.ndarray, color_type: Literal["bgr", "rgb"] = "bgr"
-) -> None:
+    title: str,
+    image: np.ndarray,
+    color_type: Literal["bgr", "rgb"] = "bgr",
+    delay: int = 0,
+) -> Optional[bool]:
     """
     Display an image in a window. Converts color if needed.
     If display fails (e.g., in headless environment), saves the image as a JPEG file.
@@ -75,20 +87,30 @@ def cv_imshow(
         image (np.ndarray): Image array.
         color_type (Literal['bgr', 'rgb'], optional): Input image color space.
             Defaults to 'bgr'.
-
-    Returns:
-        None
+        delay (int, optional): Delay in milliseconds for display.
+            If 0, waits indefinitely. If <0, skips waitKey but still shows window.
+            Defaults to 0.
     """
     if color_type == "rgb":
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
     try:
         cv2.imshow(title, image)
-        cv2.waitKey(0)
-        cv2.destroyWindow(title)
+        if delay > 0:
+            cv2.waitKey(delay)
+            key = cv2.waitKey(delay) & 0xFF
+            if key == 27:
+                return True
+            else:
+                return False
+        else:
+            cv2.waitKey(0)
+            cv2.destroyWindow(title)
+
     except cv2.error:
         # Fallback: save image if display is not possible
-        cv2.imwrite(f"{title}.jpg", image)
+        if delay == 0:
+            cv2.imwrite(f"{title}.jpg", image)
 
 
 def is_url(url: str, check: bool = False) -> bool:
@@ -234,3 +256,151 @@ def is_valid_image(path: Union[str, Path]) -> bool:
         return True
     except:
         return False
+
+
+class Cache:
+    def __init__(self, capacity: int):
+        if capacity <= 0:
+            raise ValueError("capacity must be a positive integer")
+        self._capacity = capacity
+        self._cache = OrderedDict()
+
+    def put(self, key: Any, value: Any) -> None:
+        if key in self._cache:
+            return
+        if len(self._cache) >= self._capacity:
+            self._cache.popitem(last=False)
+        self._cache[key] = value
+
+    def get(self, key: Any, default: Optional[Any] = None) -> Any:
+        return self._cache.get(key, default)
+
+
+class VideoReader:
+    def __init__(self, filename: str, cache_capacity: int = 10, step: int = 1):
+        if not filename.startswith(("http://", "https://")):
+            if not os.path.isfile(filename):
+                raise FileNotFoundError(f"Video file not found: {filename}")
+        if cache_capacity <= 0:
+            raise ValueError("cache_capacity must be a positive integer")
+        if step <= 0:
+            raise ValueError("step must be a positive integer")
+
+        self._vcap = cv2.VideoCapture(filename)
+        if not self._vcap.isOpened():
+            raise RuntimeError(f"Failed to open video: {filename}")
+
+        self._cache = Cache(cache_capacity)
+        self._step = step
+        self._position = 0
+        self._width = int(self._vcap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        self._height = int(self._vcap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        self._fps = self._vcap.get(cv2.CAP_PROP_FPS)
+        self._frame_cnt = int(self._vcap.get(cv2.CAP_PROP_FRAME_COUNT))
+        self._fourcc = self._vcap.get(cv2.CAP_PROP_FOURCC)
+
+    # ----------- Properties -----------
+    @property
+    def width(self):
+        return self._width
+
+    @property
+    def height(self):
+        return self._height
+
+    @property
+    def resolution(self):
+        return (self._width, self._height)
+
+    @property
+    def fps(self):
+        return self._fps
+
+    @property
+    def frame_cnt(self):
+        return self._frame_cnt
+
+    @property
+    def fourcc(self):
+        return self._fourcc
+
+    @property
+    def position(self):
+        return self._position
+
+    @property
+    def step(self):
+        return self._step
+
+    def _query_frame_position(self) -> int:
+        return int(round(self._vcap.get(cv2.CAP_PROP_POS_FRAMES)))
+
+    def _seek_frame_safely(self, frame_id: int) -> None:
+        self._vcap.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
+        actual = self._query_frame_position()
+        for _ in range(frame_id - actual):
+            self._vcap.read()
+        self._position = frame_id
+
+    def _decode_frame(self, frame_id: int) -> Optional[Any]:
+        cached = self._cache.get(frame_id)
+        if cached is not None:
+            self._position = frame_id + self._step
+            return cached
+
+        self._seek_frame_safely(frame_id)
+        ret, frame = self._vcap.read()
+        if ret:
+            self._cache.put(frame_id, frame)
+            self._position += self._step
+            return frame
+        return None
+
+    def read(self) -> Optional[Any]:
+        return self._decode_frame(self._position)
+
+    def get_frame(self, frame_id: int) -> Optional[Any]:
+        if not (0 <= frame_id < self._frame_cnt):
+            raise IndexError(f"frame_id must be between 0 and {self._frame_cnt - 1}")
+        return self._decode_frame(frame_id)
+
+    def current_frame(self) -> Optional[Any]:
+        if self._position == 0:
+            return None
+        return self._cache.get(self._position - self._step)
+
+    # ----------- Python Magic Methods -----------
+
+    def __len__(self) -> int:
+        return self._frame_cnt
+
+    def __getitem__(self, index: Union[int, slice]) -> Union[Any, List[Any]]:
+        if isinstance(index, slice):
+            return [self.get_frame(i) for i in range(*index.indices(self._frame_cnt))]
+        if index < 0:
+            index += self._frame_cnt
+        if index < 0 or index >= self._frame_cnt:
+            raise IndexError("index out of range")
+        return self.get_frame(index)
+
+    def __iter__(self) -> Iterator[Any]:
+        self._seek_frame_safely(0)
+        return self
+
+    def __next__(self) -> Any:
+        frame = self.read()
+        if frame is None:
+            raise StopIteration
+        return frame
+
+    next = __next__  # Optional for Py2 style
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self._vcap.release()
+
+    def __del__(self):
+        if hasattr(self, "_vcap") and self._vcap.isOpened():
+            self._vcap.release()

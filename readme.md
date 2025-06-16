@@ -21,7 +21,7 @@ pip install imgalz
 import cv2
 import numpy as np
 
-from imgalz.utils import cv_imshow,imread
+from imgalz import cv_imshow,imread
 from imgalz.models.detector import YOLOv5
 
 # Use local path if available, otherwise download from Hugging Face

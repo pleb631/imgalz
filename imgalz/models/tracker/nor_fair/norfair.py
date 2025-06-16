@@ -19,9 +19,9 @@ class NorFair:
     def _euclidean_distance(self, detection, tracked_object):
         return np.linalg.norm(detection.points - tracked_object.estimate)
 
-    def forward(self, data) -> tuple:
-        dets_xyxy = data["bbox_ltrb"]
-        image = data["ori_img"]
+    def track(self, bgr_img,dets_xyxy) -> tuple:
+
+        image = bgr_img
 
         class_ids = []
         ids = []
@@ -62,4 +62,4 @@ class NorFair:
             class_ids.append(int(det[-1]))
             scores.append(int(det[-2]))
             ids.append(obj.id)
-        return np.array(bboxes_xyxy), ids, scores, class_ids
+        return np.array(bboxes_xyxy), np.array(ids), np.array(scores), np.array(class_ids)
