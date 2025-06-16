@@ -77,10 +77,11 @@ def cv_imshow(
     image: np.ndarray,
     color_type: Literal["bgr", "rgb"] = "bgr",
     delay: int = 0,
+    size: Optional[tuple[int, int]] = None,
 ) -> Optional[bool]:
     """
     Display an image in a window. Converts color if needed.
-    If display fails (e.g., in headless environment), saves the image as a JPEG file.
+    Optionally resizes the image to fit screen if too large.
 
     Args:
         title (str): Window title or filename prefix if saving.
@@ -88,29 +89,37 @@ def cv_imshow(
         color_type (Literal['bgr', 'rgb'], optional): Input image color space.
             Defaults to 'bgr'.
         delay (int, optional): Delay in milliseconds for display.
-            If 0, waits indefinitely. If <0, skips waitKey but still shows window.
-            Defaults to 0.
+            If 0, waits indefinitely.Defaults to 0.
     """
     if color_type == "rgb":
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-    try:
-        cv2.imshow(title, image)
-        if delay > 0:
-            cv2.waitKey(delay)
-            key = cv2.waitKey(delay) & 0xFF
-            if key == 27:
-                return True
-            else:
-                return False
-        else:
-            cv2.waitKey(0)
-            cv2.destroyWindow(title)
 
-    except cv2.error:
-        # Fallback: save image if display is not possible
-        if delay == 0:
-            cv2.imwrite(f"{title}.jpg", image)
+    if size is not None:
+        target_w, target_h = size
+        h, w = image.shape[:2]
+        
+        scale = min(target_w / w, target_h / h)
+        new_w, new_h = int(w * scale), int(h * scale)
+
+        image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+
+        cv2.namedWindow(title, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(title, target_w, target_h)
+    else:
+        cv2.namedWindow(title, cv2.WINDOW_AUTOSIZE)
+        
+    cv2.imshow(title, image)
+    if delay > 0:
+        cv2.waitKey(delay)
+        key = cv2.waitKey(delay) & 0xFF
+        if key == 27:
+            return True
+        else:
+            return False
+    else:
+        cv2.waitKey(0)
+        cv2.destroyWindow(title)
 
 
 def is_url(url: str, check: bool = False) -> bool:

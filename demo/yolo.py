@@ -15,6 +15,7 @@ def use_yolov5_det():
 
     model = YOLOv5(model_path = "yolov5n.onnx")
     # model = YOLOv5("yolov6n.onnx")
+    # model = YOLOv8("yolov8n.onnx")
     im = imread("resources/bus.jpg",1)
     bboxes = model.detect(im, aug=True)
     # plot box on img
@@ -23,21 +24,22 @@ def use_yolov5_det():
             im, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), 2
         )
 
-    cv_imshow("yolov5-det", im)
+    cv_imshow("det", im)
 
 
 def use_yolov8_det():
     from imgalz.models.detector import YOLOv8
-
+    from imgalz import draw_bbox,compute_color_for_labels
+    from imgalz.utils.dataset_info import CocoConfig
     model = YOLOv8("yolov8n.onnx")
     # model = YOLOv8("yolo11n.onnx")
     im = imread("resources/bus.jpg",1)
-    bboxes = model.detect(im, aug=True)
+    bboxes = model.detect(im)
     # plot box on img
     for box in bboxes:
-        cv2.rectangle(
-            im, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), 2
-        )
+        color = compute_color_for_labels(box[5])
+        label = CocoConfig.category[int(box[5])]
+        im = draw_bbox(im,box[:4],box[4],label,line_thickness=2,box_color=color,label_format="{id}:{score:.2f}")
 
     cv_imshow("yolov8-det", im)
 

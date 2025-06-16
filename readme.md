@@ -43,14 +43,14 @@ You can refer to the specific usage by [demo](demo/yolo.py)
 
 ## Optional Models
 
-### Detectors
+### Detector
 
 - YOLOv5/6
 - YOLOv8/11
 - YOLOv8pose
 - YOLOv8seg
 
-### Tracking
+### Tracker
 
 - ByteTrack
 - Motpy
