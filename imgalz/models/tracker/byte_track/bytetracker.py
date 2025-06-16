@@ -50,11 +50,7 @@ class ByteTrack:
         online_targets = []
         class_id = 0
         if dets is not None:
-            online_targets = self.tracker.update(
-                dets[:, :-1],
-                [image_info["height"], image_info["width"]],
-                [image_info["height"], image_info["width"]],
-            )
+            online_targets = self.tracker.update(dets)
 
         online_xyxys = []
         online_ids = []

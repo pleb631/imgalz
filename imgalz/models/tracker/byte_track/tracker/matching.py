@@ -2,7 +2,7 @@ import numpy as np
 import scipy
 import lap
 from scipy.spatial.distance import cdist
-# from cython_bbox import bbox_overlaps as bbox_ious
+
 from . import kalman_filter
 
 
@@ -37,46 +37,47 @@ def bbox_ioa(box1: np.ndarray, box2: np.ndarray, iou: bool = False, eps: float =
     # Intersection over box2 area
     return inter_area / (area + eps)
 
+def linear_assignment(cost_matrix: np.ndarray, thresh: float, use_lap: bool = True):
+    """
+    Perform linear assignment using either the scipy or lap.lapjv method.
 
-def merge_matches(m1, m2, shape):
-    O,P,Q = shape
-    m1 = np.asarray(m1)
-    m2 = np.asarray(m2)
+    Args:
+        cost_matrix (np.ndarray): The matrix containing cost values for assignments, with shape (N, M).
+        thresh (float): Threshold for considering an assignment valid.
+        use_lap (bool): Use lap.lapjv for the assignment. If False, scipy.optimize.linear_sum_assignment is used.
 
-    M1 = scipy.sparse.coo_matrix((np.ones(len(m1)), (m1[:, 0], m1[:, 1])), shape=(O, P))
-    M2 = scipy.sparse.coo_matrix((np.ones(len(m2)), (m2[:, 0], m2[:, 1])), shape=(P, Q))
+    Returns:
+        matched_indices (np.ndarray): Array of matched indices of shape (K, 2), where K is the number of matches.
+        unmatched_a (np.ndarray): Array of unmatched indices from the first set, with shape (L,).
+        unmatched_b (np.ndarray): Array of unmatched indices from the second set, with shape (M,).
 
-    mask = M1*M2
-    match = mask.nonzero()
-    match = list(zip(match[0], match[1]))
-    unmatched_O = tuple(set(range(O)) - set([i for i, j in match]))
-    unmatched_Q = tuple(set(range(Q)) - set([j for i, j in match]))
-
-    return match, unmatched_O, unmatched_Q
-
-
-def _indices_to_matches(cost_matrix, indices, thresh):
-    matched_cost = cost_matrix[tuple(zip(*indices))]
-    matched_mask = (matched_cost <= thresh)
-
-    matches = indices[matched_mask]
-    unmatched_a = tuple(set(range(cost_matrix.shape[0])) - set(matches[:, 0]))
-    unmatched_b = tuple(set(range(cost_matrix.shape[1])) - set(matches[:, 1]))
-
-    return matches, unmatched_a, unmatched_b
-
-
-def linear_assignment(cost_matrix, thresh):
+    Examples:
+        >>> cost_matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+        >>> thresh = 5.0
+        >>> matched_indices, unmatched_a, unmatched_b = linear_assignment(cost_matrix, thresh, use_lap=True)
+    """
     if cost_matrix.size == 0:
         return np.empty((0, 2), dtype=int), tuple(range(cost_matrix.shape[0])), tuple(range(cost_matrix.shape[1]))
-    matches, unmatched_a, unmatched_b = [], [], []
-    cost, x, y = lap.lapjv(cost_matrix, extend_cost=True, cost_limit=thresh)
-    for ix, mx in enumerate(x):
-        if mx >= 0:
-            matches.append([ix, mx])
-    unmatched_a = np.where(x < 0)[0]
-    unmatched_b = np.where(y < 0)[0]
-    matches = np.asarray(matches)
+
+    if use_lap:
+        # Use lap.lapjv
+        # https://github.com/gatagat/lap
+        _, x, y = lap.lapjv(cost_matrix, extend_cost=True, cost_limit=thresh)
+        matches = [[ix, mx] for ix, mx in enumerate(x) if mx >= 0]
+        unmatched_a = np.where(x < 0)[0]
+        unmatched_b = np.where(y < 0)[0]
+    else:
+        # Use scipy.optimize.linear_sum_assignment
+        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linear_sum_assignment.html
+        x, y = scipy.optimize.linear_sum_assignment(cost_matrix)  # row x, col y
+        matches = np.asarray([[x[i], y[i]] for i in range(len(x)) if cost_matrix[x[i], y[i]] <= thresh])
+        if len(matches) == 0:
+            unmatched_a = list(np.arange(cost_matrix.shape[0]))
+            unmatched_b = list(np.arange(cost_matrix.shape[1]))
+        else:
+            unmatched_a = list(frozenset(np.arange(cost_matrix.shape[0])) - frozenset(matches[:, 0]))
+            unmatched_b = list(frozenset(np.arange(cost_matrix.shape[1])) - frozenset(matches[:, 1]))
+
     return matches, unmatched_a, unmatched_b
 
 
@@ -94,7 +95,8 @@ def ious(atlbrs, btlbrs):
 
     ious = bbox_ioa(
         np.ascontiguousarray(atlbrs, dtype=np.float64),
-        np.ascontiguousarray(btlbrs, dtype=np.float64)
+        np.ascontiguousarray(btlbrs, dtype=np.float64),
+        iou=True
     )
 
     return ious
@@ -120,25 +122,6 @@ def iou_distance(atracks, btracks):
 
     return cost_matrix
 
-def v_iou_distance(atracks, btracks):
-    """
-    Compute cost based on IoU
-    :type atracks: list[STrack]
-    :type btracks: list[STrack]
-
-    :rtype cost_matrix np.ndarray
-    """
-
-    if (len(atracks)>0 and isinstance(atracks[0], np.ndarray)) or (len(btracks) > 0 and isinstance(btracks[0], np.ndarray)):
-        atlbrs = atracks
-        btlbrs = btracks
-    else:
-        atlbrs = [track.tlwh_to_tlbr(track.pred_bbox) for track in atracks]
-        btlbrs = [track.tlwh_to_tlbr(track.pred_bbox) for track in btracks]
-    _ious = ious(atlbrs, btlbrs)
-    cost_matrix = 1 - _ious
-
-    return cost_matrix
 
 def embedding_distance(tracks, detections, metric='cosine'):
     """
