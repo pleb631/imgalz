@@ -4,10 +4,13 @@ imgalz.models.pose package
 Subpackages
 -----------
 
-.. toctree::
-   :maxdepth: 4
+imgalz.models.pose.heatmap\_pose module
+-----------------------------------------------
 
-   imgalz.models.pose.heatmap
+.. automodule:: imgalz.models.pose.heatmap.heatmap_pose
+   :members:
+   :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------

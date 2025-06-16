@@ -68,26 +68,26 @@ class ImageFilter:
             - 'whash': Wavelet Hash
             - 'minhash': MinHash (for scalable set similarity)
         threshold (int): Similarity threshold to determine duplicates.
-            For non-Minhash methods, this is a Hamming distance threshold. 
+            For non-Minhash methods, this is a Hamming distance threshold.
         max_workers (int): Maximum number of threads for parallel image hashing.
-        
-        
+
+
     Example:
         ```python
         from imgalz import ImageFilter
 
-        
+
         deduper = ImageFilter(
-            image_dir="/path/to/src", 
-            save_dir="/path/to/dst", 
-            hash="ahash", 
-            threshold=5, 
+            image_dir="/path/to/src",
+            save_dir="/path/to/dst",
+            hash="ahash",
+            threshold=5,
             max_workers=8
         )
         deduper.run()
         ```
     """
-    
+
     hash_exts = (".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tiff", ".gif")
 
     def __init__(self, image_dir, save_dir, hash="ahash", threshold=5, max_workers=8):
@@ -111,8 +111,6 @@ class ImageFilter:
             image_paths.extend(glob.glob(f"{self.image_dir}/**/*{ext}", recursive=True))
 
         self.image_paths = image_paths
-
-
 
     def _compute_hashes(self):
         print("Computing image hashes...")
@@ -172,6 +170,3 @@ class ImageFilter:
         self._compute_hashes()
         keep = self._filter_similar()
         self._copy_images(keep)
-
-
-

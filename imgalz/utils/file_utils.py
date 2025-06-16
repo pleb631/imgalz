@@ -205,6 +205,7 @@ def save_csv(
             writer.writerow(header)
         writer.writerows(info)
 
+
 def read_txt(txt_path: Union[str, Path]) -> List[str]:
     """
     Reads a text file and returns a list of lines without trailing newline characters.

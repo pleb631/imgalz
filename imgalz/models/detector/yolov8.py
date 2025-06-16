@@ -1,6 +1,8 @@
 import numpy as np
 
-from .yolov5 import YOLOv5, xywh2xyxy, scale_boxes, letterbox, scale_img
+from .yolov5 import YOLOv5, scale_boxes, letterbox, scale_img
+from imgalz import xywh2xyxy
+
 
 __all__ = ["YOLOv8"]
 
@@ -18,6 +20,7 @@ class YOLOv8(YOLOv5):
         std (List[float], optional): Standard deviation values for normalization. Defaults to [1, 1, 1].
         nc (int, optional): Number of classes. Defaults to 80.
     """
+
     def __init__(
         self,
         model_path,

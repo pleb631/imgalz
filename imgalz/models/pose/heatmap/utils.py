@@ -125,23 +125,6 @@ def transform_preds(coords, center, scale, output_size):
     return target_coords
 
 
-def xywh2xyxy(xywh):
-    """[x_center, y_center, w, h]转为[xmin, ymin, xmax, ymax]
-
-    Args:
-        xywh: list, 格式[x_center, y_center, w, h]
-
-    Returns:
-        xyxy: list, 格式[xmin, ymin, xmax, ymax]
-    """
-    xmin = xywh[0] - xywh[2] / 2
-    ymin = xywh[1] - xywh[3] / 2
-    xmax = xywh[0] + xywh[2] / 2
-    ymax = xywh[1] + xywh[3] / 2
-    xyxy = [xmin, ymin, xmax, ymax]
-    # xyxy = list(map(int,xyxy))
-
-    return xyxy
 
 
 def vis_pose_result(img, result, radius=4, thickness=1, kpt_score_thr=0.3):

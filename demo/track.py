@@ -1,7 +1,5 @@
-from imgalz import cv_imshow, VideoReader
-import numpy as np
-from imgalz.models.tracker import OcSort,Motpy,NorFair
-from imgalz.utils.plot import plot_box
+import imgalz
+from imgalz.models.tracker import OcSort, Motpy, NorFair
 
 
 def main():
@@ -9,26 +7,24 @@ def main():
 
     det = YOLOv8(model_path="yolov8s.onnx")
     track = Motpy()
-    vi = VideoReader(r"resources\video2.mp4", step=3)
+    vi = imgalz.VideoReader(r"resources\video2.mp4", step=3)
     for frame in vi:
         if frame is not None:
             box = det.detect(frame, iou_thres=0.7)
             track_info = track.track(frame, box)
-            bbox_ltrb, ids, scores = (
+            bbox_ltrb, ids = (
                 track_info["bbox_ltrb"],
                 track_info["ids"],
-                track_info["scores"],
             )
-            if len(bbox_ltrb)==0:
+            if len(bbox_ltrb) == 0:
                 continue
-            bbox_ltrb = np.concatenate(
-                (bbox_ltrb, scores.reshape(-1, 1), ids.reshape(-1, 1)), axis=1
-            )
-            for box in bbox_ltrb:
-                plot_box.plt_bbox(frame, box, label_format="{id}")
 
-            if cv_imshow("yolov5-det", frame, delay=1):
+            for box, id in zip(bbox_ltrb, ids):
+                imgalz.draw_bbox(frame, box, 1, id, label_format="{id}")
+
+            if imgalz.cv_imshow("track", frame, delay=1):
                 break
 
 
-main()
+if __name__ == "__main__":
+    main()

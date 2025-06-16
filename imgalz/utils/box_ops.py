@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Union, List,Tuple
+from typing import Union, List, Tuple
 
 __all__ = [
     "xyxy2ltwh",
@@ -10,11 +10,12 @@ __all__ = [
     "nms",
 ]
 
+
 def xyxy2ltwh(
     boxes: Union[np.ndarray, list],
 ) -> np.ndarray:
     """
-    Convert bounding boxes from [xmin, ymin, xmax, ymax, ...] format 
+    Convert bounding boxes from [xmin, ymin, xmax, ymax, ...] format
     to [xmin, ymin, width, height, ...] format.
     Supports arbitrary dimensional input as long as last dimension >= 4.
     Only converts the first 4 elements per box, others remain unchanged.
@@ -28,7 +29,7 @@ def xyxy2ltwh(
     Example:
         >>> xyxy2ltwh([10, 20, 30, 40])
         array([10., 20., 20., 20.])
-        
+
         >>> xyxy2ltwh([[10, 20, 30, 40, 0], [5, 5, 15, 15, 1]])
         array([[10., 20., 20., 20., 0.],
                [ 5.,  5., 10., 10., 1.]])
@@ -46,7 +47,7 @@ def xyxy2ltwh(
 
 def ltwh2xyxy(boxes: Union[np.ndarray, list]) -> np.ndarray:
     """
-    Convert bounding boxes from [xmin, ymin, w, h, ...] format 
+    Convert bounding boxes from [xmin, ymin, w, h, ...] format
     to [xmin, ymin, xmax, ymax, ...] format.
     Supports arbitrary dimensional input as long as last dimension >= 4.
     Only converts the first 4 elements in the last dimension.
@@ -60,11 +61,11 @@ def ltwh2xyxy(boxes: Union[np.ndarray, list]) -> np.ndarray:
     Example:
         >>> ltwh2xyxy([10, 20, 20, 20])
         array([10, 20, 30, 40])
-        
+
         >>> ltwh2xyxy([[10, 20, 20, 20, 0], [5, 5, 10, 10, 1]])
         array([[10, 20, 30, 40, 0],
                [ 5,  5, 15, 15, 1]])
-        
+
         >>> ltwh2xyxy(np.array([[[10,20,20,20],[5,5,10,10]], [[1,2,2,2],[6,7,2,2]]]))
         array([[[10, 20, 30, 40],
                 [ 5,  5, 15, 15]],
@@ -81,6 +82,7 @@ def ltwh2xyxy(boxes: Union[np.ndarray, list]) -> np.ndarray:
     converted[..., 3] = converted[..., 1] + converted[..., 3]  # ymax = ymin + h
 
     return converted
+
 
 def xywh2xyxy(boxes: Union[np.ndarray, list]) -> np.ndarray:
     """
@@ -144,8 +146,8 @@ def xyxy2xywh(boxes: Union[list, np.ndarray]) -> np.ndarray:
     converted = arr.copy()
     converted[..., 0] = (arr[..., 0] + arr[..., 2]) / 2  # x_center
     converted[..., 1] = (arr[..., 1] + arr[..., 3]) / 2  # y_center
-    converted[..., 2] = arr[..., 2] - arr[..., 0]        # width
-    converted[..., 3] = arr[..., 3] - arr[..., 1]        # height
+    converted[..., 2] = arr[..., 2] - arr[..., 0]  # width
+    converted[..., 3] = arr[..., 3] - arr[..., 1]  # height
 
     return converted
 
@@ -154,7 +156,7 @@ def expand_box(
     xyxy: Union[np.ndarray, Tuple[float, float, float, float]],
     ratio: Union[float, Tuple[float, float]],
     w: int,
-    h: int
+    h: int,
 ) -> np.ndarray:
     """
     Expand bounding box size by given ratio and clip it within image dimensions.
@@ -188,7 +190,6 @@ def expand_box(
     new_y2 = np.clip(cy + bh / 2, 0, h)
 
     return np.array([new_x1, new_y1, new_x2, new_y2], dtype=np.float32)
-
 
 
 def nms(boxes, probs, overlapThresh=0.3):

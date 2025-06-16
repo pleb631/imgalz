@@ -2,8 +2,8 @@ import cv2
 import onnxruntime
 import numpy as np
 import math
-from imgalz.utils.download import auto_download
-from imgalz import nms
+from imgalz.utils.common import auto_download
+from imgalz import nms, xywh2xyxy
 
 __all__ = ["YOLOv5"]
 
@@ -23,9 +23,6 @@ def scale_img(img, ratio=1.0, same_shape=False, gs=32):  # img(16,3,256,416)
     return np.pad(
         img, [(0, h - s[0]), (0, w - s[1]), (0, 0)], constant_values=0.447 * 255
     )  # value = imagenet mean
-
-
-
 
 
 def clip_boxes(boxes, shape):
@@ -96,15 +93,6 @@ def letterbox(
     return im, ratio, (dw, dh)
 
 
-def xywh2xyxy(x):
-    y = np.copy(x)
-    y[..., 0] = x[..., 0] - x[..., 2] / 2  # top left x
-    y[..., 1] = x[..., 1] - x[..., 3] / 2  # top left y
-    y[..., 2] = x[..., 0] + x[..., 2] / 2  # bottom right x
-    y[..., 3] = x[..., 1] + x[..., 3] / 2  # bottom right y
-    return y
-
-
 class YOLOv5:
     """
     YOLOv5 object detection model wrapper using ONNX Runtime.
@@ -118,6 +106,7 @@ class YOLOv5:
         std (List[float]): Standard deviation values for image normalization.
 
     """
+
     @auto_download(category="yolo")
     def __init__(
         self,

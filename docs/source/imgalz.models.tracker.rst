@@ -4,13 +4,38 @@ imgalz.models.tracker
 Subpackages
 -----------
 
-.. toctree::
-   :maxdepth: 4
+imgalz.models.tracker.bytetracker
+----------------------------------------------------
 
-   imgalz.models.tracker.byte_track
-   imgalz.models.tracker.motpy
-   imgalz.models.tracker.nor_fair
-   imgalz.models.tracker.oc_sort
+.. automodule:: imgalz.models.tracker.byte_track.bytetracker
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+imgalz.models.tracker.norfair
+----------------------------------------------
+
+.. automodule:: imgalz.models.tracker.nor_fair.norfair
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+imgalz.models.tracker.motpy
+----------------------------------------
+
+.. automodule:: imgalz.models.tracker.motpy.motpy
+   :members:
+   :show-inheritance:
+   :undoc-members:
+   
+
+imgalz.models.tracker.oc\_sort
+----------------------------------------
+
+.. automodule:: imgalz.models.tracker.oc_sort.ocsort
+   :members:
+   :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------

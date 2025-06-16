@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from imgalz import cv_imshow,imread
+import imgalz
 
 
 # This script supports models exported in the same format as Ultralytics YOLOv5 and YOLOv8,
@@ -13,10 +13,10 @@ from imgalz import cv_imshow,imread
 def use_yolov5_det():
     from imgalz.models.detector import YOLOv5
 
-    model = YOLOv5(model_path = "yolov5n.onnx")
+    model = YOLOv5(model_path="yolov5n.onnx")
     # model = YOLOv5("yolov6n.onnx")
     # model = YOLOv8("yolov8n.onnx")
-    im = imread("resources/bus.jpg",1)
+    im = imgalz.imread("resources/bus.jpg", 1)
     bboxes = model.detect(im, aug=True)
     # plot box on img
     for box in bboxes:
@@ -24,31 +24,39 @@ def use_yolov5_det():
             im, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), 2
         )
 
-    cv_imshow("det", im)
+    imgalz.cv_imshow("det", im)
 
 
 def use_yolov8_det():
     from imgalz.models.detector import YOLOv8
-    from imgalz import draw_bbox,compute_color_for_labels
     from imgalz.utils.dataset_info import CocoConfig
+
     model = YOLOv8("yolov8n.onnx")
     # model = YOLOv8("yolo11n.onnx")
-    im = imread("resources/bus.jpg",1)
+    im = imgalz.imread("resources/bus.jpg", 1)
     bboxes = model.detect(im)
     # plot box on img
     for box in bboxes:
-        color = compute_color_for_labels(box[5])
+        color = imgalz.compute_color_for_labels(box[5])
         label = CocoConfig.category[int(box[5])]
-        im = draw_bbox(im,box[:4],box[4],label,line_thickness=2,box_color=color,label_format="{id}:{score:.2f}")
+        im = imgalz.draw_bbox(
+            im,
+            box[:4],
+            box[4],
+            label,
+            line_thickness=2,
+            box_color=color,
+            label_format="{id}:{score:.2f}",
+        )
 
-    cv_imshow("yolov8-det", im)
+    imgalz.cv_imshow("yolov8-det", im)
 
 
 def use_yolo_pose():
     from imgalz.models.detector import YOLOv8Pose
 
     model = YOLOv8Pose(model_path="yolov8n-pose.onnx")
-    im = imread("resources/bus.jpg",1)
+    im = imgalz.imread("resources/bus.jpg", 1)
     bboxes = model.detect(im)
     # plot box on img
     for box in bboxes:
@@ -59,14 +67,14 @@ def use_yolo_pose():
         for kpt in box[6:].reshape(-1, 3):
             cv2.circle(im, (int(kpt[0]), int(kpt[1])), 3, (0, 255, 0), -1)
 
-    cv_imshow("yolo-pose", im)
+    imgalz.cv_imshow("yolo-pose", im)
 
 
 def use_yolo_seg():
     from imgalz.models.detector import YOLOv8Seg
 
     model = YOLOv8Seg(model_path="yolov8n-seg.onnx")
-    im = imread("resources/bus.jpg",1)
+    im = imgalz.imread("resources/bus.jpg", 1)
     bboxes, masks = model.detect(im)
     # plot box on img
     for box in bboxes:
@@ -78,7 +86,7 @@ def use_yolo_seg():
         cv2.imshow(f"{i}", mask.astype(np.float32) * 255)
         print(np.sum(mask))
 
-    cv_imshow("yolo-seg", im)
+    imgalz.cv_imshow("yolo-seg", im)
     cv2.destroyAllWindows()
 
 
