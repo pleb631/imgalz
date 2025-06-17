@@ -7,7 +7,7 @@ Subpackages
 imgalz.models.tracker.bytetracker
 ----------------------------------------------------
 
-.. automodule:: imgalz.models.tracker.byte_track.bytetracker
+.. automodule:: imgalz.models.tracker.byte_track.byte_track
    :members:
    :show-inheritance:
    :undoc-members:

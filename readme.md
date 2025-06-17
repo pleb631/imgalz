@@ -65,6 +65,7 @@ You can refer to the specific usage by [demo](demo/yolo.py)
 
 - add mmpose inference code
 - add more tool for image processing
+- add more tracker and refact code
 
 ## Weights
 

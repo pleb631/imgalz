@@ -4,8 +4,10 @@ import json
 import csv
 import pickle
 import yaml
+import numpy as np
 from pathlib import Path
 from typing import Union, Literal, Any, Mapping, Optional, Iterable, List
+
 
 __all__ = [
     "read_json",
@@ -19,6 +21,8 @@ __all__ = [
     "read_txt",
     "save_txt",
     "list_files",
+    "read_yolo_txt",
+    "xywh2xyxyxyxy",
 ]
 
 
@@ -307,3 +311,95 @@ def list_files(
 
             if matched:
                 yield os.path.join(root_dir, filename)
+
+
+def read_yolo_txt(txt_path: Union[str, Path], width:int, height:int):
+    """
+    Read YOLO-format annotation file and convert boxes to [x1, y1, x2, y2, class_id] format.
+
+    Args:
+        txt_path (str or Path): Path to the YOLO annotation text file.
+        width (int or float): Width of the image the boxes are relative to.
+        height (int or float): Height of the image the boxes are relative to.
+
+    Returns:
+        np.ndarray: Array of shape (N, 5), where each row is [x1, y1, x2, y2, class_id].
+
+    Example:
+        >>> boxes = read_yolo_txt("label.txt", 640, 480)
+    """
+    txt_path = Path(txt_path)
+    boxes = []
+
+    with txt_path.open("r") as f:
+        for line in f:
+            parts = line.strip().split()
+            if len(parts) < 5:
+                continue  # skip invalid lines
+
+            cls_id = int(parts[0])
+            cx = float(parts[1]) * width
+            cy = float(parts[2]) * height
+            w = float(parts[3]) * width
+            h = float(parts[4]) * height
+
+            x1 = cx - w / 2
+            y1 = cy - h / 2
+            x2 = cx + w / 2
+            y2 = cy + h / 2
+
+            boxes.append([x1, y1, x2, y2, cls_id])
+
+    return np.array(boxes, dtype=np.float32)
+
+
+
+def xywh2xyxyxyxy(center):
+    """
+    Convert oriented bounding boxes (OBB) from [cx, cy, w, h, angle] format
+    to 4 corner points [x1, y1, x2, y2, x3, y3, x4, y4].
+
+    Args:
+        center (np.ndarray): Input array of shape (..., 5), last dimension is [cx, cy, w, h, angle in degrees].
+
+    Returns:
+        np.ndarray: Output array of shape (..., 8), each element is [x1, y1, x2, y2, x3, y3, x4, y4].
+
+    Example:
+        >>> box = np.array([100, 100, 40, 20, 45])
+        >>> xyxy = xywh2xyxyxyxy(box)
+        >>> print(xyxy.shape)  # (8,)
+
+        >>> batch_boxes = np.random.rand(2, 3, 5) * 100
+        >>> xyxy_batch = xywh2xyxyxyxy(batch_boxes)
+        >>> print(xyxy_batch.shape)  # (2, 3, 8)
+    """
+    center = np.asarray(center, dtype=np.float32)
+    assert center.shape[-1] == 5, "The last dimension of input must be 5: [cx, cy, w, h, angle]"
+
+    cx, cy, w, h, angle = np.moveaxis(center, -1, 0)
+    angle = np.deg2rad(angle)
+
+    dx = w / 2
+    dy = h / 2
+
+    cos_a = np.cos(angle)
+    sin_a = np.sin(angle)
+
+    dx_cos = dx * cos_a
+    dx_sin = dx * sin_a
+    dy_cos = dy * cos_a
+    dy_sin = dy * sin_a
+
+    x1 = cx - dx_cos - dy_sin
+    y1 = cy + dx_sin - dy_cos
+    x2 = cx + dx_cos - dy_sin
+    y2 = cy - dx_sin - dy_cos
+    x3 = cx + dx_cos + dy_sin
+    y3 = cy - dx_sin + dy_cos
+    x4 = cx - dx_cos + dy_sin
+    y4 = cy + dx_sin + dy_cos
+
+    corners = np.stack([x1, y1, x2, y2, x3, y3, x4, y4], axis=-1)
+    return corners
+
