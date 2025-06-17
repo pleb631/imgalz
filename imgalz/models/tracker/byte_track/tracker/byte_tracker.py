@@ -1,11 +1,12 @@
 import numpy as np
+from typing import List, Optional
 from .kalman_filter import KalmanFilter
 from . import matching
 from .basetrack import BaseTrack, TrackState
 
 class STrack(BaseTrack):
     shared_kalman = KalmanFilter()
-    def __init__(self, tlwh, score):
+    def __init__(self, tlwh, score,cls):
 
         # wait activate
         self._tlwh = np.asarray(tlwh, dtype=np.float32)
@@ -15,6 +16,8 @@ class STrack(BaseTrack):
 
         self.score = score
         self.tracklet_len = 0
+        self.cls = cls
+
 
     def predict(self):
         mean_state = self.mean.copy()
@@ -32,6 +35,26 @@ class STrack(BaseTrack):
                     multi_mean[i][7] = 0
             multi_mean, multi_covariance = STrack.shared_kalman.multi_predict(multi_mean, multi_covariance)
             for i, (mean, cov) in enumerate(zip(multi_mean, multi_covariance)):
+                stracks[i].mean = mean
+                stracks[i].covariance = cov
+
+
+    @staticmethod
+    def multi_gmc(stracks: List["STrack"], H: np.ndarray = np.eye(2, 3)):
+        """Update state tracks positions and covariances using a homography matrix for multiple tracks."""
+        if len(stracks) > 0:
+            multi_mean = np.asarray([st.mean.copy() for st in stracks])
+            multi_covariance = np.asarray([st.covariance for st in stracks])
+
+            R = H[:2, :2]
+            R8x8 = np.kron(np.eye(4, dtype=float), R)
+            t = H[:2, 2]
+
+            for i, (mean, cov) in enumerate(zip(multi_mean, multi_covariance)):
+                mean = R8x8.dot(mean)
+                mean[:2] += t
+                cov = R8x8.dot(cov).dot(R8x8.transpose())
+
                 stracks[i].mean = mean
                 stracks[i].covariance = cov
 
@@ -81,7 +104,7 @@ class STrack(BaseTrack):
         self.score = new_track.score
 
     @property
-    # @jit(nopython=True)
+
     def tlwh(self):
         """Get current position in bounding box format `(top left x, top left y,
                 width, height)`.
@@ -94,7 +117,7 @@ class STrack(BaseTrack):
         return ret
 
     @property
-    # @jit(nopython=True)
+
     def tlbr(self):
         """Convert bounding box to format `(min x, min y, max x, max y)`, i.e.,
         `(top left, bottom right)`.
@@ -104,7 +127,7 @@ class STrack(BaseTrack):
         return ret
 
     @staticmethod
-    # @jit(nopython=True)
+
     def tlwh_to_xyah(tlwh):
         """Convert bounding box to format `(center x, center y, aspect ratio,
         height)`, where the aspect ratio is `width / height`.
@@ -118,14 +141,14 @@ class STrack(BaseTrack):
         return self.tlwh_to_xyah(self.tlwh)
 
     @staticmethod
-    # @jit(nopython=True)
+
     def tlbr_to_tlwh(tlbr):
         ret = np.asarray(tlbr).copy()
         ret[2:] -= ret[:2]
         return ret
 
     @staticmethod
-    # @jit(nopython=True)
+
     def tlwh_to_tlbr(tlwh):
         ret = np.asarray(tlwh).copy()
         ret[2:] += ret[:2]
@@ -136,41 +159,40 @@ class STrack(BaseTrack):
 
 
 class BYTETracker(object):
-    def __init__(self, track_thresh=0.5,match_thresh=0.8, track_buffer=30, mot20=False, frame_rate=30):
+    def __init__(self, track_high_thresh=0.25,new_track_thresh=0.25,match_thresh=0.8, track_buffer=30, frame_rate=30):
         self.tracked_stracks = []  # type: list[STrack]
         self.lost_stracks = []  # type: list[STrack]
         self.removed_stracks = []  # type: list[STrack]
 
-        self.track_thresh = track_thresh
+        self.track_thresh = track_high_thresh
         self.track_buffer = track_buffer
-        self.mot20 = mot20
+
         self.match_thresh = match_thresh
+        self.fuse_score = True
 
         self.frame_id = 0
-        self.det_thresh = track_thresh + 0.1
+        self.det_thresh = new_track_thresh
         self.buffer_size = int(frame_rate / 30.0 * self.track_buffer)
         self.max_time_lost = self.buffer_size
         self.kalman_filter = KalmanFilter()
-
-    def update(self, output_results, img_info, img_size):
+    def init_track(
+            self, dets: np.ndarray, scores: np.ndarray, cls: np.ndarray, img: Optional[np.ndarray] = None
+        ) -> List[STrack]:
+            """Initialize object tracking with given detections, scores, and class labels using the STrack algorithm."""
+            return [STrack(STrack.tlbr_to_tlwh(xyxy), s, c) for (xyxy, s, c) in zip(dets, scores, cls)] if len(dets) else []  # detections
+    def update(self, results,img: Optional[np.ndarray] = None):
         self.frame_id += 1
         activated_starcks = []
         refind_stracks = []
         lost_stracks = []
         removed_stracks = []
 
-        if output_results.shape[1] == 5:
-            scores = output_results[:, 4]
-            bboxes = output_results[:, :4]
-        else:
-            output_results = output_results.cpu().numpy()
-            scores = output_results[:, 4] * output_results[:, 5]
-            bboxes = output_results[:, :4]  # x1y1x2y2
-        img_h, img_w = img_info[0], img_info[1]
-        scale = min(img_size[0] / float(img_h), img_size[1] / float(img_w))
-        bboxes /= scale
 
-        remain_inds = scores > self.track_thresh
+        scores = results[:, 4]
+        bboxes = results[:, :4]
+        cls = results[:, 5]
+
+        remain_inds = scores >= self.track_thresh
         inds_low = scores > 0.1
         inds_high = scores < self.track_thresh
 
@@ -179,13 +201,11 @@ class BYTETracker(object):
         dets = bboxes[remain_inds]
         scores_keep = scores[remain_inds]
         scores_second = scores[inds_second]
+        cls_keep = cls[remain_inds]
+        cls_second = cls[inds_second]
 
-        if len(dets) > 0:
-            '''Detections'''
-            detections = [STrack(STrack.tlbr_to_tlwh(tlbr), s) for
-                          (tlbr, s) in zip(dets, scores_keep)]
-        else:
-            detections = []
+
+        detections = self.init_track(dets, scores_keep, cls_keep, None)
 
         ''' Add newly detected tracklets to tracked_stracks'''
         unconfirmed = []
@@ -200,8 +220,19 @@ class BYTETracker(object):
         strack_pool = joint_stracks(tracked_stracks, self.lost_stracks)
         # Predict the current location with KF
         STrack.multi_predict(strack_pool)
+
+        if hasattr(self, "gmc") and img is not None:
+            # use try-except here to bypass errors from gmc module
+            try:
+                warp = self.gmc.apply(img, dets)
+            except Exception:
+                warp = np.eye(2, 3)
+            STrack.multi_gmc(strack_pool, warp)
+            STrack.multi_gmc(unconfirmed, warp)
+            
+            
         dists = matching.iou_distance(strack_pool, detections)
-        if not self.mot20:
+        if self.fuse_score:
             dists = matching.fuse_score(dists, detections)
         matches, u_track, u_detection = matching.linear_assignment(dists, thresh=self.match_thresh)
 
@@ -217,12 +248,7 @@ class BYTETracker(object):
 
         ''' Step 3: Second association, with low score detection boxes'''
         # association the untrack to the low score detections
-        if len(dets_second) > 0:
-            '''Detections'''
-            detections_second = [STrack(STrack.tlbr_to_tlwh(tlbr), s) for
-                          (tlbr, s) in zip(dets_second, scores_second)]
-        else:
-            detections_second = []
+        detections_second = self.init_track(dets_second, scores_second, cls_second, None)
         r_tracked_stracks = [strack_pool[i] for i in u_track if strack_pool[i].state == TrackState.Tracked]
         dists = matching.iou_distance(r_tracked_stracks, detections_second)
         matches, u_track, u_detection_second = matching.linear_assignment(dists, thresh=0.5)
@@ -245,7 +271,7 @@ class BYTETracker(object):
         '''Deal with unconfirmed tracks, usually tracks with only one beginning frame'''
         detections = [detections[i] for i in u_detection]
         dists = matching.iou_distance(unconfirmed, detections)
-        if not self.mot20:
+        if self.fuse_score:
             dists = matching.fuse_score(dists, detections)
         matches, u_unconfirmed, u_detection = matching.linear_assignment(dists, thresh=0.7)
         for itracked, idet in matches:
