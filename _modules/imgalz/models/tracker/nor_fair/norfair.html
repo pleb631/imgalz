@@ -78,7 +78,7 @@
 
 
 <div class="viewcode-block" id="NorFair">
-<a class="viewcode-back" href="../../../../../imgalz.models.tracker.nor_fair.html#imgalz.models.tracker.nor_fair.norfair.NorFair">[docs]</a>
+<a class="viewcode-back" href="../../../../../imgalz.models.tracker.html#imgalz.models.tracker.nor_fair.norfair.NorFair">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NorFair</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_distance_between_points</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
@@ -91,7 +91,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">detection</span><span class="o">.</span><span class="n">points</span> <span class="o">-</span> <span class="n">tracked_object</span><span class="o">.</span><span class="n">estimate</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NorFair.track">
-<a class="viewcode-back" href="../../../../../imgalz.models.tracker.nor_fair.html#imgalz.models.tracker.nor_fair.norfair.NorFair.track">[docs]</a>
+<a class="viewcode-back" href="../../../../../imgalz.models.tracker.html#imgalz.models.tracker.nor_fair.norfair.NorFair.track">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bgr_img</span><span class="p">,</span><span class="n">dets_xyxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 
         <span class="n">image</span> <span class="o">=</span> <span class="n">bgr_img</span>
