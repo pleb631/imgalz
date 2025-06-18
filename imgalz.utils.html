@@ -47,6 +47,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.box_ops.ltwh2xyxy"><code class="docutils literal notranslate"><span class="pre">ltwh2xyxy()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.box_ops.nms"><code class="docutils literal notranslate"><span class="pre">nms()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.box_ops.xywh2xyxy"><code class="docutils literal notranslate"><span class="pre">xywh2xyxy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.box_ops.xywh2xyxyxyxy"><code class="docutils literal notranslate"><span class="pre">xywh2xyxyxyxy()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.box_ops.xyxy2ltwh"><code class="docutils literal notranslate"><span class="pre">xyxy2ltwh()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.box_ops.xyxy2xywh"><code class="docutils literal notranslate"><span class="pre">xyxy2xywh()</span></code></a></li>
 </ul>
@@ -70,7 +71,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_pkl"><code class="docutils literal notranslate"><span class="pre">save_pkl()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_txt"><code class="docutils literal notranslate"><span class="pre">save_txt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_yaml"><code class="docutils literal notranslate"><span class="pre">save_yaml()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.xywh2xyxyxyxy"><code class="docutils literal notranslate"><span class="pre">xywh2xyxyxyxy()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#imgalz-utils-visualization">imgalz.utils.visualization</a><ul>
@@ -244,6 +244,35 @@ Only converts the first 4 elements in the last dimension.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xywh2xyxy</span><span class="p">([[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
 <span class="go">array([[40., 40., 60., 60.,  0.],</span>
 <span class="go">       [ 8.,  7., 12., 13.,  1.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.box_ops.xywh2xyxyxyxy">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.box_ops.</span></span><span class="sig-name descname"><span class="pre">xywh2xyxyxyxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/box_ops.html#xywh2xyxyxyxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.box_ops.xywh2xyxyxyxy" title="Link to this definition">¶</a></dt>
+<dd><p>Convert oriented bounding boxes (OBB) from [cx, cy, w, h, angle] format
+to 4 corner points [x1, y1, x2, y2, x3, y3, x4, y4].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>center</strong> (<em>np.ndarray</em>) – Input array of shape (…, 5), last dimension is [cx, cy, w, h, angle in degrees].</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output array of shape (…, 8), each element is [x1, y1, x2, y2, x3, y3, x4, y4].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">box</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">45</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xyxy</span> <span class="o">=</span> <span class="n">xywh2xyxyxyxy</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">xyxy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (8,)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">batch_boxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xyxy_batch</span> <span class="o">=</span> <span class="n">xywh2xyxyxyxy</span><span class="p">(</span><span class="n">batch_boxes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">xyxy_batch</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (2, 3, 8)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -425,7 +454,7 @@ Defaults to None.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="imgalz.utils.file_utils.read_json">
-<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'line'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.read_json" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">read_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'line'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#read_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.read_json" title="Link to this definition">¶</a></dt>
 <dd><p>Reads JSON content from a file.</p>
 <p>Supports reading the entire file as a JSON object or reading line-by-line
 for JSONL (JSON Lines) formatted files.</p>
@@ -447,7 +476,7 @@ Defaults to ‘all’.</p></li>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[Any]</p>
+<dd class="field-odd"><p>List[Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -624,35 +653,6 @@ Defaults to ‘w’.</p></li>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="imgalz.utils.file_utils.xywh2xyxyxyxy">
-<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">xywh2xyxyxyxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#xywh2xyxyxyxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.xywh2xyxyxyxy" title="Link to this definition">¶</a></dt>
-<dd><p>Convert oriented bounding boxes (OBB) from [cx, cy, w, h, angle] format
-to 4 corner points [x1, y1, x2, y2, x3, y3, x4, y4].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>center</strong> (<em>np.ndarray</em>) – Input array of shape (…, 5), last dimension is [cx, cy, w, h, angle in degrees].</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Output array of shape (…, 8), each element is [x1, y1, x2, y2, x3, y3, x4, y4].</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">box</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">45</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xyxy</span> <span class="o">=</span> <span class="n">xywh2xyxyxyxy</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">xyxy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (8,)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">batch_boxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xyxy_batch</span> <span class="o">=</span> <span class="n">xywh2xyxyxyxy</span><span class="p">(</span><span class="n">batch_boxes</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">xyxy_batch</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (2, 3, 8)</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

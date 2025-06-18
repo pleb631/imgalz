@@ -91,7 +91,6 @@
     <span class="s2">&quot;save_txt&quot;</span><span class="p">,</span>
     <span class="s2">&quot;list_files&quot;</span><span class="p">,</span>
     <span class="s2">&quot;read_yolo_txt&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;xywh2xyxyxyxy&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -99,7 +98,7 @@
 <a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.read_json">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_json</span><span class="p">(</span>
     <span class="n">json_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads JSON content from a file.</span>
 
@@ -115,7 +114,7 @@
 <span class="sd">            Defaults to &#39;all&#39;.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        list[Any]: A list of JSON-parsed Python objects. For &#39;all&#39; mode, the list will contain the root JSON object(s).</span>
+<span class="sd">        List[Any]: A list of JSON-parsed Python objects. For &#39;all&#39; mode, the list will contain the root JSON object(s).</span>
 <span class="sd">                   For &#39;line&#39; mode, the list will contain one object per line.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">json_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
@@ -458,57 +457,6 @@
 
 
 
-
-<div class="viewcode-block" id="xywh2xyxyxyxy">
-<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.file_utils.xywh2xyxyxyxy">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">xywh2xyxyxyxy</span><span class="p">(</span><span class="n">center</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert oriented bounding boxes (OBB) from [cx, cy, w, h, angle] format</span>
-<span class="sd">    to 4 corner points [x1, y1, x2, y2, x3, y3, x4, y4].</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        center (np.ndarray): Input array of shape (..., 5), last dimension is [cx, cy, w, h, angle in degrees].</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray: Output array of shape (..., 8), each element is [x1, y1, x2, y2, x3, y3, x4, y4].</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; box = np.array([100, 100, 40, 20, 45])</span>
-<span class="sd">        &gt;&gt;&gt; xyxy = xywh2xyxyxyxy(box)</span>
-<span class="sd">        &gt;&gt;&gt; print(xyxy.shape)  # (8,)</span>
-
-<span class="sd">        &gt;&gt;&gt; batch_boxes = np.random.rand(2, 3, 5) * 100</span>
-<span class="sd">        &gt;&gt;&gt; xyxy_batch = xywh2xyxyxyxy(batch_boxes)</span>
-<span class="sd">        &gt;&gt;&gt; print(xyxy_batch.shape)  # (2, 3, 8)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">center</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;The last dimension of input must be 5: [cx, cy, w, h, angle]&quot;</span>
-
-    <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
-
-    <span class="n">dx</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="mi">2</span>
-    <span class="n">dy</span> <span class="o">=</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span>
-
-    <span class="n">cos_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
-    <span class="n">sin_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
-
-    <span class="n">dx_cos</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">cos_a</span>
-    <span class="n">dx_sin</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">sin_a</span>
-    <span class="n">dy_cos</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">cos_a</span>
-    <span class="n">dy_sin</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">sin_a</span>
-
-    <span class="n">x1</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">-</span> <span class="n">dx_cos</span> <span class="o">-</span> <span class="n">dy_sin</span>
-    <span class="n">y1</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">dx_sin</span> <span class="o">-</span> <span class="n">dy_cos</span>
-    <span class="n">x2</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">dx_cos</span> <span class="o">-</span> <span class="n">dy_sin</span>
-    <span class="n">y2</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">dx_sin</span> <span class="o">-</span> <span class="n">dy_cos</span>
-    <span class="n">x3</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">dx_cos</span> <span class="o">+</span> <span class="n">dy_sin</span>
-    <span class="n">y3</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">dx_sin</span> <span class="o">+</span> <span class="n">dy_cos</span>
-    <span class="n">x4</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">-</span> <span class="n">dx_cos</span> <span class="o">+</span> <span class="n">dy_sin</span>
-    <span class="n">y4</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">dx_sin</span> <span class="o">+</span> <span class="n">dy_cos</span>
-
-    <span class="n">corners</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">x4</span><span class="p">,</span> <span class="n">y4</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">corners</span></div>
 
 
 </pre></div>
