@@ -116,32 +116,28 @@ def read_yaml(yaml_path: Union[str, Path]) -> Any:
 
     return yaml_data
 
+def sanitize_for_yaml(value: Any) -> Any:
+    """Recursively sanitize a Python object for YAML dumping."""
+    if isinstance(value, (int, float, str, bool, type(None))):
+        return value
+    elif isinstance(value, (list, tuple)):
+        return [sanitize_for_yaml(v) for v in value]
+    elif isinstance(value, dict):
+        return {str(k): sanitize_for_yaml(v) for k, v in value.items()}
+    else:
+        return str(value)
 
-def save_yaml(
-    yaml_path: Union[str, Path], data: Mapping[str, Any], header: str = ""
-) -> None:
+def save_yaml(yaml_path: Union[str, Path], data: Any, header: str = "") -> None:
     """
-    Saves a dictionary to a YAML file.
-
-    Converts any unsupported value types to strings to ensure YAML serialization.
+    Saves any YAML-serializable Python data (dict, list, etc.) to a YAML file.
 
     Args:
-        yaml_path (Union[str, Path]): The path to save the YAML file.
-        data (Mapping[str, Any]): The dictionary to be saved.
-        header (str, optional): An optional header string to be written before the YAML content. Defaults to ''.
-
-    Returns:
-        None
+        yaml_path (str or Path): The path to the output YAML file.
+        data (Any): The Python data to save (dict, list, etc.).
+        header (str): Optional header string to prepend to the file.
     """
     yaml_path = Path(yaml_path)
-
-    # Define types safe for YAML dumping
-    valid_types = (int, float, str, bool, list, tuple, dict, type(None))
-
-    # Convert non-serializable values to strings
-    safe_data = {
-        k: (v if isinstance(v, valid_types) else str(v)) for k, v in data.items()
-    }
+    safe_data = sanitize_for_yaml(data)
 
     with yaml_path.open("w", encoding="utf-8", errors="ignore") as f:
         if header:
