@@ -15,7 +15,7 @@ class HeatmapPose:
         self, model_path, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
     ):
         self.model = onnxruntime.InferenceSession(
-            str(model_path), providers=onnxruntime.get_available_providers()
+            str(model_path), providers=["CUDAExecutionProvider"]
         )
         self.img_size = self.model.get_inputs()[0].shape[2:4]
         self.mean = mean

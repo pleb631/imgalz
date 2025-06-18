@@ -21,13 +21,13 @@ pip install imgalz
 import cv2
 import numpy as np
 
-from imgalz import cv_imshow,imread
+import imgalz
 from imgalz.models.detector import YOLOv5
 
 # Use local path if available, otherwise download from Hugging Face
 model = YOLOv5(model_path = "yolov5n.onnx")
 # model = YOLOv5("yolov6n.onnx")
-im = imread("resources/bus.jpg",1)
+im = imgalz.imread("resources/bus.jpg",1)
 bboxes = model.detect(im, aug=True)
 # plot box on img
 for box in bboxes:
@@ -35,11 +35,11 @@ for box in bboxes:
         im, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), 2
     )
 
-cv_imshow("yolov5-det", im)
+imgalz.cv_imshow("yolov5-det", im)
 
 ```
 
-You can refer to the specific usage by [demo](demo/yolo.py)
+You can refer to the specific usage by [demo](https://github.com/pleb631/imgalz/tree/main/demo)
 
 ## Optional Models
 

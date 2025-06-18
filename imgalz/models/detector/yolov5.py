@@ -120,7 +120,7 @@ class YOLOv5:
 
         self.stride = 32
         self.model = onnxruntime.InferenceSession(
-            str(model_path), providers=onnxruntime.get_available_providers()
+            str(model_path), providers=["CUDAExecutionProvider"]
         )
         self.img_size = self.model.get_inputs()[0].shape[2:]
 

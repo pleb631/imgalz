@@ -8,6 +8,7 @@ __all__ = [
     "xyxy2xywh",
     "expand_box",
     "nms",
+    "xywh2xyxyxyxy"
 ]
 
 
@@ -233,3 +234,52 @@ def nms(boxes, probs, overlapThresh=0.3):
 
     # integer data type
     return pick
+
+def xywh2xyxyxyxy(center):
+    """
+    Convert oriented bounding boxes (OBB) from [cx, cy, w, h, angle] format
+    to 4 corner points [x1, y1, x2, y2, x3, y3, x4, y4].
+
+    Args:
+        center (np.ndarray): Input array of shape (..., 5), last dimension is [cx, cy, w, h, angle in degrees].
+
+    Returns:
+        np.ndarray: Output array of shape (..., 8), each element is [x1, y1, x2, y2, x3, y3, x4, y4].
+
+    Example:
+        >>> box = np.array([100, 100, 40, 20, 45])
+        >>> xyxy = xywh2xyxyxyxy(box)
+        >>> print(xyxy.shape)  # (8,)
+
+        >>> batch_boxes = np.random.rand(2, 3, 5) * 100
+        >>> xyxy_batch = xywh2xyxyxyxy(batch_boxes)
+        >>> print(xyxy_batch.shape)  # (2, 3, 8)
+    """
+    center = np.asarray(center, dtype=np.float32)
+    assert center.shape[-1] == 5, "The last dimension of input must be 5: [cx, cy, w, h, angle]"
+
+    cx, cy, w, h, angle = np.moveaxis(center, -1, 0)
+    angle = np.deg2rad(angle)
+
+    dx = w / 2
+    dy = h / 2
+
+    cos_a = np.cos(angle)
+    sin_a = np.sin(angle)
+
+    dx_cos = dx * cos_a
+    dx_sin = dx * sin_a
+    dy_cos = dy * cos_a
+    dy_sin = dy * sin_a
+
+    x1 = cx - dx_cos - dy_sin
+    y1 = cy + dx_sin - dy_cos
+    x2 = cx + dx_cos - dy_sin
+    y2 = cy - dx_sin - dy_cos
+    x3 = cx + dx_cos + dy_sin
+    y3 = cy - dx_sin + dy_cos
+    x4 = cx - dx_cos + dy_sin
+    y4 = cy + dx_sin + dy_cos
+
+    corners = np.stack([x1, y1, x2, y2, x3, y3, x4, y4], axis=-1)
+    return corners

@@ -36,27 +36,20 @@ classifiers = [
 dependencies = [
     "opencv-python>=4.6.0",
     "numpy>=1.22.2",
-    "onnxruntime",
+    "onnxruntime-gpu",
+    # "onnxruntime"
     "huggingface_hub",
     "imagehash",
-    "pillow"
+    "pillow",
+    "norfair",
+    "Motpy",
+    "lap",
+    "filterpy",
 ]
 
 [project.optional-dependencies]
-tracker = [
-    "norfair",
-    "Motpy",
-    "lap",
-    "filterpy",
-]
-
 
 docs = [
     "sphinx",
-    "sphinx-rtd-theme",
-    "norfair",
-    "Motpy",
-    "lap",
-    "filterpy",
-    
+    "sphinx-rtd-theme",  
 ]
