@@ -22,7 +22,7 @@ def cv_imshow(
     image: np.ndarray,
     color_type: Literal["bgr", "rgb"] = "bgr",
     delay: int = 0,
-    size: Optional[tuple[int, int]] = None,
+    size: Optional[Tuple[int, int]] = None,
 ) -> Optional[bool]:
     """
     Display an image in a window. Converts color if needed.
