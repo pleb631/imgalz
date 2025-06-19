@@ -71,6 +71,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_pkl"><code class="docutils literal notranslate"><span class="pre">save_pkl()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_txt"><code class="docutils literal notranslate"><span class="pre">save_txt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_yaml"><code class="docutils literal notranslate"><span class="pre">save_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.file_utils.save_yolo_txt"><code class="docutils literal notranslate"><span class="pre">save_yolo_txt()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#imgalz-utils-visualization">imgalz.utils.visualization</a><ul>
@@ -92,6 +93,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.visualization.compute_color_for_labels"><code class="docutils literal notranslate"><span class="pre">compute_color_for_labels()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.visualization.cv_imshow"><code class="docutils literal notranslate"><span class="pre">cv_imshow()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.visualization.draw_bbox"><code class="docutils literal notranslate"><span class="pre">draw_bbox()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.visualization.draw_keypoints"><code class="docutils literal notranslate"><span class="pre">draw_keypoints()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.visualization.imread"><code class="docutils literal notranslate"><span class="pre">imread()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#imgalz.utils.visualization.imwrite"><code class="docutils literal notranslate"><span class="pre">imwrite()</span></code></a></li>
 </ul>
@@ -651,6 +653,27 @@ Defaults to ‘w’.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.file_utils.save_yolo_txt">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.file_utils.</span></span><span class="sig-name descname"><span class="pre">save_yolo_txt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'xywh'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xyxy'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'xyxy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_normalized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/imgalz/utils/file_utils.html#save_yolo_txt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.file_utils.save_yolo_txt" title="Link to this definition">¶</a></dt>
+<dd><p>Save bounding boxes in YOLO format to a .txt file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>box</strong> (<em>np.ndarray</em>) – Array of shape (N, 4), each row is either:
+- [x1, y1, x2, y2] if format=’xyxy’
+- [cx, cy, w, h] if format=’xywh’</p></li>
+<li><p><strong>cls</strong> (<em>np.ndarray</em><em> or </em><em>list</em>) – Array/list of class IDs, shape (N,).</p></li>
+<li><p><strong>save_path</strong> (<em>str</em><em> or </em><em>Path</em>) – Output path for the YOLO-format .txt file.</p></li>
+<li><p><strong>format</strong> (<em>str</em>) – Format of input boxes: “xywh” or “xyxy”.</p></li>
+<li><p><strong>input_is_normalized</strong> (<em>bool</em>) – True if input box values are already normalized.</p></li>
+<li><p><strong>width</strong> (<em>int</em><em>, </em><em>optional</em>) – Image width (required if input_is_normalized=False).</p></li>
+<li><p><strong>height</strong> (<em>int</em><em>, </em><em>optional</em>) – Image height (required if input_is_normalized=False).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="imgalz-utils-visualization">
 <h2>imgalz.utils.visualization<a class="headerlink" href="#imgalz-utils-visualization" title="Link to this heading">¶</a></h2>
@@ -768,6 +791,41 @@ If 0, waits indefinitely.Defaults to 0.</p></li>
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="imgalz.utils.visualization.draw_keypoints">
+<span class="sig-prename descclassname"><span class="pre">imgalz.utils.visualization.</span></span><span class="sig-name descname"><span class="pre">draw_keypoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kpt_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">draw_limb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/utils/visualization.html#draw_keypoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.utils.visualization.draw_keypoints" title="Link to this definition">¶</a></dt>
+<dd><p>Draw keypoints and skeletons on the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>np.ndarray</em>) – Input image.</p></li>
+<li><p><strong>keypoints</strong> (<em>np.ndarray</em>) – Keypoints array with shape (17, 3), format [x, y, conf].</p></li>
+<li><p><strong>skeleton</strong> (<em>list</em>) – List of index pairs defining limb connections.</p></li>
+<li><p><strong>kpt_color</strong> (<em>np.ndarray</em>) – Color array for each keypoint.</p></li>
+<li><p><strong>limb_color</strong> (<em>np.ndarray</em>) – Color array for each limb.</p></li>
+<li><p><strong>image_shape</strong> (<em>tuple</em>) – Optional, (h, w). Defaults to image.shape[:2].</p></li>
+<li><p><strong>radius</strong> (<em>int</em>) – Radius of keypoint circles.</p></li>
+<li><p><strong>draw_limb</strong> (<em>bool</em>) – Whether to draw connecting lines between keypoints.</p></li>
+<li><p><strong>conf_threshold</strong> (<em>float</em>) – Minimum confidence to render a keypoint or limb.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">imgalz.utils.dataset_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">CocoConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keypoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">17</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kpts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">640</span>  <span class="c1"># x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kpts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">640</span>  <span class="c1"># y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kpts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>   <span class="c1"># conf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skeleton</span> <span class="o">=</span> <span class="n">CocoConfig</span><span class="o">.</span><span class="n">skeleton</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kpt_color</span> <span class="o">=</span> <span class="n">CocoConfig</span><span class="o">.</span><span class="n">kpt_color</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">limb_color</span> <span class="o">=</span> <span class="n">CocoConfig</span><span class="o">.</span><span class="n">limb_color</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">draw_keypoints</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">keypoints</span><span class="p">,</span> <span class="n">skeleton</span><span class="p">,</span> <span class="n">kpt_color</span><span class="p">,</span> <span class="n">limb_color</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
