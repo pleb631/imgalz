@@ -37,6 +37,11 @@ jobs:
         EXISTS=$(curl -s https://pypi.org/pypi/$PACKAGE_NAME/json | jq -r ".releases | has(\"$VERSION\")")
         echo "exists=$EXISTS" >> $GITHUB_OUTPUT
 
+    - name: Debug
+      run: |
+        ls -al
+        find . -name "README.md"
+        
     - name: Build the package
       if: steps.check_pypi.outputs.exists != 'true'
       run: |
