@@ -8,10 +8,14 @@ permissions:
   contents: write
 
 jobs:
-  deploy:
+  deploy-docs:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # 需要获取前一个 commit 来比较版本号变化
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -20,14 +24,31 @@ jobs:
 
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
+          pip install toml
           pip install .[docs]
 
+      - name: Check if version changed
+        id: version_check
+        run: |
+          PREV_VERSION=$(git show HEAD^:pyproject.toml | python -c "import sys, toml; print(toml.loads(sys.stdin.read())['project']['version'])")
+          CURR_VERSION=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['version'])")
+          echo "Previous version: $PREV_VERSION"
+          echo "Current version: $CURR_VERSION"
+          if [ "$PREV_VERSION" != "$CURR_VERSION" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build documentation
+        if: steps.version_check.outputs.changed == 'true'
         run: |
           cd docs
           make html
 
       - name: Deploy to GitHub Pages
+        if: steps.version_check.outputs.changed == 'true'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
