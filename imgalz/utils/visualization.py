@@ -3,8 +3,8 @@ import numpy as np
 import os
 from pathlib import Path
 from typing import Union, List, Tuple, Literal, Optional, Iterator, Any
-
-
+import colorsys
+import random
 from .common import is_url, url_to_image, Cache
 
 __all__ = [
@@ -13,8 +13,10 @@ __all__ = [
     "cv_imshow",
     "draw_bbox",
     "draw_keypoints",
+    "draw_masks",
     "compute_color_for_labels",
     "VideoReader",
+    "palette"
 ]
 
 
@@ -23,7 +25,7 @@ def cv_imshow(
     image: np.ndarray,
     color_type: Literal["bgr", "rgb"] = "bgr",
     delay: int = 0,
-    size: Optional[Tuple[int, int]] = None,
+    size: Optional[Union[int,List]] = None,
 ) -> Optional[bool]:
     """
     Display an image in a window. Converts color if needed.
@@ -41,6 +43,8 @@ def cv_imshow(
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
     if size is not None:
+        if isinstance(size, int):
+            size = [size, size]
         target_w, target_h = size
         h, w = image.shape[:2]
 
@@ -341,6 +345,9 @@ def draw_keypoints(
         draw_limb (bool): Whether to draw connecting lines between keypoints.
         conf_threshold (float): Minimum confidence to render a keypoint or limb.
 
+    Returns:
+        np.ndarray: same shape as input image, dtype uint8.
+
     Example:
         >>> from imgalz.utils.dataset_info import CocoConfig
         >>> import numpy as np
@@ -357,6 +364,7 @@ def draw_keypoints(
     if image_shape is None:
         image_shape = image.shape[:2]
 
+    image = image.copy()
     nkpt = keypoints.shape[0]
     for i in range(nkpt):
         x, y = keypoints[i][:2]
@@ -384,6 +392,68 @@ def draw_keypoints(
             cv2.line(
                 image, (int(x1), int(y1)), (int(x2), int(y2)), color, 2, cv2.LINE_AA
             )
+    return image
+
+def draw_masks(masks: np.ndarray, colors: Union[list,np.ndarray], image: np.ndarray, alpha: float = 0.5) -> np.ndarray:
+    """
+    Overlay multiple binary masks onto an image with given colors and alpha blending.
+
+    Args:
+        masks (np.ndarray): Boolean or float masks of shape (N, H, W), each mask is in [0, 1] or {0, 1}.
+        colors (np.ndarray|list): RGB colors of shape (N, 3), each color is [R, G, B] in [0, 255].
+        image (np.ndarray): Original image of shape (H, W, 3), dtype uint8, values in [0, 255].
+        alpha (float, optional): Opacity of each mask, between 0 (transparent) and 1 (opaque). Default is 0.5.
+
+    Returns:
+        np.ndarray: Image with masks overlaid, same shape as input image, dtype uint8.
+
+    Example:
+        >>> output = draw_masks(masks, colors, image, alpha=0.5)
+        >>> cv2.imshow("Masked", output)
+    """
+    if isinstance(colors,list):
+        colors = np.array(colors)
+    
+    assert masks.ndim == 3, "Masks must be of shape (N, H, W)"
+    assert colors.shape[0] == masks.shape[0], "Each mask must have a corresponding color"
+    assert image.ndim == 3 and image.shape[2] == 3, "Image must be HxWx3"
+
+    image = image.copy()
+    image = image.astype(np.float64)  # convert for float ops
+    colors = colors[:, None, None, :]  # (N, 1, 1, 3)
+    masks = masks[..., None]  # (N, H, W, 1)
+
+    colored_masks = masks * (colors * alpha)  # (N, H, W, 3)
+
+    inv_alpha_masks = (1 - masks * alpha).cumprod(axis=0)  # (N, H, W, 1)
+
+    merged_masks = colored_masks.max(axis=0)  # (H, W, 3)
+
+    image = image * inv_alpha_masks[-1] + merged_masks
+    image = np.clip(image, 0, 255)
+
+    return image.astype(np.uint8)
+
+def generate_distinct_colors(n: int = 20) -> list:
+    """
+    Generate n visually distinct hex colors using HCL-like HSV sampling.
+
+    Args:
+        n (int): Number of distinct colors.
+
+    Returns:
+        List[str]: List of hex color strings, e.g. ["#FF0000", "#00FF00", ...]
+    """
+    colors = []
+    for i in range(n):
+        hue = i / n
+        lightness = 0.6
+        saturation = 0.8
+        r, g, b = colorsys.hls_to_rgb(hue, lightness, saturation)
+        hex_color = "#{:02X}{:02X}{:02X}".format(int(r * 255), int(g * 255), int(b * 255))
+        colors.append(hex_color)
+
+    return colors
 
 
 class Colors:
@@ -391,42 +461,24 @@ class Colors:
     Attributes:
         palette (list of tuple): List of RGB color values.
         n (int): The number of colors in the palette.
-        pose_palette (np.array): A specific color palette array with dtype np.uint8.
     """
 
-    def __init__(self):
-        """Initialize colors as hex = matplotlib.colors.TABLEAU_COLORS.values()."""
-        hexs = (
-            "FF3838",
-            "FF9D97",
-            "FF701F",
-            "FFB21D",
-            "CFD231",
-            "48F90A",
-            "92CC17",
-            "3DDB86",
-            "1A9334",
-            "00D4BB",
-            "2C99A8",
-            "00C2FF",
-            "344593",
-            "6473FF",
-            "0018EC",
-            "8438FF",
-            "520085",
-            "CB38FF",
-            "FF95C8",
-            "FF37C7",
-        )
-        self.palette = [self.hex2rgb(f"#{c}") for c in hexs]
+    def __init__(self,hex_list: List[str]):
+
+        self.palette = [self.hex2rgb(f"{c}") for c in hex_list]
         self.n = len(self.palette)
 
-    def __call__(self, i, bgr=False):
+    def __call__(self, index: int, bgr=False):
         """Converts hex color codes to RGB values."""
-        c = self.palette[int(i) % self.n]
+        c = self.palette[int(index) % self.n]
         return (c[2], c[1], c[0]) if bgr else c
 
     @staticmethod
-    def hex2rgb(h):
+    def hex2rgb(h:str):
         """Converts hex color codes to RGB values (i.e. default PIL order)."""
         return tuple(int(h[1 + i : 1 + i + 2], 16) for i in (0, 2, 4))
+
+colors = generate_distinct_colors(20)
+random.seed(0)
+random.shuffle(colors)
+palette = Colors(colors)

@@ -81,13 +81,11 @@ def use_yolo_seg():
         cv2.rectangle(
             im, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), 2
         )
-        # plot masks on im,masks shape is N,H,W
-    for i, mask in enumerate(masks):
-        cv2.imshow(f"{i}", mask.astype(np.float32) * 255)
-        print(np.sum(mask))
+    # plot masks on im,masks shape is N,H,W
+    colors = [imgalz.palette(i) for i in range(len(masks))]
+    im = imgalz.draw_masks(masks,colors,im)
 
-    imgalz.cv_imshow("yolo-seg", im)
-    cv2.destroyAllWindows()
+    imgalz.cv_imshow("yolo-seg", im,size=(512,512))
 
 
 if __name__ == "__main__":
