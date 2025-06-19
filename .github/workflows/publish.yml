@@ -3,7 +3,7 @@ name: Publish to PyPI
 on:
   push:
     branches:
-      - main  # 默认分支
+      - main
 
 jobs:
   publish:

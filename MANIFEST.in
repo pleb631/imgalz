@@ -1,2 +1,1 @@
 recursive-include imgalz/cfg *.*
-include README.md

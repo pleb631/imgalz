@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # 需要获取前一个 commit 来比较版本号变化
+          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v5

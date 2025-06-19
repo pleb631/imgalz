@@ -10,9 +10,9 @@ All guidance can refer to full [imgalz docs](https://pleb631.github.io/imgalz)
 ### Installation
 
 ```bash
-pip install .
+pip install .[all]
 # or
-pip install imgalz
+pip install imgalz[all]
 ```
 
 ### example
