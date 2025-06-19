@@ -8,10 +8,10 @@ packages = { find = { where = ["."], include = ["imgalz*"] } }
 
 [project]
 name = "imgalz"
-version = "0.0.7"
+version = "0.0.7.1"
 license = { text = "MIT" }
 description = "onnx pipline"
-readme = "README.md"
+readme = "readme.md"
 requires-python = ">=3.8"
 keywords = ["onnx", "YOLOv5", "YOLOv8", "mmpose"]
 classifiers = [
