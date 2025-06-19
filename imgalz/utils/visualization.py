@@ -12,6 +12,7 @@ __all__ = [
     "imwrite",
     "cv_imshow",
     "draw_bbox",
+    "draw_keypoints",
     "compute_color_for_labels",
     "VideoReader",
 ]
@@ -324,7 +325,7 @@ def draw_keypoints(
     image_shape: tuple = None,
     radius: int = 5,
     draw_limb: bool = True,
-    conf_threshold: float = 0.5,
+    conf_threshold: float = 0.3,
 ):
     """
     Draw keypoints and skeletons on the image.

@@ -6,7 +6,7 @@ import pickle
 import yaml
 import numpy as np
 from pathlib import Path
-from typing import Union, Literal, Any, Mapping, Optional, Iterable, List
+from typing import Union, Literal, Any, Sequence, Optional, Iterable, List
 
 
 __all__ = [
@@ -22,6 +22,7 @@ __all__ = [
     "save_txt",
     "list_files",
     "read_yolo_txt",
+    "save_yolo_txt",
 ]
 
 
@@ -115,6 +116,7 @@ def read_yaml(yaml_path: Union[str, Path]) -> Any:
 
     return yaml_data
 
+
 def sanitize_for_yaml(value: Any) -> Any:
     """Recursively sanitize a Python object for YAML dumping."""
     if isinstance(value, (int, float, str, bool, type(None))):
@@ -125,6 +127,7 @@ def sanitize_for_yaml(value: Any) -> Any:
         return {str(k): sanitize_for_yaml(v) for k, v in value.items()}
     else:
         return str(value)
+
 
 def save_yaml(yaml_path: Union[str, Path], data: Any, header: str = "") -> None:
     """
@@ -308,7 +311,7 @@ def list_files(
                 yield os.path.join(root_dir, filename)
 
 
-def read_yolo_txt(txt_path: Union[str, Path], width:int, height:int):
+def read_yolo_txt(txt_path: Union[str, Path], width: int, height: int):
     """
     Read YOLO-format annotation file and convert boxes to [x1, y1, x2, y2, class_id] format.
 
@@ -348,5 +351,70 @@ def read_yolo_txt(txt_path: Union[str, Path], width:int, height:int):
     return np.array(boxes, dtype=np.float32)
 
 
+def save_yolo_txt(
+    box: np.ndarray,
+    cls: Union[np.ndarray, Sequence[int]],
+    save_path: Union[str, Path],
+    format: Literal["xywh", "xyxy"] = "xyxy",
+    is_normalized: bool = False,
+    width: Optional[int] = None,
+    height: Optional[int] = None,
+) -> None:
+    """
+    Save bounding boxes in YOLO format to a .txt file.
 
+    Args:
+        box (np.ndarray): Array of shape (N, 4), each row is either:
+                          - [x1, y1, x2, y2] if format='xyxy'
+                          - [cx, cy, w, h] if format='xywh'
+        cls (np.ndarray or list): Array/list of class IDs, shape (N,).
+        save_path (str or Path): Output path for the YOLO-format .txt file.
+        format (str): Format of input boxes: "xywh" or "xyxy".
+        input_is_normalized (bool): True if input box values are already normalized.
+        width (int, optional): Image width (required if input_is_normalized=False).
+        height (int, optional): Image height (required if input_is_normalized=False).
+    """
+    save_path = Path(save_path)
+    if np.any(box < 0):
+        raise ValueError(
+            "Boxes contain negative values while input_is_normalized=False"
+        )
+    if not is_normalized:
+        if np.all(box <= 1):
+            raise ValueError("Input boxes look normalized but is_normalized=False.")
+        if width is None or height is None:
+            raise ValueError(
+                "Image width and height must be provided if is_normalized=False"
+            )
+    else:
+        if np.any(box > 1):
+            raise ValueError(
+                "Boxes contain values outside [0, 1] range while is_normalized=True"
+            )
 
+    if len(box) != len(cls):
+        raise ValueError("box and cls must have the same length")
+
+    lines = []
+    for b, c in zip(box, cls):
+        if format == "xyxy":
+            x1, y1, x2, y2 = b
+            cx = (x1 + x2) / 2
+            cy = (y1 + y2) / 2
+            w = x2 - x1
+            h = y2 - y1
+        elif format == "xywh":
+            cx, cy, w, h = b
+        else:
+            raise ValueError("format must be either 'xyxy' or 'xywh'")
+
+        if not is_normalized:
+            cx /= width
+            cy /= height
+            w /= width
+            h /= height
+
+        line = f"{int(c)} {cx:.6f} {cy:.6f} {w:.6f} {h:.6f}"
+        lines.append(line)
+
+    save_txt(save_path, lines)

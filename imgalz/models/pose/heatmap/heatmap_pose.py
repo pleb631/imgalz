@@ -86,11 +86,11 @@ class HeatmapPose:
 
         return preds, maxvals
 
-    def detect_with_label(self, image, box_xywh, pixel_distance=False, crop_ratio=1.25):
+    def detect_with_label(self, image, box_xywh, is_normalized=False, crop_ratio=1.25):
         h0, w0, _ = image.shape
         x, y, w, h = box_xywh[:4]
         w, h = w * crop_ratio, h * crop_ratio
-        if pixel_distance:
+        if is_normalized:
             x, y, w, h = x * w0, y * h0, w * w0, h * h0
 
         xmin, ymin = round(x - w / 2), round(y - h // 2)
@@ -98,7 +98,7 @@ class HeatmapPose:
         xmin, ymin = max(xmin, 0), max(ymin, 0)
         xmax, ymax = min(w0, xmax), min(h0, ymax)
 
-        img_crop = image[ymin:ymax, xmin:xmax, :]
-        all_preds, vis = self.detect(img_crop.copy())
-
+        img_crop = image[ymin:ymax, xmin:xmax, :].copy()
+        all_preds, vis = self.detect(img_crop)
+        all_preds = all_preds[0] +np.array([[xmin, ymin,0]])
         return all_preds, vis
