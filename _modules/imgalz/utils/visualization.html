@@ -72,8 +72,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Any</span>
-
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">colorsys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_url</span><span class="p">,</span> <span class="n">url_to_image</span><span class="p">,</span> <span class="n">Cache</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -82,8 +82,10 @@
     <span class="s2">&quot;cv_imshow&quot;</span><span class="p">,</span>
     <span class="s2">&quot;draw_bbox&quot;</span><span class="p">,</span>
     <span class="s2">&quot;draw_keypoints&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;draw_masks&quot;</span><span class="p">,</span>
     <span class="s2">&quot;compute_color_for_labels&quot;</span><span class="p">,</span>
     <span class="s2">&quot;VideoReader&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;palette&quot;</span>
 <span class="p">]</span>
 
 
@@ -94,7 +96,7 @@
     <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">color_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;bgr&quot;</span><span class="p">,</span> <span class="s2">&quot;rgb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;bgr&quot;</span><span class="p">,</span>
     <span class="n">delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="n">List</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display an image in a window. Converts color if needed.</span>
@@ -112,6 +114,8 @@
         <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_RGB2BGR</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">]</span>
         <span class="n">target_w</span><span class="p">,</span> <span class="n">target_h</span> <span class="o">=</span> <span class="n">size</span>
         <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
 
@@ -439,6 +443,9 @@
 <span class="sd">        draw_limb (bool): Whether to draw connecting lines between keypoints.</span>
 <span class="sd">        conf_threshold (float): Minimum confidence to render a keypoint or limb.</span>
 
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: same shape as input image, dtype uint8.</span>
+
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; from imgalz.utils.dataset_info import CocoConfig</span>
 <span class="sd">        &gt;&gt;&gt; import numpy as np</span>
@@ -455,6 +462,7 @@
     <span class="k">if</span> <span class="n">image_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">image_shape</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
 
+    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">nkpt</span> <span class="o">=</span> <span class="n">keypoints</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nkpt</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">keypoints</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="mi">2</span><span class="p">]</span>
@@ -481,8 +489,73 @@
             <span class="n">color</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">limb_color</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">limb_color</span><span class="p">)])</span>
             <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
                 <span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y1</span><span class="p">)),</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y2</span><span class="p">)),</span> <span class="n">color</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">LINE_AA</span>
-            <span class="p">)</span></div>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">image</span></div>
 
+
+<div class="viewcode-block" id="draw_masks">
+<a class="viewcode-back" href="../../../imgalz.utils.html#imgalz.utils.visualization.draw_masks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_masks</span><span class="p">(</span><span class="n">masks</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overlay multiple binary masks onto an image with given colors and alpha blending.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        masks (np.ndarray): Boolean or float masks of shape (N, H, W), each mask is in [0, 1] or {0, 1}.</span>
+<span class="sd">        colors (np.ndarray|list): RGB colors of shape (N, 3), each color is [R, G, B] in [0, 255].</span>
+<span class="sd">        image (np.ndarray): Original image of shape (H, W, 3), dtype uint8, values in [0, 255].</span>
+<span class="sd">        alpha (float, optional): Opacity of each mask, between 0 (transparent) and 1 (opaque). Default is 0.5.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: Image with masks overlaid, same shape as input image, dtype uint8.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; output = draw_masks(masks, colors, image, alpha=0.5)</span>
+<span class="sd">        &gt;&gt;&gt; cv2.imshow(&quot;Masked&quot;, output)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+    
+    <span class="k">assert</span> <span class="n">masks</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Masks must be of shape (N, H, W)&quot;</span>
+    <span class="k">assert</span> <span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">masks</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Each mask must have a corresponding color&quot;</span>
+    <span class="k">assert</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Image must be HxWx3&quot;</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>  <span class="c1"># convert for float ops</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># (N, 1, 1, 3)</span>
+    <span class="n">masks</span> <span class="o">=</span> <span class="n">masks</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>  <span class="c1"># (N, H, W, 1)</span>
+
+    <span class="n">colored_masks</span> <span class="o">=</span> <span class="n">masks</span> <span class="o">*</span> <span class="p">(</span><span class="n">colors</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span>  <span class="c1"># (N, H, W, 3)</span>
+
+    <span class="n">inv_alpha_masks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">masks</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (N, H, W, 1)</span>
+
+    <span class="n">merged_masks</span> <span class="o">=</span> <span class="n">colored_masks</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (H, W, 3)</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="o">*</span> <span class="n">inv_alpha_masks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">merged_masks</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_distinct_colors</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate n visually distinct hex colors using HCL-like HSV sampling.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n (int): Number of distinct colors.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[str]: List of hex color strings, e.g. [&quot;#FF0000&quot;, &quot;#00FF00&quot;, ...]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">hue</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="n">lightness</span> <span class="o">=</span> <span class="mf">0.6</span>
+        <span class="n">saturation</span> <span class="o">=</span> <span class="mf">0.8</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">hls_to_rgb</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="n">lightness</span><span class="p">,</span> <span class="n">saturation</span><span class="p">)</span>
+        <span class="n">hex_color</span> <span class="o">=</span> <span class="s2">&quot;#</span><span class="si">{:02X}{:02X}{:02X}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">g</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="mi">255</span><span class="p">))</span>
+        <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hex_color</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">colors</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Colors</span><span class="p">:</span>
@@ -490,45 +563,27 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        palette (list of tuple): List of RGB color values.</span>
 <span class="sd">        n (int): The number of colors in the palette.</span>
-<span class="sd">        pose_palette (np.array): A specific color palette array with dtype np.uint8.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize colors as hex = matplotlib.colors.TABLEAU_COLORS.values().&quot;&quot;&quot;</span>
-        <span class="n">hexs</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;FF3838&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FF9D97&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FF701F&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FFB21D&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;CFD231&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;48F90A&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;92CC17&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;3DDB86&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;1A9334&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;00D4BB&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;2C99A8&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;00C2FF&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;344593&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;6473FF&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;0018EC&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;8438FF&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;520085&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;CB38FF&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FF95C8&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FF37C7&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">palette</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">hex2rgb</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hexs</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">hex_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">palette</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">hex2rgb</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hex_list</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">palette</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">bgr</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bgr</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts hex color codes to RGB values.&quot;&quot;&quot;</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">palette</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">palette</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">bgr</span> <span class="k">else</span> <span class="n">c</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">hex2rgb</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hex2rgb</span><span class="p">(</span><span class="n">h</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts hex color codes to RGB values (i.e. default PIL order).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span> <span class="o">+</span> <span class="n">i</span> <span class="p">:</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="n">generate_distinct_colors</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+<span class="n">palette</span> <span class="o">=</span> <span class="n">Colors</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
 </pre></div>
 
            </div>
