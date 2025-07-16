@@ -48,7 +48,7 @@ def is_url(url: str, check: bool = False) -> bool:
         return False
 
 
-def url_to_image(url: str, readFlag: int = cv2.IMREAD_COLOR) -> Optional[np.ndarray]:
+def url_to_image(url: str, readFlag: int = cv2.IMREAD_COLOR,headers=None) -> Optional[np.ndarray]:
     """
     Download an image from a URL and decode it into an OpenCV image.
 
@@ -60,8 +60,12 @@ def url_to_image(url: str, readFlag: int = cv2.IMREAD_COLOR) -> Optional[np.ndar
     Returns:
         Optional[np.ndarray]: Decoded image as a numpy array if successful, else None.
     """
+    if headers is None:
+        headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url,headers=headers, timeout=10)
         response.raise_for_status()
         image_array = np.frombuffer(response.content, dtype=np.uint8)
         image = cv2.imdecode(image_array, readFlag)
