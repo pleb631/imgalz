@@ -33,7 +33,7 @@ classifiers = [
     "Operating System :: MacOS",
     "Operating System :: Microsoft :: Windows",
 ]
-dependencies = ["opencv-python>=4.6.0", "numpy>=1.22.2", "imagehash", "pillow"]
+dependencies = ["opencv-python>=4.6.0", "numpy>=1.22.2", "imagehash", "pillow","requests","huggingface_hub"]
 
 [project.optional-dependencies]
 
@@ -52,7 +52,6 @@ docs = [
     "sphinx-rtd-theme",
     "onnxruntime-gpu",
     # "onnxruntime"
-    "huggingface_hub",
     "norfair",
     "Motpy",
     "lap",
