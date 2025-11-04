@@ -47,11 +47,11 @@
 <li class="toctree-l3"><a class="reference internal" href="imgalz.models.pose.html">imgalz.models.pose package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">imgalz.models.tracker</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.tracker.byte_track.byte_track">imgalz.models.tracker.bytetracker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.tracker.nor_fair.norfair">imgalz.models.tracker.norfair</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.tracker.motpy.motpy">imgalz.models.tracker.motpy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.tracker.oc_sort.ocsort">imgalz.models.tracker.oc_sort</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-imgalz.models.tracker">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz-models-tracker-bytetracker">imgalz.models.tracker.bytetracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz-models-tracker-norfair">imgalz.models.tracker.norfair</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz-models-tracker-motpy">imgalz.models.tracker.motpy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imgalz-models-tracker-oc-sort">imgalz.models.tracker.oc_sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -91,64 +91,20 @@
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-imgalz.models.tracker.byte_track.byte_track">
-<span id="imgalz-models-tracker-bytetracker"></span><h2>imgalz.models.tracker.bytetracker<a class="headerlink" href="#module-imgalz.models.tracker.byte_track.byte_track" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="imgalz.models.tracker.byte_track.byte_track.ByteTrack">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.tracker.byte_track.byte_track.</span></span><span class="sig-name descname"><span class="pre">ByteTrack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_box_area</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_ratio_thresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/tracker/byte_track/byte_track.html#ByteTrack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.tracker.byte_track.byte_track.ByteTrack" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.models.tracker.byte_track.byte_track.ByteTrack.track">
-<span class="sig-name descname"><span class="pre">track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bgr_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dets_xyxy</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/imgalz/models/tracker/byte_track/byte_track.html#ByteTrack.track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.tracker.byte_track.byte_track.ByteTrack.track" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<section id="imgalz-models-tracker-bytetracker">
+<h2>imgalz.models.tracker.bytetracker<a class="headerlink" href="#imgalz-models-tracker-bytetracker" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-imgalz.models.tracker.nor_fair.norfair">
-<span id="imgalz-models-tracker-norfair"></span><h2>imgalz.models.tracker.norfair<a class="headerlink" href="#module-imgalz.models.tracker.nor_fair.norfair" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="imgalz.models.tracker.nor_fair.norfair.NorFair">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.tracker.nor_fair.norfair.</span></span><span class="sig-name descname"><span class="pre">NorFair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_distance_between_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/tracker/nor_fair/norfair.html#NorFair"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.tracker.nor_fair.norfair.NorFair" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.models.tracker.nor_fair.norfair.NorFair.track">
-<span class="sig-name descname"><span class="pre">track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bgr_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dets_xyxy</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/imgalz/models/tracker/nor_fair/norfair.html#NorFair.track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.tracker.nor_fair.norfair.NorFair.track" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<section id="imgalz-models-tracker-norfair">
+<h2>imgalz.models.tracker.norfair<a class="headerlink" href="#imgalz-models-tracker-norfair" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-imgalz.models.tracker.motpy.motpy">
-<span id="imgalz-models-tracker-motpy"></span><h2>imgalz.models.tracker.motpy<a class="headerlink" href="#module-imgalz.models.tracker.motpy.motpy" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="imgalz.models.tracker.motpy.motpy.Motpy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.tracker.motpy.motpy.</span></span><span class="sig-name descname"><span class="pre">Motpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/imgalz/models/tracker/motpy/motpy.html#Motpy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.tracker.motpy.motpy.Motpy" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.models.tracker.motpy.motpy.Motpy.track">
-<span class="sig-name descname"><span class="pre">track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bgr_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dets_xyxy</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/imgalz/models/tracker/motpy/motpy.html#Motpy.track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.tracker.motpy.motpy.Motpy.track" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<section id="imgalz-models-tracker-motpy">
+<h2>imgalz.models.tracker.motpy<a class="headerlink" href="#imgalz-models-tracker-motpy" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-imgalz.models.tracker.oc_sort.ocsort">
-<span id="imgalz-models-tracker-oc-sort"></span><h2>imgalz.models.tracker.oc_sort<a class="headerlink" href="#module-imgalz.models.tracker.oc_sort.ocsort" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="imgalz.models.tracker.oc_sort.ocsort.OcSort">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">imgalz.models.tracker.oc_sort.ocsort.</span></span><span class="sig-name descname"><span class="pre">OcSort</span></span><a class="reference internal" href="_modules/imgalz/models/tracker/oc_sort/ocsort.html#OcSort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.tracker.oc_sort.ocsort.OcSort" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="imgalz.models.tracker.oc_sort.ocsort.OcSort.track">
-<span class="sig-name descname"><span class="pre">track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bgr_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dets_xyxy</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/imgalz/models/tracker/oc_sort/ocsort.html#OcSort.track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#imgalz.models.tracker.oc_sort.ocsort.OcSort.track" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<section id="imgalz-models-tracker-oc-sort">
+<h2>imgalz.models.tracker.oc_sort<a class="headerlink" href="#imgalz-models-tracker-oc-sort" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-imgalz.models.tracker">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-imgalz.models.tracker" title="Link to this heading">¶</a></h2>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
