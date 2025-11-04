@@ -1,23 +1,22 @@
 import cv2
 import numpy as np
-import os
+
 from pathlib import Path
 import requests
 from urllib import parse, request
 from PIL import Image
 from typing import Union, Optional, Any
 from collections import OrderedDict
-import json
-import inspect
-from functools import wraps
-from huggingface_hub import hf_hub_download
-
-
+from multiprocessing import Pool, Manager
+from tqdm import tqdm
 
 __all__ = [
     "is_url",
     "url_to_image",
     "is_valid_image",
+    "numpy_to_pillow",
+    "pillow_to_numpy",
+    "parallel_process",
 ]
 
 
@@ -48,7 +47,9 @@ def is_url(url: str, check: bool = False) -> bool:
         return False
 
 
-def url_to_image(url: str, readFlag: int = cv2.IMREAD_COLOR,headers=None) -> Optional[np.ndarray]:
+def url_to_image(
+    url: str, readFlag: int = cv2.IMREAD_COLOR, headers=None
+) -> Optional[np.ndarray]:
     """
     Download an image from a URL and decode it into an OpenCV image.
 
@@ -62,10 +63,10 @@ def url_to_image(url: str, readFlag: int = cv2.IMREAD_COLOR,headers=None) -> Opt
     """
     if headers is None:
         headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
     try:
-        response = requests.get(url,headers=headers, timeout=10)
+        response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         image_array = np.frombuffer(response.content, dtype=np.uint8)
         image = cv2.imdecode(image_array, readFlag)
@@ -76,6 +77,7 @@ def url_to_image(url: str, readFlag: int = cv2.IMREAD_COLOR,headers=None) -> Opt
     except Exception as e:
         print(f"Image decode failed: {e}")
         return None
+
 
 def is_valid_image(path: Union[str, Path]) -> bool:
     """
@@ -116,52 +118,56 @@ class Cache:
         return self._cache.get(key, default)
 
 
-def auto_download(category, local_cache_dir="./ckpt"):
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            mapping_json_path = os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "../cfg/mapping.json")
-            )
+def pillow_to_numpy(img):
+    img_numpy = np.asarray(img)
+    if not img_numpy.flags.writeable:
+        img_numpy = np.array(img)
+    return img_numpy
 
-            sig = inspect.signature(func)
-            bound_args = sig.bind(*args, **kwargs)
-            bound_args.apply_defaults()
 
-            model_key = bound_args.arguments.get("model_path")
-            if model_key is None:
-                raise ValueError("model_path is not provided")
+def numpy_to_pillow(img, mode=None):
+    return Image.fromarray(img, mode=mode)
 
-            if os.path.exists(model_key):
-                return func(*args, **kwargs)
-            model_key = Path(model_key).stem
 
-            with open(mapping_json_path, "r", encoding="utf-8") as f:
-                mapping = json.load(f).get(category, {})
 
-            if model_key not in mapping:
-                raise ValueError(
-                    f"model key '{model_key}' is not found in the mapping of {category}"
-                )
+def _process_wrapper(args):
+    func, item, lock, results, store = args
+    result = func(item)
+    if store:
+        with lock:
+            results.append(result)
+    return result
 
-            hf_info = mapping[model_key]
-            repo_id = hf_info["repo_id"]
-            filename = hf_info["filename"]
+def parallel_process(func, data, num_workers=4, store_results=True):
+    """
+    General-purpose function for parallel processing using multiple processes.
 
-            os.makedirs(local_cache_dir, exist_ok=True)
+    Args:
+        func (Callable): The function to execute in parallel.
+        data (Iterable): An iterable of input items, each of which will be passed to `func`.
+        num_workers (int, optional): The number of worker processes to use. Defaults to 4.
+        store_results (bool, optional): Whether to store results in a shared list. 
+            If False, results are not saved. Defaults to True.
 
-            local_path = os.path.join(local_cache_dir, filename)
-            if not os.path.exists(local_path):
-                print(f"Downloading {filename} from {repo_id}...")
-                hf_hub_download(
-                    repo_id=repo_id, filename=filename, local_dir=local_cache_dir
-                )
-            else:
-                print(f"Found existing model file: {local_path}")
+    Returns:
+        Tuple[List[Any] | None, float]: 
+            - results: A list containing the results of all tasks if `store_results` is True; otherwise, None.
+            - duration: Total execution time in seconds.
 
-            bound_args.arguments["model_path"] = local_path
-            return func(*bound_args.args, **bound_args.kwargs)
+    Raises:
+        None: All exceptions are caught internally; errors in child processes do not interrupt the main process.
+    """
+    if not callable(func):
+        raise TypeError("func must be a callable function.")
 
-        return wrapper
 
-    return decorator
+    manager = Manager()
+    results = manager.list() if store_results else None
+    lock = manager.Lock()
+
+    with Pool(processes=num_workers) as pool:
+        args_iter = [(func, item, lock, results, store_results) for item in data]
+        for _ in tqdm(pool.imap_unordered(_process_wrapper, args_iter), total=len(data)):
+            pass
+
+    return list(results) if store_results else None

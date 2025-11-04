@@ -2,7 +2,7 @@ import onnxruntime
 import numpy as np
 import cv2
 
-from imgalz.utils.common import auto_download
+from imgalz.models.utils import auto_download
 
 from .utils import keypoints_from_heatmaps, vis_pose_result
 

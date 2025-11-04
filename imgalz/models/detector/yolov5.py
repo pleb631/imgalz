@@ -2,7 +2,7 @@ import cv2
 import onnxruntime
 import numpy as np
 import math
-from imgalz.utils.common import auto_download
+from imgalz.models.utils import auto_download
 from imgalz import nms, xywh2xyxy
 
 __all__ = ["YOLOv5"]
