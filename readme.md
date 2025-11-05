@@ -1,4 +1,4 @@
-# imgalz: A Modular Library for Image Analysis by onnx
+# imgalz: A Modular Library for Simple Image Analysis
 
 ![img](https://cdn.jsdelivr.net/gh/pleb631/ImgManager@main/img/2024-01-24-14-31-32.png)
 
@@ -15,7 +15,31 @@ pip install .[all]
 pip install imgalz[all]
 ```
 
-### example
+### util example
+
+```python
+# Filter and retain images based on hash similarity, then copy selected images to a target directory.
+from imgalz import ImageFilter, save_pkl
+
+f = ImageFilter(hash='ahash')
+
+# Parameters:
+#   "/src/to/"       : Source directory containing images
+#   threshold=5      : Hash similarity threshold (5 means similar but not identical)
+#   recursive=True   : Whether to process images in subdirectories
+#   bucket_bit='auto': Hash bucket grouping strategy (auto selects optimal)
+# Returns 'keep', a list of image paths to retain
+keep = f.run("/src/to/", threshold=5, recursive=True, bucket_bit='auto')
+
+# Save the retained image paths to a pickle file
+save_pkl("keep.pkl", keep)
+
+# Copy the retained images to the target directory
+ImageFilter.copy_images(keep, "/src/to/", "/save/to", True)
+
+```
+
+### model example
 
 ```python
 import cv2
@@ -63,9 +87,7 @@ You can refer to the specific usage by [demo](https://github.com/pleb631/imgalz/
 
 ## todo
 
-- add mmpose inference code
 - add more tool for image processing
-- add more tracker and refact code
 
 ## Weights
 

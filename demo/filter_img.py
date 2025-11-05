@@ -6,11 +6,6 @@ def func1(image):
     # crop
     image = img_numpy[500:900, 1000:1700, :]
     return numpy_to_pillow(image)
-def func2(i):
-        print(i)
-        import time
-        time.sleep(1)
-        return 0
 
 if __name__ == "__main__":
     f = ImageFilter()
