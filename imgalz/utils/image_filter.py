@@ -7,9 +7,8 @@ from PIL import Image
 import numpy as np
 import imagehash
 import os
-from typing import Union
+from typing import Union,Literal
 from collections import defaultdict
-from typing import Literal, Optional
 import math
 
 try:
@@ -27,10 +26,9 @@ __all__ = ["ImageFilter", "ImageHasher"]
 
 
 class ImageHasher:
-    def __init__(self, method="ahash", num_perm=128, hash_size=8,perprocess=None):
+    def __init__(self, method="ahash", num_perm=128, perprocess=None):
         self.method = method.lower()
         self.num_perm = num_perm
-        self.hash_size = hash_size
         self.perprocess = []
         if perprocess is not None:
             if callable(perprocess):
@@ -49,13 +47,13 @@ class ImageHasher:
         for p in self.perprocess:
             image = p(image)
         if self.method == "ahash":
-            return int(str(imagehash.average_hash(image, self.hash_size)), 16)
+            return int(str(imagehash.average_hash(image)), 16)
         elif self.method == "phash":
-            return int(str(imagehash.phash(image, self.hash_size)), 16)
+            return int(str(imagehash.phash(image)), 16)
         elif self.method == "dhash":
-            return int(str(imagehash.dhash(image, self.hash_size)), 16)
+            return int(str(imagehash.dhash(image)), 16)
         elif self.method == "whash":
-            return int(str(imagehash.whash(image, self.hash_size)), 16)
+            return int(str(imagehash.whash(image)), 16)
         elif self.method == "minhash":
             return self._minhash(image)
         else:
@@ -72,62 +70,30 @@ class ImageHasher:
                 m.update(str(i).encode("utf-8"))
         return m
 
-def hamming_distance_matrix(batch_hashes, single_hash):
-    """
-    Compute Hamming distances between a single hash and a batch of hashes.
-    Supports arbitrary-length integer hashes.
-    """
 
-    max_bits = max(max(batch_hashes).bit_length(), single_hash.bit_length())
-    n_bytes = (max_bits + 7) // 8
+def _hamming(h1, h2):
+    return bin(h1 ^ h2).count("1")
 
-    batch_bytes = np.array([np.frombuffer(h.to_bytes(n_bytes, 'big'), dtype=np.uint8) for h in batch_hashes], dtype=np.uint8)
-    single_bytes = np.frombuffer(single_hash.to_bytes(n_bytes, 'big'), dtype=np.uint8)
 
-    xor = batch_bytes ^ single_bytes
-    dist = np.unpackbits(xor, axis=1).sum(axis=1)
-    return dist
-
-def filter_hash(image_hashes, show_progress, threshold, window: Optional[int] = 1000):
-    paths = [p for p, _ in image_hashes]
-    hashes = [h for _, h in image_hashes]
-
-    n = len(paths)
-    if window is None or window > n:
-        window = n
-
+def filter_hash(image_hashes, show_progress, threshold):
     removed = set()
     keep = []
-
-    range_iter = (
-        tqdm(range(n), desc="Filtering similar images...", leave=False)
+    for i, (p1, h1) in enumerate(
+        tqdm(image_hashes, desc="Filtering similar images...",leave=False)
         if show_progress
-        else range(n)
-    )
-
-    for i in range_iter:
-        if paths[i] in removed:
+        else image_hashes
+    ):
+        if p1 in removed:
             continue
-        keep.append(paths[i])
-        j = i + 1
-        batch_hashes = []
-        batch_paths = []
-        while j < n:
-            while len(batch_hashes) < window and j < n:
-
-                if paths[j] not in removed:
-                    batch_paths.append(paths[j])
-                    batch_hashes.append(hashes[j])
-                j += 1
-
-            if len(batch_paths) > 0:
-                hamming_distances = hamming_distance_matrix(batch_hashes, hashes[i])
-                for k, d in zip(batch_paths, hamming_distances):
-                    if d <= threshold:
-                        removed.add(k)
-            batch_hashes.clear()
-            batch_paths.clear()
-
+        for j in range(i + 1, len(image_hashes)):
+            p2, h2 = image_hashes[j]
+            
+            
+            if p2 in removed:
+                continue
+            if _hamming(h1, h2) <= threshold:
+                removed.add(p2)
+        keep.append(p1)
     return keep
 
 
@@ -149,8 +115,19 @@ class ImageFilter:
         max_workers (int):
             Maximum number of threads for parallel image hashing.
 
-        window (int, optional):
-            Number of images processed in each batch window.
+        src_dir (Union[str, Path]): Path to the directory containing input images to be filtered.
+        save_dir (Union[str, Path]): Path where filtered
+        threshold (float): Similarity threshold to determine duplicates.
+            For non-Minhash methods, this is a Hamming distance threshold.
+        bucket_bit (Union[int, Literal["auto"], None]): Number of high-order bits of the image hash used for LSH bucketing.This balances memory usage, computation, and recall without manual tuning.
+            - None: Disable bucket-based filtering; all images will be compared in a single group.
+            - int: Manually specify the number of bits to use for bucketing. Smaller values create fewer, larger buckets 
+            (more comparisons, higher recall), while larger values create more, smaller buckets (fewer comparisons, 
+            potential misses).
+            - "auto": Automatically determine an appropriate number of bucket bits based on the number of images to be filtered.
+        show_progress (bool): Whether to display a progress bar during processing.
+            
+
 
     Example:
 
@@ -163,9 +140,7 @@ class ImageFilter:
 
     hash_exts = (".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tiff", ".gif")
 
-    def __init__(
-        self, hash: Union[ImageHasher, str] = "ahash", max_workers=4, window=None
-    ):
+    def __init__(self, hash: Union[ImageHasher, str] = "ahash", max_workers=4):
         if isinstance(hash, str):
             self.hasher = ImageHasher(method=hash)
         elif isinstance(hash, ImageHasher):
@@ -180,8 +155,6 @@ class ImageFilter:
                     "MinHash mode requires the datasketch library. Please install it with: pip install datasketch"
                 )
             self.lsh = MinHashLSH(threshold=0.8, num_perm=self.hasher.num_perm)
-
-        self.window = window
 
     def compute_hashes(self, image_paths: list, show_progress=False):
         valid_paths = [p for p in image_paths if is_valid_image(p)]
@@ -210,7 +183,6 @@ class ImageFilter:
         threshold: float = 5,
         show_progress=False,
         bucket_bit: Union[int, Literal["auto"], None] = None,
-        window: Optional[int] = None,
     ):
         keep = []
         removed = set()
@@ -228,7 +200,7 @@ class ImageFilter:
                 keep.append(path)
         else:
             if bucket_bit is None:
-                keep = filter_hash(image_hashes, show_progress, threshold, window)
+                keep = filter_hash(image_hashes, show_progress, threshold)
             else:
                 if bucket_bit == "auto":
                     bucket_bit = min(16, max(8, int(math.log2(len(image_hashes))) - 4))
@@ -241,7 +213,7 @@ class ImageFilter:
                     if show_progress
                     else buckets.items()
                 ):
-                    keep.extend(filter_hash(items, show_progress, threshold, window))
+                    keep.extend(filter_hash(items, show_progress, threshold))
 
         return keep
 
@@ -301,7 +273,6 @@ class ImageFilter:
             threshold=threshold,
             show_progress=show_progress,
             bucket_bit=bucket_bit,
-            window=self.window,
         )
 
         return keep
