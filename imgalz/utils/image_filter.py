@@ -8,7 +8,9 @@ import numpy as np
 import imagehash
 import os
 from typing import Union
-
+from collections import defaultdict
+from typing import Literal
+import math
 
 try:
     from datasketch import MinHash, MinHashLSH
@@ -70,6 +72,32 @@ class ImageHasher:
         return m
 
 
+def _hamming(h1, h2):
+    return bin(h1 ^ h2).count("1")
+
+
+def filter_hash(image_hashes, show_progress, threshold):
+    removed = set()
+    keep = []
+    for i, (p1, h1) in enumerate(
+        tqdm(image_hashes, desc="Filtering similar images...",leave=False)
+        if show_progress
+        else image_hashes
+    ):
+        if p1 in removed:
+            continue
+        for j in range(i + 1, len(image_hashes)):
+            p2, h2 = image_hashes[j]
+            
+            
+            if p2 in removed:
+                continue
+            if _hamming(h1, h2) <= threshold:
+                removed.add(p2)
+        keep.append(p1)
+    return keep
+
+
 class ImageFilter:
     """
     A utility class for detecting and filtering duplicate or similar images
@@ -87,8 +115,16 @@ class ImageFilter:
 
         src_dir (Union[str, Path]): Path to the directory containing input images to be filtered.
         save_dir (Union[str, Path]): Path where filtered
-        threshold (int): Similarity threshold to determine duplicates.
+        threshold (float): Similarity threshold to determine duplicates.
             For non-Minhash methods, this is a Hamming distance threshold.
+        bucket_bit (Union[int, Literal["auto"], None]): Number of high-order bits of the image hash used for LSH bucketing.This balances memory usage, computation, and recall without manual tuning.
+            - None: Disable bucket-based filtering; all images will be compared in a single group.
+            - int: Manually specify the number of bits to use for bucketing. Smaller values create fewer, larger buckets 
+            (more comparisons, higher recall), while larger values create more, smaller buckets (fewer comparisons, 
+            potential misses).
+            - "auto": Automatically determine an appropriate number of bucket bits based on the number of images to be filtered.
+        show_progress (bool): Whether to display a progress bar during processing.
+            
 
 
     Example:
@@ -142,14 +178,17 @@ class ImageFilter:
 
         return image_hashes
 
-    def _hamming(self, h1, h2):
-        return bin(h1 ^ h2).count("1")
-
     def _build_lsh_index(self):
         for path, h in tqdm(self.image_hashes, desc="Building LSH index..."):
             self.lsh.insert(path, h)
 
-    def filter_similar(self, image_hashes, threshold=5, show_progress=False):
+    def filter_similar(
+        self,
+        image_hashes: list,
+        threshold: float = 5,
+        show_progress=False,
+        bucket_bit: Union[int, Literal["auto"], None] = None,
+    ):
         keep = []
         removed = set()
 
@@ -165,35 +204,52 @@ class ImageFilter:
                 removed.update(near_dups)
                 keep.append(path)
         else:
-            for i, (p1, h1) in enumerate(
-                tqdm(image_hashes, desc="Filtering similar images...")
-                if show_progress
-                else image_hashes
-            ):
-                if p1 in removed:
-                    continue
-                for j in range(i + 1, len(image_hashes)):
-                    p2, h2 = image_hashes[j]
-                    if p2 in removed:
-                        continue
-                    if self._hamming(h1, h2) <= threshold:
-                        removed.add(p2)
-                keep.append(p1)
+            if bucket_bit is None:
+                keep = filter_hash(image_hashes, show_progress, threshold)
+            else:
+                if bucket_bit == "auto":
+                    bucket_bit = min(16, max(8, int(math.log2(len(image_hashes))) - 4))
+                buckets = defaultdict(list)
+                for path, h in image_hashes:
+                    bucket_key = h >> (64 - bucket_bit)
+                    buckets[bucket_key].append((path, h))
+                for _, items in (
+                    tqdm(buckets.items(), desc="Filtering buckets...")
+                    if show_progress
+                    else buckets.items()
+                ):
+                    keep.extend(filter_hash(items, show_progress, threshold))
 
         return keep
 
     @staticmethod
     def copy_images(
-        keep_paths: list, image_dir: Path, save_dir: Path, show_progress=False
+        keep_paths: list,
+        image_dir: Path,
+        save_dir: Path,
+        show_progress=False,
+        max_workers=8,
     ):
         image_dir = Path(image_dir)
         save_dir = Path(save_dir)
-        if show_progress:
-            keep_paths = tqdm(keep_paths, desc="Copying images...")
-        for path in keep_paths:
+
+        def copy_file(path):
             target_path = save_dir / Path(path).relative_to(image_dir)
             target_path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(path, target_path)
+            return 0
+
+        if show_progress:
+            for _ in tqdm(
+                ThreadPoolExecutor(max_workers=max_workers).map(copy_file, keep_paths),
+                total=len(keep_paths),
+                desc="Copying files...",
+            ):
+                pass
+
+        else:
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                executor.map(copy_file, keep_paths)
 
     @staticmethod
     def get_img_paths(src_dir, recursive=True):
@@ -205,13 +261,23 @@ class ImageFilter:
             image_paths.extend(glob.glob(src_pattern, recursive=recursive))
         return image_paths
 
-    def run(self, src_dir, threshold=5, recursive=True, show_progress=True):
+    def run(
+        self,
+        src_dir: str,
+        threshold=5,
+        recursive=True,
+        bucket_bit: Union[int, Literal["auto"], None] = None,
+        show_progress=True,
+    ):
         image_paths = self.get_img_paths(src_dir, recursive)
 
         image_hashes = self.compute_hashes(image_paths, show_progress=show_progress)
 
         keep = self.filter_similar(
-            image_hashes, threshold=threshold, show_progress=show_progress
+            image_hashes,
+            threshold=threshold,
+            show_progress=show_progress,
+            bucket_bit=bucket_bit,
         )
 
         return keep
