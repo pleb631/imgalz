@@ -2,7 +2,7 @@ imgalz.utils
 ====================
 
 imgalz.utils.box_ops
--------------------
+----------------------------------------------------
 
 .. automodule:: imgalz.utils.box_ops
    :members:
@@ -10,7 +10,7 @@ imgalz.utils.box_ops
    :undoc-members:
 
 imgalz.utils.common
--------------------
+----------------------------------------------------
 
 .. automodule:: imgalz.utils.common
    :members:
@@ -18,7 +18,7 @@ imgalz.utils.common
    :undoc-members:
 
 imgalz.utils.file_utils
-----------------------
+-------------------------------------------------------
 
 .. automodule:: imgalz.utils.file_utils
    :members:
@@ -26,7 +26,7 @@ imgalz.utils.file_utils
    :undoc-members:
 
 imgalz.utils.visualization
---------------------------
+-----------------------------------------------------------
 
 .. automodule:: imgalz.utils.visualization
    :members:
@@ -34,7 +34,7 @@ imgalz.utils.visualization
    :undoc-members:
 
 imgalz.utils.image_filter
--------------------------
+----------------------------------------------------------
 
 .. automodule:: imgalz.utils.image_filter
    :members:
@@ -42,7 +42,7 @@ imgalz.utils.image_filter
    :undoc-members:
 
 imgalz.utils.dataset_info
--------------------------
+-------------------------------------------------------
 
 .. automodule:: imgalz.utils.dataset_info
    :members:
