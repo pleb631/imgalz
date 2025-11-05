@@ -134,46 +134,31 @@ def filter_hash(image_hashes, show_progress, threshold, window: Optional[int] = 
 class ImageFilter:
     """
     A utility class for detecting and filtering duplicate or similar images
-    based on perceptual or MinHash-based hashing.
+    using perceptual or MinHash-based hashing.
 
     Args:
-        hash (str)|ImageHasher: Hashing method to use. Supported options are:
+        hash (:class:`str` or :class:`ImageHasher`):
+            Hashing method to use. Supported options:
+
             - 'ahash': Average Hash
             - 'phash': Perceptual Hash
             - 'dhash': Difference Hash
             - 'whash': Wavelet Hash
             - 'minhash': MinHash (for scalable set similarity)
 
-        max_workers (int): Maximum number of threads for parallel image hashing.
+        max_workers (int):
+            Maximum number of threads for parallel image hashing.
 
-        src_dir (Union[str, Path]): Path to the directory containing input images to be filtered.
-        save_dir (Union[str, Path]): Path where filtered
-        threshold (float): Similarity threshold to determine duplicates.
-            For non-Minhash methods, this is a Hamming distance threshold.
-        bucket_bit (Union[int, Literal["auto"], None]): Number of high-order bits of the image hash used for LSH bucketing.This balances memory usage, computation, and recall without manual tuning.
-            - None: Disable bucket-based filtering; all images will be compared in a single group.
-            - int: Manually specify the number of bits to use for bucketing. Smaller values create fewer, larger buckets
-            (more comparisons, higher recall), while larger values create more, smaller buckets (fewer comparisons,
-            potential misses).
-            - "auto": Automatically determine an appropriate number of bucket bits based on the number of images to be filtered.
-        show_progress (bool): Whether to display a progress bar during processing.
-
-
+        window (int, optional):
+            Number of images processed in each batch window.
 
     Example:
-        ```python
-        from imgalz import ImageFilter
 
+        .. code-block:: python
 
-        deduper = ImageFilter(
-            hash="ahash",
-            max_workers=8
-        )
-        keep = deduper.run(src_dir="/path/to/src",
-            save_dir="/path/to/dst",
-            threshold=5)
-        deduper.copy_images(keep, src_dir, save_dir)
-        ```
+            from imgalz import ImageFilter
+            deduper = ImageFilter(hash="ahash", max_workers=8)
+            keep = deduper.run(src_dir="/path/to/src", threshold=5)
     """
 
     hash_exts = (".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tiff", ".gif")
