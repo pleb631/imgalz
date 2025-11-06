@@ -11,6 +11,7 @@ from typing import Union, Literal
 from collections import defaultdict
 import math
 import random
+from functools import lru_cache
 
 try:
     from datasketch import MinHash, MinHashLSH
@@ -79,9 +80,14 @@ class ImageHasher:
     def method(self):
         return self._method
 
-
+@lru_cache(maxsize=100_000)
+def _compute(h1, h2):
+        return bin(h1 ^ h2).count("1")
 def _hamming(h1, h2):
-    return bin(h1 ^ h2).count("1")
+    if h1>h2:
+        h1, h2 = h2, h1
+
+    return _compute(h1, h2)
 
 
 def _filter_similar_hashes(image_hashes, show_progress, max_distance, similarity_func):
