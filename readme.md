@@ -36,7 +36,7 @@ keep = f.run("/src/to/", threshold=5, recursive=True, bucket_bit='auto',n_tables
 save_pkl("keep.pkl", keep)
 
 # Copy the retained images to the target directory
-ImageFilter.copy_images(keep, "/src/to/", "/save/to", True)
+ImageFilter.copy_files(keep, "/src/to/", "/save/to", True)
 
 ```
 
