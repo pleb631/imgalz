@@ -9,8 +9,10 @@ def func1(image):
 
 if __name__ == "__main__":
     f = ImageFilter()
+    hash = ImageHasher()
     # hash = ImageHasher(perprocess=func1)
-    # f = ImageFilter(hash=hash)
+    hash._hash_size = 8
+    f = ImageFilter(hash=hash)
 
-    keep = f.run("./test_images", 1, True)
-    ImageFilter.copy_images(keep, "./test_images", "./save_dir", True)
+    keep = f.run("./test_images", 1, True,bucket_bit=None)
+    ImageFilter.copy_files(keep, "./test_images", "./save_dir", True)

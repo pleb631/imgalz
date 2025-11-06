@@ -28,8 +28,9 @@ f = ImageFilter(hash='ahash')
 #   threshold=5      : Hash similarity threshold (5 means similar but not identical)
 #   recursive=True   : Whether to process images in subdirectories
 #   bucket_bit='auto': Hash bucket grouping strategy (auto selects optimal)
+#   n_tables=2       : Number of hash tables to use for filtering
 # Returns 'keep', a list of image paths to retain
-keep = f.run("/src/to/", threshold=5, recursive=True, bucket_bit='auto')
+keep = f.run("/src/to/", threshold=5, recursive=True, bucket_bit='auto',n_tables=2)
 
 # Save the retained image paths to a pickle file
 save_pkl("keep.pkl", keep)
