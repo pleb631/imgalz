@@ -234,7 +234,7 @@ class ImageFilter:
                             continue
 
                         kept = _filter_similar_hashes(
-                            items, False, threshold, compare_func
+                            items, show_progress, threshold, compare_func
                         )
                         removed.update(p for p, _ in items if p not in kept)
                         keep.update(kept)
