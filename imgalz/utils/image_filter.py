@@ -7,11 +7,14 @@ from PIL import Image
 import numpy as np
 import imagehash
 import os
-from typing import Union, Literal
+from typing import Union, Literal, Iterable
 from collections import defaultdict
 import math
 import random
 from functools import lru_cache
+
+
+from .common import parallel_process
 
 try:
     from datasketch import MinHash, MinHashLSH
@@ -80,11 +83,14 @@ class ImageHasher:
     def method(self):
         return self._method
 
+
 @lru_cache(maxsize=100_000)
 def _compute(h1, h2):
-        return bin(h1 ^ h2).count("1")
+    return bin(h1 ^ h2).count("1")
+
+
 def _hamming(h1, h2):
-    if h1>h2:
+    if h1 > h2:
         h1, h2 = h2, h1
 
     return _compute(h1, h2)
@@ -108,7 +114,7 @@ def _filter_similar_hashes(image_hashes, show_progress, max_distance, similarity
             if similarity_func(h1, h2) <= max_distance:
                 removed.add(p2)
         keep.append(p1)
-    return keep
+    return keep, removed
 
 
 class ImageFilter:
@@ -157,20 +163,41 @@ class ImageFilter:
                 )
             self._lsh = MinHashLSH(threshold=0.8, num_perm=self.hasher.num_perm)
 
-    def compute_hashes(self, image_paths: list, show_progress=False):
-        valid_paths = [p for p in image_paths if is_valid_image(p)]
+    def _hash_img(self, image_path):
+        if not is_valid_image(image_path):
+            return None
+        hash = self.hasher.hash(image_path)
+        return (image_path, hash)
+
+    def compute_hashes_mp(self, image_paths: Iterable, n_procs=0, show_progress=False):
+        if n_procs < 2:
+            return self.compute_hashes(image_paths, True)
+        return parallel_process(
+            self._hash_img,
+            image_paths,
+            num_workers=n_procs,
+            show_progress=show_progress,
+            store_results=True,
+            prog_desc="Computing hashes",
+        )[0]
+
+    def compute_hashes(self, image_paths: Iterable, show_progress=False):
+        image_hashes = []
+
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+
+            executor = executor.map(self._hash_img, image_paths)
             if show_progress:
                 executor = tqdm(
-                    executor.map(self.hasher.hash, valid_paths),
-                    total=len(valid_paths),
-                    desc="Computing image hashes",
+                    executor,
+                    desc="Computing hashes",
+                    total=len(image_paths) if hasattr(image_paths, "__len__") else None,
                 )
-                hashes = list(executor)
-            else:
-                hashes = list(executor.map(self.hasher.hash, valid_paths))
 
-        image_hashes = list(zip(valid_paths, hashes))
+            for res in executor:
+                if res is None:
+                    continue
+                image_hashes.append(res)
 
         return image_hashes
 
@@ -204,7 +231,7 @@ class ImageFilter:
             compare_func = _hamming
 
             if bucket_bit is None:
-                keep = _filter_similar_hashes(
+                keep, _ = _filter_similar_hashes(
                     image_hashes, show_progress, threshold, compare_func
                 )
             else:
@@ -217,7 +244,8 @@ class ImageFilter:
                 # LSH
 
                 masks = [
-                    random.sample(range(hash_bits_len), bucket_bit) for _ in range(n_tables)
+                    random.sample(range(hash_bits_len), bucket_bit)
+                    for _ in range(n_tables)
                 ]
 
                 tables = [defaultdict(list) for _ in range(n_tables)]
@@ -227,7 +255,7 @@ class ImageFilter:
                         key = "".join(bitstring[i] for i in mask)
                         t[key].append((path, h))
 
-                for t in (
+                for table_i, t in enumerate(
                     tqdm(tables, desc="lsh filtering") if show_progress else tables
                 ):
                     for _, items in (
@@ -235,15 +263,17 @@ class ImageFilter:
                         if show_progress
                         else t.items()
                     ):
-                        items = [(p, h) for p, h in items if p not in removed]
-                        if len(items) < 2:
+                        if table_i > 0:
+                            items = [(p, h) for p, h in items if p not in removed]
+
+                        if len(items) < 1:
                             continue
 
-                        kept = _filter_similar_hashes(
+                        keep_i, removed_i = _filter_similar_hashes(
                             items, show_progress, threshold, compare_func
                         )
-                        removed.update(p for p, _ in items if p not in kept)
-                        keep.update(kept)
+                        removed.update(removed_i)
+                        keep.update(keep_i)
 
         return keep
 

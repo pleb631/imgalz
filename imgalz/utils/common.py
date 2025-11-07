@@ -5,10 +5,11 @@ from pathlib import Path
 import requests
 from urllib import parse, request
 from PIL import Image
-from typing import Union, Optional, Any
+from typing import Union, Optional, Any, Iterable, Callable
 from collections import OrderedDict
 from multiprocessing import Pool, Manager
 from tqdm import tqdm
+import time
 
 __all__ = [
     "is_url",
@@ -129,45 +130,77 @@ def numpy_to_pillow(img, mode=None):
     return Image.fromarray(img, mode=mode)
 
 
-
-def _process_wrapper(args):
-    func, item, lock, results, store = args
-    result = func(item)
-    if store:
-        with lock:
-            results.append(result)
-    return result
-
-def parallel_process(func, data, num_workers=4, store_results=True):
+def parallel_process(
+    func: Callable,
+    data: Iterable,
+    num_workers: int = 4,
+    store_results: bool = True,
+    show_progress: bool = True,
+    prog_desc: Optional[str] = None,
+    prog_leave: bool = True,
+):
     """
     General-purpose function for parallel processing using multiple processes.
 
     Args:
-        func (Callable): The function to execute in parallel.
-        data (Iterable): An iterable of input items, each of which will be passed to `func`.
-        num_workers (int, optional): The number of worker processes to use. Defaults to 4.
-        store_results (bool, optional): Whether to store results in a shared list. 
-            If False, results are not saved. Defaults to True.
+        func (Callable):
+            The function to execute in parallel. It should accept a single input item
+            (each element of `data`) as its argument.
+
+        data (Iterable):
+            An iterable of input items, each passed as the argument to `func`.
+            Can be any iterable — e.g. list, generator, or range.
+
+        num_workers (int, optional):
+            Number of worker processes to use. Defaults to 4.
+
+        store_results (bool, optional):
+            Whether to collect and return the function outputs.
+            If False, results are discarded after execution (useful for side-effect-only tasks).
+            Defaults to True.
+
+        show_progress (bool): Whether to display a progress bar during processing.
+
+        prog_desc (str, optional):
+            Custom description text for the progress bar (from tqdm). Defaults to None.
+
+        prog_leave (bool, optional):
+            Whether to leave the progress bar on screen after completion. Defaults to True.
 
     Returns:
-        Tuple[List[Any] | None, float]: 
-            - results: A list containing the results of all tasks if `store_results` is True; otherwise, None.
-            - duration: Total execution time in seconds.
+        Tuple[List[Any] | None, float]:
+            - results: List of all outputs from `func`, if `store_results=True`. Otherwise, None.
+            - duration: Total wall-clock execution time in seconds.
 
     Raises:
-        None: All exceptions are caught internally; errors in child processes do not interrupt the main process.
+        TypeError:
+            If `func` is not callable.
+
+        Note:
+            Exceptions raised inside child processes are caught and logged internally.
+            The main process will not crash due to worker errors.
     """
+
     if not callable(func):
         raise TypeError("func must be a callable function.")
 
+    start_time = time.time()
 
-    manager = Manager()
-    results = manager.list() if store_results else None
-    lock = manager.Lock()
+    results = [] if store_results else None
 
     with Pool(processes=num_workers) as pool:
-        args_iter = [(func, item, lock, results, store_results) for item in data]
-        for _ in tqdm(pool.imap_unordered(_process_wrapper, args_iter), total=len(data)):
-            pass
+        pool = pool.imap_unordered(func, data)
+        if show_progress:
+            pool = tqdm(
+                pool,
+                desc=prog_desc,
+                leave=prog_leave,
+                total=len(data) if hasattr(data, "__len__") else None
+            )
+        for res in pool:
+            if store_results and res != None:
+                results.append(res)
 
-    return list(results) if store_results else None
+    duration = time.time() - start_time
+
+    return (results, duration)

@@ -8,12 +8,12 @@ packages = { find = { where = ["."], include = ["imgalz*"] } }
 
 [project]
 name = "imgalz"
-version = "0.0.8.5"
+version = "0.0.8.6"
 license = { text = "MIT" }
 description = "A library providing lightweight tools for basic image processing and quick construction of detection-tracking pipelines."
 readme = "readme.md"
 requires-python = ">=3.8"
-keywords = ["onnx", "YOLOv5", "YOLOv8", "mmpose"]
+keywords = ["image-processing","image-filtering","onnx", "YOLO",]
 classifiers = [
     "Development Status :: 1 - Planning",
     "Intended Audience :: Developers",
