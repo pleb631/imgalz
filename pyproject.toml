@@ -10,12 +10,13 @@ build-backend = "setuptools.build_meta"
 include-package-data = true
 packages = { find = { where = ["."], include = ["imgalz*"] } }
 
+
 [project]
 name = "imgalz"
-version = "0.0.9.0b"
+version = "0.0.9.0b3"
 license = { text = "MIT" }
 description = "A library providing lightweight tools for basic image processing and quick construction of detection-tracking pipelines."
-readme = "README.md"
+readme = "readme.md"
 requires-python = ">=3.8"
 keywords = ["image-processing","image-filtering","onnx", "YOLO",]
 classifiers = [

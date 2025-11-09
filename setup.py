@@ -29,9 +29,10 @@ class build_ext(_build_ext):
             print(f"⚠️ Failed to build extension {ext.name}, skipping...")
             traceback.print_exc()
 
+
 setup(
     name="imgalz",              
-    version="0.0.9",        
+    version="0.0.9.0b3",        
     include_package_data=True,
     ext_modules=ext_modules,
     cmdclass={"build_ext": build_ext},
