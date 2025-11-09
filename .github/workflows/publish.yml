@@ -8,6 +8,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    outputs:
+      exists: ${{ steps.check_pypi.outputs.exists }}
 
     steps:
     - name: Checkout code
@@ -19,33 +21,35 @@ jobs:
         python-version: '3.12'
 
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install build toml jq
+      run: | 
+        python -m pip install --upgrade pip toml build jq pkginfo packaging
+        
 
-    - name: Extract version from pyproject.toml
+    - name: Extract version and package name from pyproject.toml
       id: get_version
       run: |
         VERSION=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['version'])")
+        PACKAGE_NAME=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
         echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
 
-    - name: Check if version is already published
+    - name: Check if version is already on PyPI
       id: check_pypi
       run: |
-        PACKAGE_NAME=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
+        PACKAGE_NAME=${{ steps.get_version.outputs.package_name }}
         VERSION=${{ steps.get_version.outputs.version }}
-        EXISTS=$(curl -s https://pypi.org/pypi/$PACKAGE_NAME/json | jq -r ".releases | has(\"$VERSION\")")
+        RESPONSE=$(curl -s -f https://pypi.org/pypi/$PACKAGE_NAME/json || echo '{}')
+        EXISTS=$(echo "$RESPONSE" | jq -r ".releases | has(\"$VERSION\")")
         echo "exists=$EXISTS" >> $GITHUB_OUTPUT
 
-    - name: Debug
+    - name: Stop if version already exists
+      if: steps.check_pypi.outputs.exists == 'true'
       run: |
-        ls -al
-        find . -name "README.md"
-        
-    - name: Build the package
-      if: steps.check_pypi.outputs.exists != 'true'
-      run: |
-        python -m build
+        echo "Version ${{ steps.get_version.outputs.version }} already exists on PyPI. Skipping build."
+        exit 0
+
+    - name: Build source distribution
+      run: python setup.py build
 
     - name: Publish to PyPI
       if: steps.check_pypi.outputs.exists != 'true'
