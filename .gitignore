@@ -12,3 +12,4 @@ dist/
 *.jpg
 ckpt/
 docs/build/
+*.pyd

@@ -26,6 +26,11 @@ except ImportError:
 
 from imgalz.utils import is_valid_image
 
+try:
+    from .cpp import hashfilter_cpp
+except:
+    hashfilter_cpp = None
+
 
 __all__ = ["ImageFilter", "ImageHasher"]
 
@@ -83,6 +88,10 @@ class ImageHasher:
     def method(self):
         return self._method
 
+    @property
+    def hash_size(self):
+        return self._hash_size * self._hash_size
+
 
 @lru_cache(maxsize=100_000)
 def _compute(h1, h2):
@@ -96,11 +105,29 @@ def _hamming(h1, h2):
     return _compute(h1, h2)
 
 
-def _filter_similar_hashes(image_hashes, show_progress, max_distance, similarity_func):
+def int256_to_uint64_list(x):
+    """将一个 256 位整数拆成 4 个 uint64_t 列表（高位在前）"""
+    mask64 = (1 << 64) - 1
+    return [(x >> 192) & mask64, (x >> 128) & mask64, (x >> 64) & mask64, x & mask64]
+
+
+def _filter_similar_hashes(
+    image_hashes, show_progress, max_distance, similarity_func, bits_len, leave=True
+):
+    if hashfilter_cpp and similarity_func is _hamming:
+        if bits_len == 64:
+            return hashfilter_cpp.filter_similar_hashes(image_hashes, max_distance)
+        elif bits_len == 256:
+            data = [
+                (path, int256_to_uint64_list(hash_int))
+                for path, hash_int in image_hashes
+            ]
+            return hashfilter_cpp.filter_similar_hashes256(data, max_distance)
+
     removed = set()
     keep = []
     for i, (p1, h1) in enumerate(
-        tqdm(image_hashes, desc="Filtering similar images", leave=False)
+        tqdm(image_hashes, desc="Filtering similar images", leave=leave)
         if show_progress
         else image_hashes
     ):
@@ -230,12 +257,12 @@ class ImageFilter:
         else:
             compare_func = _hamming
 
+            hash_bits_len = self.hasher.hash_size
             if bucket_bit is None:
                 keep, _ = _filter_similar_hashes(
-                    image_hashes, show_progress, threshold, compare_func
+                    image_hashes, show_progress, threshold, compare_func, hash_bits_len
                 )
             else:
-                hash_bits_len = image_hashes[0][1].bit_length()
 
                 if bucket_bit == "auto":
                     b = int(math.log2(len(image_hashes))) - 4
@@ -270,7 +297,12 @@ class ImageFilter:
                             continue
 
                         keep_i, removed_i = _filter_similar_hashes(
-                            items, show_progress, threshold, compare_func
+                            items,
+                            show_progress,
+                            threshold,
+                            compare_func,
+                            hash_bits_len,
+                            leave=False,
                         )
                         removed.update(removed_i)
                         keep.update(keep_i)
@@ -324,6 +356,7 @@ class ImageFilter:
         bucket_bit: Union[int, Literal["auto"], None] = None,
         n_tables: int = 1,
         show_progress=True,
+        n_procs=0,
     ):
         """
         src_dir (Union[str, Path]): Path to the directory containing input images to be filtered.
@@ -347,7 +380,9 @@ class ImageFilter:
         """
         image_paths = self.get_img_paths(src_dir, recursive)
 
-        image_hashes = self.compute_hashes(image_paths, show_progress=show_progress)
+        image_hashes = self.compute_hashes_mp(
+            image_paths, show_progress=show_progress, n_procs=n_procs
+        )
 
         keep = self.filter_similar(
             image_hashes,
