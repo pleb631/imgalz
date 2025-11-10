@@ -1,16 +1,15 @@
+from typing import Union, Literal, Iterable, List
+import os
 import glob
 import shutil
+import math
+import random
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 from PIL import Image
 import numpy as np
 import imagehash
-import os
-from typing import Union, Literal, Iterable, List
 from collections import defaultdict
-import math
-import random
 from functools import lru_cache
 
 
@@ -105,7 +104,7 @@ def _hamming(h1, h2):
     return _compute(h1, h2)
 
 
-def int256_to_uint64_list(x):
+def _int256_to_uint64_list(x):
     """将一个 256 位整数拆成 4 个 uint64_t 列表（高位在前）"""
     mask64 = (1 << 64) - 1
     return [(x >> 192) & mask64, (x >> 128) & mask64, (x >> 64) & mask64, x & mask64]
@@ -119,7 +118,7 @@ def _filter_similar_hashes(
             return hashfilter_cpp.filter_similar_hashes(image_hashes, max_distance)
         elif bits_len == 256:
             data = [
-                (path, int256_to_uint64_list(hash_int))
+                (path, _int256_to_uint64_list(hash_int))
                 for path, hash_int in image_hashes
             ]
             return hashfilter_cpp.filter_similar_hashes256(data, max_distance)
@@ -210,8 +209,8 @@ class ImageFilter:
             prog_desc="Computing hashes",
         )[0]
 
-    def _build_lsh_index(self):
-        for path, h in tqdm(self.image_hashes, desc="Building LSH index"):
+    def _build_lsh_index(self,image_hashes):
+        for path, h in tqdm(image_hashes, desc="Building LSH index"):
             self._lsh.insert(path, h)
 
     def filter_similar(
@@ -226,13 +225,13 @@ class ImageFilter:
         removed = set()
 
         if self.hasher.method == "minhash":
-            self._build_lsh_index()
+            self._build_lsh_index(image_hashes)
             if show_progress:
                 image_hashes = tqdm(image_hashes, desc="Filtering similar images")
             for path, h in image_hashes:
                 if path in removed:
                     continue
-                near_dups = self.lsh.query(h)
+                near_dups = self._lsh.query(h)
                 near_dups = [p for p in near_dups if p != path]
                 removed.update(near_dups)
                 keep.add(path)
@@ -262,7 +261,7 @@ class ImageFilter:
                     bitstring = f"{h:0{hash_bits_len}b}"
                     for t, mask in zip(tables, masks):
                         key = "".join(bitstring[i] for i in mask)
-                        t[key].append((path, h))
+                        t[key].append((str(path), h))
 
                 for table_i, t in enumerate(
                     tqdm(tables, desc="lsh filtering") if show_progress else tables
