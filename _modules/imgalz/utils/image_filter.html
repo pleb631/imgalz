@@ -67,19 +67,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for imgalz.utils.image_filter</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">imagehash</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
 
 
@@ -180,7 +179,7 @@
     <span class="k">return</span> <span class="n">_compute</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">int256_to_uint64_list</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_int256_to_uint64_list</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;将一个 256 位整数拆成 4 个 uint64_t 列表（高位在前）&quot;&quot;&quot;</span>
     <span class="n">mask64</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">64</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="p">[(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">192</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask64</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">128</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask64</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">64</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask64</span><span class="p">,</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="n">mask64</span><span class="p">]</span>
@@ -194,7 +193,7 @@
             <span class="k">return</span> <span class="n">hashfilter_cpp</span><span class="o">.</span><span class="n">filter_similar_hashes</span><span class="p">(</span><span class="n">image_hashes</span><span class="p">,</span> <span class="n">max_distance</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">bits_len</span> <span class="o">==</span> <span class="mi">256</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">int256_to_uint64_list</span><span class="p">(</span><span class="n">hash_int</span><span class="p">))</span>
+                <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">_int256_to_uint64_list</span><span class="p">(</span><span class="n">hash_int</span><span class="p">))</span>
                 <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">hash_int</span> <span class="ow">in</span> <span class="n">image_hashes</span>
             <span class="p">]</span>
             <span class="k">return</span> <span class="n">hashfilter_cpp</span><span class="o">.</span><span class="n">filter_similar_hashes256</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">max_distance</span><span class="p">)</span>
@@ -290,8 +289,8 @@
         <span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_build_lsh_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_hashes</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Building LSH index&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_lsh_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">image_hashes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">image_hashes</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Building LSH index&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_lsh</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ImageFilter.filter_similar">
@@ -308,13 +307,13 @@
         <span class="n">removed</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hasher</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;minhash&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_build_lsh_index</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_lsh_index</span><span class="p">(</span><span class="n">image_hashes</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">show_progress</span><span class="p">:</span>
                 <span class="n">image_hashes</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">image_hashes</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Filtering similar images&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">image_hashes</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">removed</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="n">near_dups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsh</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+                <span class="n">near_dups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lsh</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
                 <span class="n">near_dups</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">near_dups</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">path</span><span class="p">]</span>
                 <span class="n">removed</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">near_dups</span><span class="p">)</span>
                 <span class="n">keep</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -344,7 +343,7 @@
                     <span class="n">bitstring</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s2">0</span><span class="si">{</span><span class="n">hash_bits_len</span><span class="si">}</span><span class="s2">b</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">mask</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">masks</span><span class="p">):</span>
                         <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bitstring</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mask</span><span class="p">)</span>
-                        <span class="n">t</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">path</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+                        <span class="n">t</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">h</span><span class="p">))</span>
 
                 <span class="k">for</span> <span class="n">table_i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
                     <span class="n">tqdm</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;lsh filtering&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">show_progress</span> <span class="k">else</span> <span class="n">tables</span>
