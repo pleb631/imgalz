@@ -10,10 +10,12 @@ build-backend = "setuptools.build_meta"
 include-package-data = true
 packages = { find = { where = ["."], include = ["imgalz*"] } }
 
+[tool.cibuildwheel]
+skip = ["*win32"]
 
 [project]
 name = "imgalz"
-version = "0.0.9.0b3"
+version = "0.0.9.0"
 license = { text = "MIT" }
 description = "A library providing lightweight tools for basic image processing and quick construction of detection-tracking pipelines."
 readme = "readme.md"

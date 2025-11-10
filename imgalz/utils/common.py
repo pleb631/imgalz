@@ -7,7 +7,8 @@ from urllib import parse, request
 from PIL import Image
 from typing import Union, Optional, Any, Iterable, Callable
 from collections import OrderedDict
-from multiprocessing import Pool, Manager
+from multiprocessing.pool import ThreadPool
+from multiprocessing import Pool as ProcessPool
 from tqdm import tqdm
 import time
 
@@ -133,6 +134,7 @@ def numpy_to_pillow(img, mode=None):
 def parallel_process(
     func: Callable,
     data: Iterable,
+    use_threads: bool = False,
     num_workers: int = 4,
     store_results: bool = True,
     show_progress: bool = True,
@@ -150,6 +152,9 @@ def parallel_process(
         data (Iterable):
             An iterable of input items, each passed as the argument to `func`.
             Can be any iterable — e.g. list, generator, or range.
+
+        use_threads (bool, optional): 
+            If True, use ThreadPool. Defaults to False (ProcessPool).
 
         num_workers (int, optional):
             Number of worker processes to use. Defaults to 4.
@@ -188,16 +193,15 @@ def parallel_process(
 
     results = [] if store_results else None
 
-    with Pool(processes=num_workers) as pool:
-        pool = pool.imap_unordered(func, data)
+    PoolClass = ThreadPool if use_threads else ProcessPool
+
+    total_items = len(data) if hasattr(data, "__len__") else None
+
+    with PoolClass(processes=num_workers) as pool:
+        iterator = pool.imap_unordered(func, data)
         if show_progress:
-            pool = tqdm(
-                pool,
-                desc=prog_desc,
-                leave=prog_leave,
-                total=len(data) if hasattr(data, "__len__") else None
-            )
-        for res in pool:
+            iterator = tqdm(iterator, desc=prog_desc, leave=prog_leave, total=total_items)
+        for res in iterator:
             if store_results and res != None:
                 results.append(res)
 

@@ -32,7 +32,7 @@ class build_ext(_build_ext):
 
 setup(
     name="imgalz",              
-    version="0.0.9.0b3",        
+    version="0.0.9.0",        
     include_package_data=True,
     ext_modules=ext_modules,
     cmdclass={"build_ext": build_ext},

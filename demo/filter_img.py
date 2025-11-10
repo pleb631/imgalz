@@ -8,16 +8,19 @@ def func1(image):
     image = img_numpy[500:900, 1000:1700, :]
     return numpy_to_pillow(image)
 
+
 if __name__ == "__main__":
     f = ImageFilter()
-    hash = ImageHasher()
-    # hash = ImageHasher(perprocess=func1)
+    # hash = ImageHasher()
+    hash = ImageHasher(perprocess=func1)
     hash._hash_size = 8
-    f = ImageFilter(hash=hash, max_workers=8)
+    f = ImageFilter(hash=hash)
 
     image_paths = Path("./test_images").rglob("*.jpg")
     # image_paths = ImageFilter.get_img_paths("./test_images")
-    image_hashes = f.compute_hashes_mp(image_paths, show_progress=True, n_procs=3)
+    image_hashes = f.compute_hashes(
+        image_paths, show_progress=True, num_workers=3
+    )
 
     keep = f.filter_similar(
         image_hashes,

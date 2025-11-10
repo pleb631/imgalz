@@ -22,7 +22,7 @@ jobs:
 
     - name: Install dependencies
       run: | 
-        python -m pip install --upgrade pip toml pybind11 setuptools build jq pkginfo packaging wheel
+        python -m pip install -U pip toml pybind11 setuptools build jq pkginfo packaging wheel cibuildwheel twine
         
 
     - name: Extract version and package name from pyproject.toml
@@ -49,8 +49,17 @@ jobs:
         exit 0
 
 
-    - name: Build source distribution
-      run: python -m build --sdist
+    - name: Build distributions (sdist + wheels)
+      env:
+        CIBW_SKIP: "pp*"
+        CIBW_BUILD_VERBOSITY: 1
+        CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux_2_28_x86_64
+      run: |
+        rm -rf build/
+        find . -name "*.so" -delete
+        find . -name "*.o" -delete
+        python -m build --sdist
+        cibuildwheel --output-dir dist
 
 
     - name: Verify metadata

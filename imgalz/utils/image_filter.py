@@ -7,7 +7,7 @@ from PIL import Image
 import numpy as np
 import imagehash
 import os
-from typing import Union, Literal, Iterable
+from typing import Union, Literal, Iterable, List
 from collections import defaultdict
 import math
 import random
@@ -159,29 +159,25 @@ class ImageFilter:
             - 'whash': Wavelet Hash
             - 'minhash': MinHash (for scalable set similarity)
 
-        max_workers (int):
-            Maximum number of threads for parallel image hashing.
-
 
     Example:
 
         .. code-block:: python
 
             from imgalz import ImageFilter
-            deduper = ImageFilter(hash="ahash", max_workers=8)
+            deduper = ImageFilter(hash="ahash")
             keep = deduper.run(src_dir="/path/to/src", threshold=5)
     """
 
     hash_exts = (".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tiff", ".gif")
 
-    def __init__(self, hash: Union[ImageHasher, str] = "ahash", max_workers=4):
+    def __init__(self, hash: Union[ImageHasher, str] = "ahash"):
         if isinstance(hash, str):
             self.hasher = ImageHasher(method=hash)
         elif isinstance(hash, ImageHasher):
             self.hasher = hash
         else:
             raise ValueError("hash must be a string or an ImageHasher instance")
-        self.max_workers = max_workers
 
         if self.hasher.method == "minhash":
             if not _HAS_DATASKETCH:
@@ -190,43 +186,29 @@ class ImageFilter:
                 )
             self._lsh = MinHashLSH(threshold=0.8, num_perm=self.hasher.num_perm)
 
-    def _hash_img(self, image_path):
+    def _hash_img(self, image_path: Union[str, Path]):
         if not is_valid_image(image_path):
             return None
         hash = self.hasher.hash(image_path)
-        return (image_path, hash)
+        return (str(image_path), hash)
 
-    def compute_hashes_mp(self, image_paths: Iterable, n_procs=0, show_progress=False):
-        if n_procs < 2:
-            return self.compute_hashes(image_paths, True)
+    def compute_hashes(
+        self,
+        image_paths: Iterable,
+        use_threads: bool = False,
+        num_workers: int = 1,
+        show_progress: bool = False,
+    ):
+
         return parallel_process(
             self._hash_img,
             image_paths,
-            num_workers=n_procs,
+            use_threads=use_threads,
+            num_workers=num_workers,
             show_progress=show_progress,
             store_results=True,
             prog_desc="Computing hashes",
         )[0]
-
-    def compute_hashes(self, image_paths: Iterable, show_progress=False):
-        image_hashes = []
-
-        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-
-            executor = executor.map(self._hash_img, image_paths)
-            if show_progress:
-                executor = tqdm(
-                    executor,
-                    desc="Computing hashes",
-                    total=len(image_paths) if hasattr(image_paths, "__len__") else None,
-                )
-
-            for res in executor:
-                if res is None:
-                    continue
-                image_hashes.append(res)
-
-        return image_hashes
 
     def _build_lsh_index(self):
         for path, h in tqdm(self.image_hashes, desc="Building LSH index"):
@@ -234,7 +216,7 @@ class ImageFilter:
 
     def filter_similar(
         self,
-        image_hashes: list,
+        image_hashes: List[tuple[str, int]],
         threshold: float = 5,
         show_progress=False,
         bucket_bit: Union[int, Literal["auto"], None] = None,
@@ -315,7 +297,7 @@ class ImageFilter:
         image_dir: Path,
         save_dir: Path,
         show_progress=False,
-        max_workers=8,
+        num_workers=8,
     ):
         image_dir = Path(image_dir)
         save_dir = Path(save_dir)
@@ -326,17 +308,15 @@ class ImageFilter:
             shutil.copy2(path, target_path)
             return 0
 
-        if show_progress:
-            for _ in tqdm(
-                ThreadPoolExecutor(max_workers=max_workers).map(copy_file, keep_paths),
-                total=len(keep_paths),
-                desc="Copying files",
-            ):
-                pass
-
-        else:
-            with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                executor.map(copy_file, keep_paths)
+        return parallel_process(
+            copy_file,
+            keep_paths,
+            use_threads=True,
+            num_workers=num_workers,
+            store_results=False,
+            show_progress=show_progress,
+            prog_desc="Copying files",
+        )
 
     @staticmethod
     def get_img_paths(src_dir, recursive=True):
@@ -356,7 +336,8 @@ class ImageFilter:
         bucket_bit: Union[int, Literal["auto"], None] = None,
         n_tables: int = 1,
         show_progress=True,
-        n_procs=0,
+        num_workers=1,
+        use_threads=False,
     ):
         """
         src_dir (Union[str, Path]): Path to the directory containing input images to be filtered.
@@ -375,13 +356,18 @@ class ImageFilter:
 
         show_progress (bool): Whether to display a progress bar during processing.
 
+        num_workers (int): Number of parallel processes to use for processing.
 
+        use_threads (bool): Whether to use threads for parallel processing.
 
         """
         image_paths = self.get_img_paths(src_dir, recursive)
 
-        image_hashes = self.compute_hashes_mp(
-            image_paths, show_progress=show_progress, n_procs=n_procs
+        image_hashes = self.compute_hashes(
+            image_paths,
+            use_threads=use_threads,
+            show_progress=show_progress,
+            num_workers=num_workers,
         )
 
         keep = self.filter_similar(
