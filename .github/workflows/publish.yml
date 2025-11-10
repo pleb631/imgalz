@@ -50,6 +50,7 @@ jobs:
 
 
     - name: Build distributions (sdist + wheels)
+      if: steps.check_pypi.outputs.exists != 'true'
       env:
         CIBW_SKIP: "pp*"
         CIBW_BUILD_VERBOSITY: 1
@@ -63,6 +64,7 @@ jobs:
 
 
     - name: Verify metadata
+      if: steps.check_pypi.outputs.exists != 'true'
       run: |
         pip install twine
         twine check dist/*
